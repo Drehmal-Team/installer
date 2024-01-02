@@ -1,0 +1,46 @@
+.custom {
+  color: #ffde00;
+}
+
+.flex {
+  display: flex;
+}
+// Outer border
+.border-body,
+.q-header,
+.q-footer {
+  border: 5px solid #c1bbca;
+}
+// Inner border
+.border-header,
+.q-layout,
+.border-footer {
+  border: 5px solid #e2e2e2;
+}
+// HR overrides to support borders
+hr {
+  height: 5px;
+  background-color: #e2e2e2;
+  border: none;
+}
+
+.q-layout,
+.border-body {
+  border-top: none;
+  border-bottom: none;
+}
+.q-header,
+.border-header {
+  border-bottom: none;
+}
+.q-footer,
+.border-footer {
+  border-top: none;
+}
+
+.q-footer .nav-footer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-bottom: 10px;
+}
