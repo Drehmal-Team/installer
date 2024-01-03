@@ -12,6 +12,12 @@
     "dev": "quasar dev -m electron --modern",
     "build": "quasar build -m electron",
     "build:debug": "quasar build -m electron --debug",
+    "build:win": "quasar build -m electron -T win32",
+    "build:linux": "quasar build -m electron -T linux",
+    "build:osx": "quasar build -m electron -T mac",
+    "build:d:win": "quasar build -m electron -T win32 --debug",
+    "build:d:linux": "quasar build -m electron -T linux --debug",
+    "build:d:mac": "quasar build -m electron -T mac --debug",
     "clean": "rm -rf node_modules && rm -rf .quasar && rm -rf dist && yarn"
   },
   "dependencies": {

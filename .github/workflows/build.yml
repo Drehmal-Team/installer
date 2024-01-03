@@ -1,0 +1,36 @@
+name: Build/release
+
+on: [push]
+
+jobs:
+  build:
+    name: Building ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        include:
+          - kind: linux
+            os: ubuntu-latest
+            platform: linux
+          - kind: windows
+            os: windows-latest
+            platform: win
+          - kind: mac
+            os: macos-latest
+            platform: osx
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build:${{ matrix.platform }} --publish=never

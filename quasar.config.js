@@ -230,15 +230,8 @@ module.exports = configure(function (/* ctx */) {
           target: ['portable'],
           icon: 'src/assets/icon.png',
         },
-        // nsis: {
-        //   oneClick: false,
-        //   allowToChangeInstallationDirectory: true,
-        //   allowElevation: false,
-        //   perMachine: false,
-        //   // include: 'build/installer.nsh',
-        // },
         linux: {
-          target: ['AppImage', 'deb', 'rpm', 'snap'],
+          target: ['AppImage', 'deb', 'tar.gz'],
           icon: 'src/assets/icon',
           maintainer: 'Primordial Team',
           vendor: 'Primordial Team',
