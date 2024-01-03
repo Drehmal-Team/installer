@@ -9,15 +9,17 @@
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev -m electron",
-    "build": "quasar build -m electron"
+    "dev": "quasar dev -m electron --modern",
+    "build": "quasar build -m electron",
+    "build:debug": "quasar build -m electron --debug",
+    "clean": "rm -rf node_modules && rm -rf .quasar && rm -rf dist && yarn"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
     "dayjs": "^1.11.10",
     "pinia": "^2.0.11",
-    "quasar": "^2.6.0",
+    "quasar": "^2.14.2",
     "tar-pack": "^3.4.1",
     "vue": "^3.0.0",
     "vue-i18n": "^9.2.2",

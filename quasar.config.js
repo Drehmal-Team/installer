@@ -21,7 +21,7 @@ module.exports = configure(function (/* ctx */) {
       // registerServiceWorker: 'src-pwa/register-service-worker',
       // serviceWorker: 'src-pwa/custom-service-worker',
       // pwaManifestFile: 'src-pwa/manifest.json',
-      // electronMain: 'src-electron/electron-main',
+      electronMain: 'src-electron/electron-main',
       // electronPreload: 'src-electron/electron-preload',
     },
 
@@ -225,21 +225,21 @@ module.exports = configure(function (/* ctx */) {
         // https://www.electron.build/configuration/configuration
 
         appId: 'drehmal-installer',
-        forceCodeSigning: false,
+        // forceCodeSigning: false,
         win: {
-          target: ['nsis', 'portable'],
+          target: ['portable'],
           icon: 'src/assets/icon.png',
         },
-        nsis: {
-          oneClick: false,
-          allowToChangeInstallationDirectory: true,
-          allowElevation: false,
-          perMachine: false,
-          // include: 'build/installer.nsh',
-        },
+        // nsis: {
+        //   oneClick: false,
+        //   allowToChangeInstallationDirectory: true,
+        //   allowElevation: false,
+        //   perMachine: false,
+        //   // include: 'build/installer.nsh',
+        // },
         linux: {
           target: ['AppImage', 'deb', 'rpm', 'snap'],
-          icon: 'src/assets/icon.svg',
+          icon: 'src/assets/icon',
           maintainer: 'Primordial Team',
           vendor: 'Primordial Team',
           category: 'Game',

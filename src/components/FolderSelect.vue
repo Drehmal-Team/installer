@@ -14,23 +14,16 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
-import { useSourcesStore } from 'src/stores/SourcesStore';
 import { ref } from 'vue';
 const path = require('path');
 
-const { map, mods, resourcePack } = storeToRefs(useSourcesStore());
-const {
-  homeDir,
-  appDir,
-  memory,
-  minecraftDir,
-  minecraftDirIsDefault,
-  shardsDir,
-} = storeToRefs(useInstallerStore());
+const { minecraftDir, minecraftDirIsDefault } = storeToRefs(
+  useInstallerStore()
+);
 
-const folderPath = ref('');
+const folderPath = ref(minecraftDir.value);
 const filePath = ref('Select Minecraft Directory');
-if (!minecraftDirIsDefault.value) filePath.value = minecraftDir.value;
+filePath.value = minecraftDir.value;
 // const filePath = computed(() => {
 //   let firstFilePath = folderPath.value.split('\\');
 //   firstFilePath.pop();

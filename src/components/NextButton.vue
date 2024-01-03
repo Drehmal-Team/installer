@@ -12,10 +12,10 @@ defineProps(['path']);
 .nav-button {
   height: 44px;
   width: 68px;
-  background: url('src/assets/next-button-purple.png') no-repeat;
+  background: url('src/assets/images/next-button-purple.png') no-repeat;
   display: inline-block;
 }
 .nav-button:hover {
-  background: url('src/assets/next-button-yellow.png') no-repeat;
+  background: url('src/assets/images/next-button-yellow.png') no-repeat;
 }
 </style>

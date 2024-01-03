@@ -65,23 +65,16 @@ import ProgressBox from 'src/components/ProgressBox.vue';
 import { ProgressBox as ProgressBoxType, Shard } from 'src/components/models';
 import { downloadFile } from 'src/providers/DownloadFile';
 import { extractTargz } from 'src/providers/ExtractFile';
+import { downloadResourcePack } from 'src/providers/InstallFabric';
 import { downloadMods, installFabric } from 'src/providers/InstallFabric';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { ref } from 'vue';
 const fs = require('fs');
-// const https = require('https');
 const path = require('path');
 
-const { map, mods, resourcePack } = storeToRefs(useSourcesStore());
-const {
-  homeDir,
-  appDir,
-  memory,
-  minecraftDir,
-  minecraftDirIsDefault,
-  shardsDir,
-} = storeToRefs(useInstallerStore());
+const { map } = storeToRefs(useSourcesStore());
+const { minecraftDir, shardsDir } = storeToRefs(useInstallerStore());
 
 const versionFileName = map.value.versionName
   .toLowerCase()
@@ -91,9 +84,6 @@ const versionFileName = map.value.versionName
 const shardsArr: Shard[] = [];
 const downloadShardsLabel = ref('Download map');
 let downloadShardsClicked = ref(false);
-// const homeDir =
-//   process.platform === 'win32' ? (process.env.APPDATA as string) : os.homedir();
-// const shardsPath = path.join(homeDir, 'Drehmal Installer', 'shards');
 
 map.value.shards.forEach((shard, i) =>
   shardsArr.push({
@@ -110,15 +100,13 @@ const fabricProgress = ref<ProgressBoxType>({
   label: 'Fabric - Waiting . . .',
   percent: 0,
   progress: 0,
-  img: 'src/assets/small-next-button-purple.png',
-  // imgSrc: 'src/assets/small-next-button-grey.png',
+  img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAOCSURBVFhH7ZlLaBNBGID/yW4eTTYxEbRFhVrtSUS8+apY0ZsgxWsPivakHvTitUVFCh6sNwXBs1gN2h70Ymx9gUYQQRH0oFQEldrmsUm6j6z/v9nUTdrspskmacCvGXYyO03mn3z7z2zCotFYmEksyvOufmAMQNMAAI/4aIe6hkdVyY9s6hWusMvDY7Ht23b2h8MdwFzUq71QlDykkjl4HX/xkE3em9YEwasHEokEjS7tw9xcCrS8BolEDtjk/WdaMOjVA/H4OOB9LqNb/ZwbeAmpeRmyigo3JvogFPEYZ5xBzqiQyyqQTIowP5eFkpE7GQixOSLA1rVBCHrcRouzuP2cUSvg7OgrQZdiEy5H22AYZjiPx1Ox3Lz4CU72T8HxA0/hzfSfknPMiMDHcXB+4BWcwn6DfTHIilDSr5pC47DDMhgOB+F2WyvSJXRAL6q0Meg3WpbSKfh03aiEvHxNHxKNwy4gy2CqmY0i1LWazM65ajfbbjwl2cwfLv0UeJ4Hl82b3x39DB+ez+oZ60cyCxr+qbiQnb20A/Yd7jJ6AVwdfAtiQoZfYg7SkqK3ZWUVbj0+CGuqzHKKokA+nzeeFUjNLiyfzeqhg+dQI2FRuUpzuD7ggy2Y5agINSpXCceCMUMDrNZQ2pQ4hWOamcmRcilUjvZNWM5UUO5nOgcZGZXDwDOk3CNr5ZqmmRkfKkcaUfbaYKEcZbke7NcTRuU89SvXkGDM6ANsknIN0cyMOcvljSy3dxnlfosLkJJkva1SlmuJZmbKs1wl1gW8i1kugMrVQsODKWcF6/CKabhmlK2OXeiF3Yf+qXX6yBTeGkj6zSJd/BxuHb7Oi3B9Yv/qy2Zm8L5JL2YogK04eaQeBeIUTdeskTREM9FQa0+ZWsk5CTejDLrDAeDw+A3VGrNRy0xLNKNrgYoZUou0omxFgRBlXermv2ZmiprR3qqQtTqNMya1cAvQHSmoNZPMwLUHtX25UZdmqqoaNXtoU0krvJlFtXDRLKpFfWrRi16fihWWwdA/S5JkPGstsizbBmOpWb2MnXgPmaQC31Gt0fFdEHL49YnmLZrGekj3NM7nrqWUBEPfELYTC+nS8bKJ8WnN73cD7+YgFApgU3EGaVpXfz2REOlXAEinJWDRO7ERBmw43Oa/AmjAhlg8HnfPfEmN43pytI4Jal0dwY3s0LuPT27/BQ2FAKlZsC2xAAAAAElFTkSuQmCC',
 });
 const modsProgress = ref<ProgressBoxType>({
   label: 'Mods - Waiting . . .',
   percent: 0,
   progress: 0,
-  img: 'src/assets/small-next-button-purple.png',
-  // imgSrc: 'src/assets/small-next-button-grey.png',
+  img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAOCSURBVFhH7ZlLaBNBGID/yW4eTTYxEbRFhVrtSUS8+apY0ZsgxWsPivakHvTitUVFCh6sNwXBs1gN2h70Ymx9gUYQQRH0oFQEldrmsUm6j6z/v9nUTdrspskmacCvGXYyO03mn3z7z2zCotFYmEksyvOufmAMQNMAAI/4aIe6hkdVyY9s6hWusMvDY7Ht23b2h8MdwFzUq71QlDykkjl4HX/xkE3em9YEwasHEokEjS7tw9xcCrS8BolEDtjk/WdaMOjVA/H4OOB9LqNb/ZwbeAmpeRmyigo3JvogFPEYZ5xBzqiQyyqQTIowP5eFkpE7GQixOSLA1rVBCHrcRouzuP2cUSvg7OgrQZdiEy5H22AYZjiPx1Ox3Lz4CU72T8HxA0/hzfSfknPMiMDHcXB+4BWcwn6DfTHIilDSr5pC47DDMhgOB+F2WyvSJXRAL6q0Meg3WpbSKfh03aiEvHxNHxKNwy4gy2CqmY0i1LWazM65ajfbbjwl2cwfLv0UeJ4Hl82b3x39DB+ez+oZ60cyCxr+qbiQnb20A/Yd7jJ6AVwdfAtiQoZfYg7SkqK3ZWUVbj0+CGuqzHKKokA+nzeeFUjNLiyfzeqhg+dQI2FRuUpzuD7ggy2Y5agINSpXCceCMUMDrNZQ2pQ4hWOamcmRcilUjvZNWM5UUO5nOgcZGZXDwDOk3CNr5ZqmmRkfKkcaUfbaYKEcZbke7NcTRuU89SvXkGDM6ANsknIN0cyMOcvljSy3dxnlfosLkJJkva1SlmuJZmbKs1wl1gW8i1kugMrVQsODKWcF6/CKabhmlK2OXeiF3Yf+qXX6yBTeGkj6zSJd/BxuHb7Oi3B9Yv/qy2Zm8L5JL2YogK04eaQeBeIUTdeskTREM9FQa0+ZWsk5CTejDLrDAeDw+A3VGrNRy0xLNKNrgYoZUou0omxFgRBlXermv2ZmiprR3qqQtTqNMya1cAvQHSmoNZPMwLUHtX25UZdmqqoaNXtoU0krvJlFtXDRLKpFfWrRi16fihWWwdA/S5JkPGstsizbBmOpWb2MnXgPmaQC31Gt0fFdEHL49YnmLZrGekj3NM7nrqWUBEPfELYTC+nS8bKJ8WnN73cD7+YgFApgU3EGaVpXfz2REOlXAEinJWDRO7ERBmw43Oa/AmjAhlg8HnfPfEmN43pytI4Jal0dwY3s0LuPT27/BQ2FAKlZsC2xAAAAAElFTkSuQmCC',
 });
 
 const downloadShards = async () => {
@@ -126,63 +114,54 @@ const downloadShards = async () => {
 
   downloadShardsClicked.value = true;
   downloadShardsLabel.value = 'Downloading';
+  let downloaded = 0;
+  let extracted = 0;
 
   const mapDir = path.join(minecraftDir.value, 'saves', map.value.versionName);
-  async function processArray(shards: Shard[]): Promise<void> {
-    for (const shard of shards) {
-      const { index, url } = shard;
-      const shardRef = ref(shard);
-      const filePath = path.join(
-        shardsDir.value,
-        `${versionFileName}-${index}.tar.gz`
-      );
-      downloadFile(url, filePath, shardRef).then(() => {
-        if (!fs.existsSync(mapDir)) fs.mkdirSync(mapDir, { recursive: true });
-        shardRef.value.label = 'Extracting files. . .';
-        console.log(`Created save dir at ${mapDir}`);
-        // TODO: DECROMPRESS FILES
-        console.log(`Attemping tarball extract for ${filePath}`);
-        extractTargz(filePath, mapDir, shardRef);
+  if (!fs.existsSync(shardsDir.value))
+    fs.mkdirSync(shardsDir.value, { recursive: true });
+
+  for (const shard of shards.value) {
+    const { index, url } = shard;
+    const shardRef = ref(shard);
+    const filePath = path.join(
+      shardsDir.value,
+      `${versionFileName}-${index}.tar.gz`
+    );
+    console.log(`Downloading map shard to ${filePath}`);
+    downloadFile(url, filePath, shardRef).then(() => {
+      downloaded++;
+      if (downloaded === map.value.shards.length)
+        downloadShardsLabel.value = 'Extracting';
+
+      if (!fs.existsSync(mapDir)) fs.mkdirSync(mapDir, { recursive: true });
+      shardRef.value.label = 'Extracting files. . .';
+
+      console.log(`Extracting map to ${mapDir}`);
+      extractTargz(filePath, mapDir, shardRef).then(() => {
+        extracted++;
+
+        if (extracted === map.value.shards.length) {
+          downloadShardsLabel.value = 'Complete!';
+          downloadResourcePack(mapDir);
+        }
       });
-    }
+    });
   }
-  await processArray(shards.value);
 };
 
 const fabricClick = async () => {
-  fabricProgress.value.img = 'src/assets/small-next-button-grey.png';
+  fabricProgress.value.img =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAMGSURBVFhH7Zm7b9NAGMC/i+2kcZzE2RmZoCL9E7pSiYoOTDB2ZWklxKOo4aFKiIFKCKkTLGVAlEZAWYlUxIIygBAPITZmVBLbSRo7Nvc5Dlyi+JU4TSPll1i+xHfxfeefv7MdUiyWZNIkRZ6PzQMhAJYFAHRN35NQtui6ZZiFEyelDXJ3fbM0e2puXpaTQGJYa7IwDBOUagM+lN+/Insv9i1JStiB5HJpp8rkcHCggGVaUKk0gOztvrPS6YQdSHyGA34m5lQbnnsbm6BpNTBaLbixtgIpKeVsiQa91oJG3YBqVYM/B3Xo6nmUgSDZbAZychbigtD2PGIEkXNKbaLtvRtHdCp2aSbKdAR7IDTDCTiyLjzdfg6fP30Bk2aVi5cuQH5u1tkC8PDBFtRqddDo0mw27e9QucLtqyCFVE7XdTtz9aL8PuyvWS8cx3kGgkiiaKuU9uhcSkzadXBJxL1/zw3sBw6sF57B+DVmwZpBqhMyuNl+/fHUjOd5iMW8d/5y9w18//aD5nsDFE2jkxn4KofKIDptE0Y53Idpms6nNoE1CwMGnsu2VfJTTqZZDpf4gMq5EVkwLMHljJbINGMxjBZVTg2lHCq07qPckWnGwvNcaOWECJQbSTDjYiSasQTNcrU6TqzeWW4smrGwWS7joZyYZLKcz0TtxlQzFj/NdN2AxaWzcCb/X607t+6DplL1KHgkcGavVBW4fnP1+GUzFgtfPdeHcib971otzCWTH1PNWPpphhPhuaUFyPdTix4JPDJB1WIZi2a2VW5qOefIKJhqxtLRDCe6xfMLNGuddrb0V6uqqHBtbSWwWixDadait7iBoSmr97a2n1r9bn2DgO382noGg4079+7jxu0ZAIunZsOy9egx1Ol1l6KqsHrlMqRSorMlOo500kRME0d0ML3C0BUMPiEcGSOI5VDt7i95vbNviaIAvMBBJoMZprNXPGGPf7lS0fBfAFDVJpDis1KBAFmXJ/xfAAvIMimXy8Kvn8oOnU8Whxig8ZUp9JRc/vj17ZO/pGkNRRTwc1YAAAAASUVORK5CYII=';
   installFabric(fabricProgress);
   return;
 };
 const modsClick = async () => {
-  modsProgress.value.img = 'src/assets/small-next-button-grey.png';
+  modsProgress.value.img =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAMGSURBVFhH7Zm7b9NAGMC/i+2kcZzE2RmZoCL9E7pSiYoOTDB2ZWklxKOo4aFKiIFKCKkTLGVAlEZAWYlUxIIygBAPITZmVBLbSRo7Nvc5Dlyi+JU4TSPll1i+xHfxfeefv7MdUiyWZNIkRZ6PzQMhAJYFAHRN35NQtui6ZZiFEyelDXJ3fbM0e2puXpaTQGJYa7IwDBOUagM+lN+/Insv9i1JStiB5HJpp8rkcHCggGVaUKk0gOztvrPS6YQdSHyGA34m5lQbnnsbm6BpNTBaLbixtgIpKeVsiQa91oJG3YBqVYM/B3Xo6nmUgSDZbAZychbigtD2PGIEkXNKbaLtvRtHdCp2aSbKdAR7IDTDCTiyLjzdfg6fP30Bk2aVi5cuQH5u1tkC8PDBFtRqddDo0mw27e9QucLtqyCFVE7XdTtz9aL8PuyvWS8cx3kGgkiiaKuU9uhcSkzadXBJxL1/zw3sBw6sF57B+DVmwZpBqhMyuNl+/fHUjOd5iMW8d/5y9w18//aD5nsDFE2jkxn4KofKIDptE0Y53Idpms6nNoE1CwMGnsu2VfJTTqZZDpf4gMq5EVkwLMHljJbINGMxjBZVTg2lHCq07qPckWnGwvNcaOWECJQbSTDjYiSasQTNcrU6TqzeWW4smrGwWS7joZyYZLKcz0TtxlQzFj/NdN2AxaWzcCb/X607t+6DplL1KHgkcGavVBW4fnP1+GUzFgtfPdeHcib971otzCWTH1PNWPpphhPhuaUFyPdTix4JPDJB1WIZi2a2VW5qOefIKJhqxtLRDCe6xfMLNGuddrb0V6uqqHBtbSWwWixDadait7iBoSmr97a2n1r9bn2DgO382noGg4079+7jxu0ZAIunZsOy9egx1Ol1l6KqsHrlMqRSorMlOo500kRME0d0ML3C0BUMPiEcGSOI5VDt7i95vbNviaIAvMBBJoMZprNXPGGPf7lS0fBfAFDVJpDis1KBAFmXJ/xfAAvIMimXy8Kvn8oOnU8Whxig8ZUp9JRc/vj17ZO/pGkNRRTwc1YAAAAASUVORK5CYII=';
   downloadMods(modsProgress);
   return;
 };
-
-const getImage = (image: string) => {
-  return require(image);
-};
-// const installFabric = () => {
-//   const { label, percent, progress } = fabricProgress.value;
-//   if (progress === 1) {
-//     fabricProgress.value.progress = 0;
-//     fabricProgress.value.label = 'Fabric - Waiting . . .';
-//   } else if (progress >= 0.67) {
-//     fabricProgress.value.progress = 1;
-//     fabricProgress.value.label = 'Fabric - Complete!';
-//   } else if (progress >= 0.33) {
-//     fabricProgress.value.progress = 0.67;
-//     fabricProgress.value.label = 'Fabric - Downloading . . .';
-//   } else {
-//     fabricProgress.value.progress = 0.33;
-//     fabricProgress.value.label = 'Fabric - Started . . .';
-//   }
-// };
-// const downloadMods = () => {
-//   const { label, percent, progress } = modsProgress.value;
-//   modsProgress.value.progress = progress === 1 ? 0 : 1;
-// };
 </script>
 
 <style scoped>
@@ -196,7 +175,7 @@ const getImage = (image: string) => {
   height: 100%;
 }
 .shards-background {
-  background: url('src/assets/map-shards-bg.png') no-repeat;
+  background: url('src/assets/images/map-shards-bg.png') no-repeat;
   margin-top: 5px;
   margin-left: 10px;
   /* height: 1vh; */
@@ -227,13 +206,5 @@ const getImage = (image: string) => {
   left: 300px; */
   /* top: +10px; */
   width: 240px;
-}
-.progress-div {
-  /* display: block; */
-  /* padding-bottom: 1px; */
-  /* gap: 1px; */
-  /* margin: 2px; */
-  /* margin-bottom: 2px; */
-  /* background-color: grey; */
 }
 </style>

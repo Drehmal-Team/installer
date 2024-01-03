@@ -19,7 +19,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps(['index', 'progress']);
 
@@ -27,7 +27,6 @@ const progress = computed(() => props.progress);
 const progressLabel = computed(() => (progress.value * 100).toFixed(2) + '%');
 </script>
 <style scoped>
-/*  */
 .progress-div {
   border: 5px solid #493270;
   border-radius: 10px;

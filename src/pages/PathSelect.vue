@@ -6,7 +6,7 @@
           <!-- Header Content -->
           <div class="header">
             Install Location
-            <img src="src/assets/transparent-logo.png" alt="" />
+            <img src="../assets/images/transparent-logo.png" alt="" />
           </div>
         </div>
       </q-header>

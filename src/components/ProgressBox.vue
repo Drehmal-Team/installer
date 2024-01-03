@@ -23,7 +23,6 @@
           @click="
             {
               if (!clicked) {
-                console.log('AAA');
                 click();
               }
             }
@@ -35,19 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useInstallerStore } from 'src/stores/InstallerStore';
-import { useSourcesStore } from 'src/stores/SourcesStore';
 import { ref } from 'vue';
-const { map, mods, resourcePack } = storeToRefs(useSourcesStore());
-const {
-  homeDir,
-  appDir,
-  memory,
-  minecraftDir,
-  minecraftDirIsDefault,
-  shardsDir,
-} = storeToRefs(useInstallerStore());
 
 const props = defineProps([
   'label',
@@ -58,7 +45,6 @@ const props = defineProps([
 ]);
 let clicked = ref(false);
 const click = async () => {
-  // img.value = 'src/assets/small-next-button-grey.png';
   clicked.value = true;
   props.buttonClick();
 };
@@ -78,10 +64,6 @@ const click = async () => {
   gap: 8px;
 }
 .this-btn {
-  /* position: absolute;
-  top: 10px;
-  left: 10px; */
-  /* justify-content: right; */
   text-align: right;
   padding-right: 5%;
   padding-top: 0px;
@@ -93,19 +75,13 @@ const click = async () => {
 .nav-button {
   height: 33px;
   width: 51px;
-  background: url('src/assets/small-next-button-purple.png') no-repeat;
+  background: url('src/assets/images/small-next-button-purple.png') no-repeat;
   display: inline-block;
   border: 1px solid #511f95;
   border-radius: 3px;
-  /* justify-content: right; */
-  /* text-align: right; */
-  /* align-items: center; */
-  /* margin-top: 5px; */
-  /* padding-top: 50px; */
-  /* padding: 5px; */
 }
 .nav-button:hover {
-  background: url('src/assets/small-next-button-yellow.png') no-repeat;
+  background: url('src/assets/images/small-next-button-yellow.png') no-repeat;
 }
 .label {
   text-align: left;

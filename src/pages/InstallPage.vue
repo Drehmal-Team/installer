@@ -6,7 +6,7 @@
           <!-- Header Content -->
           <div class="header">
             Download & Install
-            <img src="src/assets/transparent-logo.png" alt="" />
+            <img src="../assets/images/transparent-logo.png" alt="" />
           </div>
         </div>
       </q-header>
@@ -39,21 +39,11 @@
 import { storeToRefs } from 'pinia';
 import MapDownload from 'src/components/MapDownload.vue';
 import { Shard } from 'src/components/models';
-import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { ref } from 'vue';
 import BackButton from '../components/BackButton.vue';
-import NextButton from '../components/NextButton.vue';
 
-const { map, mods, resourcePack } = storeToRefs(useSourcesStore());
-const {
-  homeDir,
-  appDir,
-  memory,
-  minecraftDir,
-  minecraftDirIsDefault,
-  shardsDir,
-} = storeToRefs(useInstallerStore());
+const { map } = storeToRefs(useSourcesStore());
 
 console.log(map);
 const versionFileName = map.value.versionName

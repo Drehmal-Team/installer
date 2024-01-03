@@ -4,12 +4,9 @@ import {
   createRouter,
   createWebHashHistory,
   createWebHistory,
-  isNavigationFailure,
 } from 'vue-router';
 
 import routes from './routes';
-import { useSourcesStore } from 'src/stores/SourcesStore';
-import { useInstallerStore } from 'src/stores/InstallerStore';
 
 /*
  * If not building with SSR mode, you can
@@ -37,17 +34,5 @@ export default route(function (/*{ store }*/) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach(() => {
-    useSourcesStore();
-    useInstallerStore();
-    console.log('called');
-  });
-  Router.onError((failure) => {
-    if (isNavigationFailure(failure)) {
-      console.error({ failure });
-    } else {
-      console.error(failure);
-    }
-  });
   return Router;
 });

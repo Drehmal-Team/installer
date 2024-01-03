@@ -1,9 +1,15 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
+// import path from 'path';
 import path from 'path';
-import os from 'os';
-require('events').defaultMaxListeners = 15;
+// import * as fs from 'fs';
+// const path = require('path');
+// import os from 'os';
+// const os = require('os');
+import Listeners from './ipcListeners';
 // needed in case process is undefined under Linux
-const platform = process.platform || os.platform();
+// const platform = process.platform || os.platform();
+
+// app.allowRendererProcessReuse = true;
 
 let mainWindow: BrowserWindow | undefined;
 
@@ -21,34 +27,26 @@ function createWindow() {
       nodeIntegrationInWorker: true,
       webSecurity: false,
       contextIsolation: false,
-      sandbox: false,
-      // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
-      preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
     },
     autoHideMenuBar: true,
   });
+
+  new Listeners(mainWindow, app);
+
   mainWindow.loadURL(process.env.APP_URL);
 
-  if (process.env.DEBUGGING) {
-    // if on DEV or Production with debug enabled
-    mainWindow.webContents.openDevTools();
-  } else {
-    // we're on production; no access to devtools pls
-    mainWindow.webContents.on('devtools-opened', () => {
-      mainWindow?.webContents.closeDevTools();
-    });
-  }
-
-  console.log(path.resolve(__dirname, 'icons/icon.png'));
   mainWindow.on('closed', () => {
     mainWindow = undefined;
   });
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+  console.log(app.getPath('appData'));
+});
 
 app.on('window-all-closed', () => {
-  if (platform !== 'darwin') {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
@@ -57,4 +55,8 @@ app.on('activate', () => {
   if (mainWindow === undefined) {
     createWindow();
   }
+});
+
+ipcMain.on('greet', (event, args) => {
+  console.log(args);
 });
