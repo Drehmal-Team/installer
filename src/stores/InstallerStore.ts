@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import log from 'electron-log';
 const path = require('path');
 const os = require('os');
 
@@ -11,7 +12,7 @@ export const useInstallerStore = defineStore('installer', () => {
 
   const minecraftDir = ref(path.join('', '.minecraft'));
   const minecraftDirIsDefault = ref(true);
-  console.log(`Home: ${os.homedir()}`);
+  log.info(`Home: ${os.homedir()}`);
 
   const memory = ref(
     parseInt(process.env.MINECRAFT_MEMORY ? process.env.MINECRAFT_MEMORY : '4')

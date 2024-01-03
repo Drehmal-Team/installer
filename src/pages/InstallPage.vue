@@ -25,7 +25,7 @@
           <div class="footer">
             <div class="nav-footer">
               <back-button path="/path/"></back-button>
-              <!-- <next-button path="/install/"></next-button> -->
+              <!-- <next-button path="/complete/"></next-button> -->
             </div>
           </div>
         </div>
@@ -36,16 +36,18 @@
 
 <!-- <script setup> -->
 <script setup lang="ts">
+import log from 'electron-log';
 import { storeToRefs } from 'pinia';
 import MapDownload from 'src/components/MapDownload.vue';
 import { Shard } from 'src/components/models';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { ref } from 'vue';
 import BackButton from '../components/BackButton.vue';
+import NextButton from '../components/NextButton.vue';
 
 const { map } = storeToRefs(useSourcesStore());
 
-console.log(map);
+log.info(map);
 const versionFileName = map.value.versionName
   .toLowerCase()
   .split(' ')

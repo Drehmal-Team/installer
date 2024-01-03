@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-// import { ipcRenderer } from 'electron';
+import log from 'electron-log';
 import { storeToRefs } from 'pinia';
 import NextButton from 'src/components/NextButton.vue';
 import { useInstallerStore } from 'src/stores/InstallerStore';
@@ -65,7 +65,7 @@ ipcRenderer.invoke('getAppDataPath').then((appData) => {
   shardsDir.value = path.join(appDir.value, 'shards');
   memory.value = 4;
 
-  console.log(
+  log.info(
     'Defaults loaded: ',
     JSON.stringify({
       homeDir: homeDir.value,

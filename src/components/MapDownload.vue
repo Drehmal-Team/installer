@@ -59,14 +59,18 @@
 </template>
 
 <script setup lang="ts">
+import log from 'electron-log';
 import { storeToRefs } from 'pinia';
 import MiniProgressBar from 'src/components/MiniProgressBar.vue';
 import ProgressBox from 'src/components/ProgressBox.vue';
 import { ProgressBox as ProgressBoxType, Shard } from 'src/components/models';
 import { downloadFile } from 'src/providers/DownloadFile';
 import { extractTargz } from 'src/providers/ExtractFile';
-import { downloadResourcePack } from 'src/providers/InstallFabric';
-import { downloadMods, installFabric } from 'src/providers/InstallFabric';
+import {
+  downloadMods,
+  downloadResourcePack,
+  installFabric,
+} from 'src/providers/InstallFabric';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { ref } from 'vue';
@@ -128,7 +132,7 @@ const downloadShards = async () => {
       shardsDir.value,
       `${versionFileName}-${index}.tar.gz`
     );
-    console.log(`Downloading map shard to ${filePath}`);
+    log.info(`Downloading map shard to ${filePath}`);
     downloadFile(url, filePath, shardRef).then(() => {
       downloaded++;
       if (downloaded === map.value.shards.length)
@@ -137,7 +141,7 @@ const downloadShards = async () => {
       if (!fs.existsSync(mapDir)) fs.mkdirSync(mapDir, { recursive: true });
       shardRef.value.label = 'Extracting files. . .';
 
-      console.log(`Extracting map to ${mapDir}`);
+      log.info(`Extracting map to ${mapDir}`);
       extractTargz(filePath, mapDir, shardRef).then(() => {
         extracted++;
 

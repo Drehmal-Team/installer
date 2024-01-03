@@ -1,3 +1,4 @@
+import log from 'electron-log';
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
@@ -19,7 +20,7 @@ export async function installFabric(ref: Ref) {
     'fabric-installer-' + launcher.value.fabric.version + '.jar'
   );
 
-  console.log(`Downloading Fabric installer to ${fabricPath}`);
+  log.info(`Downloading Fabric installer to ${fabricPath}`);
 
   ref.value.label = 'Downloading Fabric installer';
   ref.value.progress = 0.25;
@@ -28,7 +29,7 @@ export async function installFabric(ref: Ref) {
     ref.value.label = 'Installing Fabric';
     ref.value.progress = 0.5;
     ref.value.percent = 50;
-    console.log('Calling Fabric installer');
+    log.info('Calling Fabric installer');
     const fabricProc = spawn('java', [
       '-jar',
       fabricPath,
@@ -39,7 +40,7 @@ export async function installFabric(ref: Ref) {
       '1.17.1',
     ]);
     fabricProc.stdout.on('data', (data: any) => {
-      console.log(`stdout: ${data}`);
+      log.info(`stdout: ${data}`);
     });
     fabricProc.stderr.on('data', (data: any) => {
       console.error(`stderr: ${data}`);
@@ -47,7 +48,7 @@ export async function installFabric(ref: Ref) {
 
     fabricProc.on('close', (code: any) => {
       const taken = Date.now() - startTime;
-      console.log(`child process exited with code ${code} in ${taken}ms`);
+      log.info(`child process exited with code ${code} in ${taken}ms`);
       fs.unlinkSync(fabricPath);
 
       ref.value.label = 'Fabric successfully installed!';
@@ -76,7 +77,7 @@ export async function installFabric(ref: Ref) {
       ] = `-Xmx${memory.value}G`;
 
       fs.writeFileSync(profileFilePath, JSON.stringify(data), 'utf-8');
-      console.log('readFileSync complete');
+      log.info('readFileSync complete');
 
       ref.value.label = 'Minecraft profile created!';
       ref.value.progress = 1;
@@ -105,7 +106,7 @@ export async function downloadMods(ref: Ref) {
       const { name, mod_version, mc_version, source } = mod;
       const modName =
         name + ' - ' + modLoader + mod_version + '-' + mc_version + '.jar';
-      console.log(`Downloading ${modName} to ${modsPath}`);
+      log.info(`Downloading ${modName} to ${modsPath}`);
       const modPath = path.join(modsPath, modName);
       await downloadFile(source, modPath);
       downloaded++;
@@ -118,7 +119,7 @@ export async function downloadMods(ref: Ref) {
       ref.value.label = `Downloading: ${name}`;
 
       const taken = Date.now() - startTime;
-      console.log(`downloaded mod ${downloaded}/${totalMods} in ${taken}ms`);
+      log.info(`downloaded mod ${downloaded}/${totalMods} in ${taken}ms`);
     }
   }
   await processArray(modList);
@@ -135,7 +136,7 @@ export async function downloadResourcePack(mapPath: string, ref?: Ref) {
   const filePath = path.join(minecraftDir.value, 'resourcepacks', rpName);
 
   fs.copyFileSync(path.join(mapPath, 'resources.zip'), filePath);
-  console.log(`Copied resource pack to ${filePath}`);
+  log.info(`Copied resource pack to ${filePath}`);
 
   const optionsFilePath = path.join(minecraftDir.value, 'options.txt');
   const data = fs.readFileSync(optionsFilePath).toString().split('\n');
@@ -147,5 +148,5 @@ export async function downloadResourcePack(mapPath: string, ref?: Ref) {
   ] = `resourcePacks:["vanilla","Fabric Mods","file/${rpName}"]`;
 
   fs.writeFileSync(optionsFilePath, data.join('\n'), 'utf-8');
-  console.log('Updated Resource Pack order');
+  log.info('Updated Resource Pack order');
 }

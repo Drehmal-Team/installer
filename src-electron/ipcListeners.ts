@@ -1,6 +1,6 @@
 import { ipcMain, BrowserWindow, app as ElectronApp } from 'electron';
 // import path from 'path';
-// console.log('IPC Listener');
+// log.info('IPC Listener');
 let browserWindow: BrowserWindow;
 let app: typeof ElectronApp;
 

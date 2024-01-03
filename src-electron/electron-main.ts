@@ -1,15 +1,36 @@
+import dayjs from 'dayjs';
 import { app, BrowserWindow, ipcMain } from 'electron';
-// import path from 'path';
-import path from 'path';
-// import * as fs from 'fs';
-// const path = require('path');
-// import os from 'os';
-// const os = require('os');
+import log from 'electron-log';
 import Listeners from './ipcListeners';
-// needed in case process is undefined under Linux
-// const platform = process.platform || os.platform();
+const path = require('path');
+const os = require('os');
+const fs = require('fs');
 
-// app.allowRendererProcessReuse = true;
+// Optional, initialize the logger for any renderer process
+log.initialize();
+const currDate = dayjs().format('DD-MM-YYYY');
+
+const logFolder = path.join(
+  process.platform === 'win32' ? app.getPath('appData') : os.homedir(),
+  'Drehmal Installer',
+  'logs'
+);
+
+const getLogFileName: () => string = () => {
+  let index = 1;
+  let name = `${currDate}_${index}-installer.log`;
+  while (true) {
+    if (!fs.existsSync(path.join(logFolder, name))) break;
+    else name = `${currDate}_${index++}-installer.log`;
+  }
+  return name;
+};
+// can't use function call in resolve path as it'll create a new file for each logger instance
+const logFileName = getLogFileName();
+log.transports.file.resolvePathFn = () => path.join(logFolder, logFileName);
+log.transports.file.format = '[{h}:{i}:{s}.{ms}] [{label}] {text}';
+
+log.info('Logger initialised');
 
 let mainWindow: BrowserWindow | undefined;
 

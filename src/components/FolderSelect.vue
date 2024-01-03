@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import log from 'electron-log';
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { ref } from 'vue';
@@ -28,7 +29,7 @@ filePath.value = minecraftDir.value;
 //   let firstFilePath = folderPath.value.split('\\');
 //   firstFilePath.pop();
 //   installerStore.setMinecraftDir(filePath)
-//   console.log(`Minecraft Path updated to ${installerStore.minecraftDir.value}`)
+//   log.info(`Minecraft Path updated to ${installerStore.minecraftDir.value}`)
 //   return path.join(...firstFilePath);
 // });
 
@@ -43,7 +44,7 @@ const folderSelectChange = async (event: any) => {
   filePath.value = path.join(...firstFilePath);
   // installerStore.setMinecraftDir(filePath.value)
   minecraftDir.value = filePath.value;
-  console.log(`Minecraft Path updated to ${minecraftDir.value}`);
+  log.info(`Minecraft Path updated to ${minecraftDir.value}`);
 };
 </script>
 
