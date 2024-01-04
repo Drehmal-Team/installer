@@ -4,6 +4,7 @@ import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { Ref } from 'vue';
 import { downloadFile } from './DownloadFile';
+import { useStateStore } from 'src/stores/StateStore';
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -13,6 +14,7 @@ export async function installFabric(ref: Ref) {
 
   const { launcher, map } = storeToRefs(useSourcesStore());
   const { homeDir, minecraftDir, memory } = storeToRefs(useInstallerStore());
+  const { processingFabric } = storeToRefs(useStateStore());
 
   const fabricPath = path.join(
     homeDir.value,
@@ -30,6 +32,7 @@ export async function installFabric(ref: Ref) {
     ref.value.progress = 0.5;
     ref.value.percent = 50;
     log.info('Calling Fabric installer');
+    // TODO: check if user has java installed, popup if fail
     const fabricProc = spawn('java', [
       '-jar',
       fabricPath,
@@ -83,7 +86,8 @@ export async function installFabric(ref: Ref) {
       ref.value.progress = 1;
       ref.value.percent = 100;
       ref.value.img =
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAATSSURBVFhH1Zl/bFNVFMe/r+3rj7d2a7cytzh0W2aQgQqMqJtDF9AQNTHGSKJRIyLRRP1HCDj/MCwizgRMjIIhEeMfRs0StInuD9SwhR9LRDo3RsdCYgyERAQZXX/udX1tvfe+2/WHbWn7GsY+2ck797zb7p17z7n33FfB5Rq2C3OCy2DQ9UAQgEQCALmSv8WgJ8g1psT7mtqsHwof7PpkeGX7qh673QJBR3stLhQljoBfxu/ukR+Fwe+PJ6xWE3PE4bDxLosHrzeARDwBn0+GMPjDiYTNZmKOGM16GMw63q18tvQc41puQlEFAyMbeKt8ouEY5FkFfn8IM95ZZDx5JRyhtNXaCoqB5mYFECU911QyZkayi9xcPAf7p+A+eY23VD79tpNrBJasqprUFZK02174TbURqPn13uVYu86pGkogMB3JPTO5EMgoGo3GvNJgsqDZKKGFCL2GfVHYl0gpcf5fd9ZXodWUkiWCiaxKupzfnxT6HDei4Mzo9XomuTiw+yzCIQWrO5xobJS4FfBHoujc0MBb+Zk8Oc01MlMkgf8Y/RfTVyNoarHiudfa+J1MotEoW4rTKXpmCo2G/5yMy6NBSA4RK7rr5qUYRyjpn7nvYSdMYR1mzszCM5pyMpsbzU7ZGW/Q6aCvUCJTRL2OfKfA8qdcKrN8VZDMICqNW8qZGMkdLRRcAAwGA3QknNJ5setXRJQYDv28HjUOI7eWjmf0OtdUlrZa2fdNjXmx500321hdpx/nd1UURUE8HuctlZKW5mzopldlLH0/yubLdydx6B0Pk/3bJzDJnbMY9Ox/lJOPCxZmDrMRdi42o4FbtXFTnaEh9BIJ083dR0m4JHBhJoS3v16Dvb90o+vR4pb0QtxUZySRhFCdDc32Km6pLJqd2U8qgZcfO5oh2Xy+x4NXNg7h451n2Jnq/HQAO77pwGeD61BdRj2YD83O3Caa0UJrLLMqIVKbZVMvmnCnKKFWpz64EouhqkaEzV5czVUsmp3pfLoRm3rvwiPPN7FRp4+2t3dsXvb1jmNq3Mv6xusE1ndb/yrWrjTlOZM2mE13W1l91XxPNWsvc9bA75Hhm5ARmJQxMzELxRdj9+JmtSYrtn4rlZI3zSRvPHkM3usRvLX7XjxEVqJ//grjyBcX2L2Lk+pRlh7FlVgczqUWtiHGnAJe3b6c9cnmwHtncXr4Ku5YacP7B+/n1kwqvmkmabFbcbstVfo3tErY3N/OhDpCodfZaAxrn21g9nyOUOqrzGyVW9DarHLpqx3NzuQayb7BB+dlH9kQaRgWi5bBKZgzdNkUxdz7wPlTXsiRGEbpCfGKzK0qOz5azbX80JUunfkTq0XAio5abk1BT5g0Z8o+adIPzs3N8VYmyx5wsBOiJOvZypWUU0NXeI/CpH/mb3JitSRPrDkcoeQ6Mmej+e3MiYHLuOgJklmkzoPUW0E8s6WZ6SxkuJ2paTE05ro2b5fJiHdtakD7GodqKIH0mdHsTC52PpF6jZSLS74wvhtZz1vayBtm9A1hJUiW9vmkUq+0I8HM5xV+Onw8IUkiDKSira6m1WwyLul/vPV1ny9EfwVAMDgHwTUw3CdA2GVf5L8CkHpjq+B2u8VLfwYOk7LlKQ0DtHA6gRQaW8fPDX31H9XaPbywB8j8AAAAAElFTkSuQmCC';
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAACXBIWXMAAAsTAAALEwEAmpwYAAACqElEQVRYhdVYzY7SUBT+Tu1CTWRaG4UncKMOxOWMhhg37khYwBgT43P4ADyIiSawMLBzA0LUWRLGv4VPwMwECjVhiJYeF6W1pTBD7+2Mw7e67b0993733HvOd0r1ahuFUh6NWoexgSiU8tSodUDMjEatw0QETb/2v9cVCyPzBMyMQilPVK+2GQAUhbClbRaR8egEjuMeJBUA9JvX/U7DSElP8OJp59T+1+/z0nMMBpa/8eZw4hLx4JG4mlKjX8ZALqOv7Ov1TWn7U8uGYaQwGFj+u4hFkUnKO02/zQBq+09OHb+324LDDFpz/LI1Ti079E4FxbKxFPfSGq6Qa+jn8NeZ47fTmt/u9U35BRCgkgST8m4TzPF39NW7B6HnZw9bmDkc244HAqC4zhVDNq1DIXmX3r+tQVXk7Ciyi0jgZCYCKSIOMxTJnfRAkp4VioOVYhffjsZ4++mx0KSlQJQjANX53agUu+j1TaG7IhzQbccR/TSUZw4OE4haIHEiIijvtsDMyGV0KY9GwRdLJBvIHw4nK7YTIbI332lvaYtnPOiJ78djvPmYlCf+IREiwUz95XAU6c+mNZ/kzDmfsicRIl6mrhS72E5roagEuES/Ho1Q/SyWudeBMBFVWZ2CglGJ4YZYGSm0DqhebbNXjxhGKpb6fZnvYPLHjtyJSrHrtw/6pp8nVqG00wQRYnlsatm+jDeHE7nMfse4kYjWymV0Xz2L4lzC76K6vQjIi8ZLohqlPOLtvFeXeDhLKy1GNdE6JIhEjlY2HdBOa1R8yWutJUSmlh27bl+8E88ffcDM4YgMUYjgsHglGFzjIkIrHgwsGEZq6cA4uHtra+n737MZfhxb0vYBhP6gAPM84j0E/29tAszhxG8ruDzVqgzIO1oEgIMMNwgEAH8Bhif2yStQayoAAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==';
+      processingFabric.value = false;
     });
   });
 }
@@ -92,6 +96,7 @@ export async function downloadMods(ref: Ref) {
 
   const { launcher } = storeToRefs(useSourcesStore());
   const { minecraftDir } = storeToRefs(useInstallerStore());
+  const { processingMods } = storeToRefs(useStateStore());
 
   const modList = launcher.value.modList;
   const modLoader = launcher.value.fabric.name;
@@ -125,7 +130,8 @@ export async function downloadMods(ref: Ref) {
   await processArray(modList);
   ref.value.label = 'Mods successfully downloaded!';
   ref.value.img =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAATSSURBVFhH1Zl/bFNVFMe/r+3rj7d2a7cytzh0W2aQgQqMqJtDF9AQNTHGSKJRIyLRRP1HCDj/MCwizgRMjIIhEeMfRs0StInuD9SwhR9LRDo3RsdCYgyERAQZXX/udX1tvfe+2/WHbWn7GsY+2ck797zb7p17z7n33FfB5Rq2C3OCy2DQ9UAQgEQCALmSv8WgJ8g1psT7mtqsHwof7PpkeGX7qh673QJBR3stLhQljoBfxu/ukR+Fwe+PJ6xWE3PE4bDxLosHrzeARDwBn0+GMPjDiYTNZmKOGM16GMw63q18tvQc41puQlEFAyMbeKt8ouEY5FkFfn8IM95ZZDx5JRyhtNXaCoqB5mYFECU911QyZkayi9xcPAf7p+A+eY23VD79tpNrBJasqprUFZK02174TbURqPn13uVYu86pGkogMB3JPTO5EMgoGo3GvNJgsqDZKKGFCL2GfVHYl0gpcf5fd9ZXodWUkiWCiaxKupzfnxT6HDei4Mzo9XomuTiw+yzCIQWrO5xobJS4FfBHoujc0MBb+Zk8Oc01MlMkgf8Y/RfTVyNoarHiudfa+J1MotEoW4rTKXpmCo2G/5yMy6NBSA4RK7rr5qUYRyjpn7nvYSdMYR1mzszCM5pyMpsbzU7ZGW/Q6aCvUCJTRL2OfKfA8qdcKrN8VZDMICqNW8qZGMkdLRRcAAwGA3QknNJ5setXRJQYDv28HjUOI7eWjmf0OtdUlrZa2fdNjXmx500321hdpx/nd1UURUE8HuctlZKW5mzopldlLH0/yubLdydx6B0Pk/3bJzDJnbMY9Ox/lJOPCxZmDrMRdi42o4FbtXFTnaEh9BIJ083dR0m4JHBhJoS3v16Dvb90o+vR4pb0QtxUZySRhFCdDc32Km6pLJqd2U8qgZcfO5oh2Xy+x4NXNg7h451n2Jnq/HQAO77pwGeD61BdRj2YD83O3Caa0UJrLLMqIVKbZVMvmnCnKKFWpz64EouhqkaEzV5czVUsmp3pfLoRm3rvwiPPN7FRp4+2t3dsXvb1jmNq3Mv6xusE1ndb/yrWrjTlOZM2mE13W1l91XxPNWsvc9bA75Hhm5ARmJQxMzELxRdj9+JmtSYrtn4rlZI3zSRvPHkM3usRvLX7XjxEVqJ//grjyBcX2L2Lk+pRlh7FlVgczqUWtiHGnAJe3b6c9cnmwHtncXr4Ku5YacP7B+/n1kwqvmkmabFbcbstVfo3tErY3N/OhDpCodfZaAxrn21g9nyOUOqrzGyVW9DarHLpqx3NzuQayb7BB+dlH9kQaRgWi5bBKZgzdNkUxdz7wPlTXsiRGEbpCfGKzK0qOz5azbX80JUunfkTq0XAio5abk1BT5g0Z8o+adIPzs3N8VYmyx5wsBOiJOvZypWUU0NXeI/CpH/mb3JitSRPrDkcoeQ6Mmej+e3MiYHLuOgJklmkzoPUW0E8s6WZ6SxkuJ2paTE05ro2b5fJiHdtakD7GodqKIH0mdHsTC52PpF6jZSLS74wvhtZz1vayBtm9A1hJUiW9vmkUq+0I8HM5xV+Onw8IUkiDKSira6m1WwyLul/vPV1ny9EfwVAMDgHwTUw3CdA2GVf5L8CkHpjq+B2u8VLfwYOk7LlKQ0DtHA6gRQaW8fPDX31H9XaPbywB8j8AAAAAElFTkSuQmCC';
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAACXBIWXMAAAsTAAALEwEAmpwYAAACqElEQVRYhdVYzY7SUBT+Tu1CTWRaG4UncKMOxOWMhhg37khYwBgT43P4ADyIiSawMLBzA0LUWRLGv4VPwMwECjVhiJYeF6W1pTBD7+2Mw7e67b0993733HvOd0r1ahuFUh6NWoexgSiU8tSodUDMjEatw0QETb/2v9cVCyPzBMyMQilPVK+2GQAUhbClbRaR8egEjuMeJBUA9JvX/U7DSElP8OJp59T+1+/z0nMMBpa/8eZw4hLx4JG4mlKjX8ZALqOv7Ov1TWn7U8uGYaQwGFj+u4hFkUnKO02/zQBq+09OHb+324LDDFpz/LI1Ti079E4FxbKxFPfSGq6Qa+jn8NeZ47fTmt/u9U35BRCgkgST8m4TzPF39NW7B6HnZw9bmDkc244HAqC4zhVDNq1DIXmX3r+tQVXk7Ciyi0jgZCYCKSIOMxTJnfRAkp4VioOVYhffjsZ4++mx0KSlQJQjANX53agUu+j1TaG7IhzQbccR/TSUZw4OE4haIHEiIijvtsDMyGV0KY9GwRdLJBvIHw4nK7YTIbI332lvaYtnPOiJ78djvPmYlCf+IREiwUz95XAU6c+mNZ/kzDmfsicRIl6mrhS72E5roagEuES/Ho1Q/SyWudeBMBFVWZ2CglGJ4YZYGSm0DqhebbNXjxhGKpb6fZnvYPLHjtyJSrHrtw/6pp8nVqG00wQRYnlsatm+jDeHE7nMfse4kYjWymV0Xz2L4lzC76K6vQjIi8ZLohqlPOLtvFeXeDhLKy1GNdE6JIhEjlY2HdBOa1R8yWutJUSmlh27bl+8E88ffcDM4YgMUYjgsHglGFzjIkIrHgwsGEZq6cA4uHtra+n737MZfhxb0vYBhP6gAPM84j0E/29tAszhxG8ruDzVqgzIO1oEgIMMNwgEAH8Bhif2yStQayoAAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==';
+  processingMods.value = false;
 }
 
 export async function downloadResourcePack(mapPath: string, ref?: Ref) {

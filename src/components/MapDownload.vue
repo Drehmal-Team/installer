@@ -29,6 +29,7 @@
             @click="downloadShards"
             :label="downloadShardsLabel"
             class="shards-btn"
+            :class="{ disabled: shardsDisabled }"
           />
         </div>
         <div>
@@ -39,6 +40,7 @@
             :percent="fabricProgress.percent"
             :img="fabricProgress.img"
             :buttonClick="fabricClick"
+            :buttonDisabled="fabricDisabled"
           />
         </div>
         <div>
@@ -49,6 +51,7 @@
             :percent="modsProgress.percent"
             :img="modsProgress.img"
             :buttonClick="modsClick"
+            :buttonDisabled="modsDisabled"
           />
         </div>
       </div>
@@ -73,13 +76,21 @@ import {
 } from 'src/providers/InstallFabric';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
+import { useStateStore } from 'src/stores/StateStore';
 import { ref } from 'vue';
 const fs = require('fs');
 const path = require('path');
 
 const { map } = storeToRefs(useSourcesStore());
 const { minecraftDir, shardsDir } = storeToRefs(useInstallerStore());
-
+const {
+  processingShards,
+  processingFabric,
+  processingMods,
+  disableNav,
+  disableBackNav,
+  disableNextNav,
+} = storeToRefs(useStateStore());
 const versionFileName = map.value.versionName
   .toLowerCase()
   .split(' ')
@@ -88,6 +99,10 @@ const versionFileName = map.value.versionName
 const shardsArr: Shard[] = [];
 const downloadShardsLabel = ref('Download map');
 let downloadShardsClicked = ref(false);
+
+const shardsDisabled = ref(false);
+const fabricDisabled = ref(false);
+const modsDisabled = ref(false);
 
 map.value.shards.forEach((shard, i) =>
   shardsArr.push({
@@ -104,17 +119,20 @@ const fabricProgress = ref<ProgressBoxType>({
   label: 'Fabric - Waiting . . .',
   percent: 0,
   progress: 0,
-  img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAOCSURBVFhH7ZlLaBNBGID/yW4eTTYxEbRFhVrtSUS8+apY0ZsgxWsPivakHvTitUVFCh6sNwXBs1gN2h70Ymx9gUYQQRH0oFQEldrmsUm6j6z/v9nUTdrspskmacCvGXYyO03mn3z7z2zCotFYmEksyvOufmAMQNMAAI/4aIe6hkdVyY9s6hWusMvDY7Ht23b2h8MdwFzUq71QlDykkjl4HX/xkE3em9YEwasHEokEjS7tw9xcCrS8BolEDtjk/WdaMOjVA/H4OOB9LqNb/ZwbeAmpeRmyigo3JvogFPEYZ5xBzqiQyyqQTIowP5eFkpE7GQixOSLA1rVBCHrcRouzuP2cUSvg7OgrQZdiEy5H22AYZjiPx1Ox3Lz4CU72T8HxA0/hzfSfknPMiMDHcXB+4BWcwn6DfTHIilDSr5pC47DDMhgOB+F2WyvSJXRAL6q0Meg3WpbSKfh03aiEvHxNHxKNwy4gy2CqmY0i1LWazM65ajfbbjwl2cwfLv0UeJ4Hl82b3x39DB+ez+oZ60cyCxr+qbiQnb20A/Yd7jJ6AVwdfAtiQoZfYg7SkqK3ZWUVbj0+CGuqzHKKokA+nzeeFUjNLiyfzeqhg+dQI2FRuUpzuD7ggy2Y5agINSpXCceCMUMDrNZQ2pQ4hWOamcmRcilUjvZNWM5UUO5nOgcZGZXDwDOk3CNr5ZqmmRkfKkcaUfbaYKEcZbke7NcTRuU89SvXkGDM6ANsknIN0cyMOcvljSy3dxnlfosLkJJkva1SlmuJZmbKs1wl1gW8i1kugMrVQsODKWcF6/CKabhmlK2OXeiF3Yf+qXX6yBTeGkj6zSJd/BxuHb7Oi3B9Yv/qy2Zm8L5JL2YogK04eaQeBeIUTdeskTREM9FQa0+ZWsk5CTejDLrDAeDw+A3VGrNRy0xLNKNrgYoZUou0omxFgRBlXermv2ZmiprR3qqQtTqNMya1cAvQHSmoNZPMwLUHtX25UZdmqqoaNXtoU0krvJlFtXDRLKpFfWrRi16fihWWwdA/S5JkPGstsizbBmOpWb2MnXgPmaQC31Gt0fFdEHL49YnmLZrGekj3NM7nrqWUBEPfELYTC+nS8bKJ8WnN73cD7+YgFApgU3EGaVpXfz2REOlXAEinJWDRO7ERBmw43Oa/AmjAhlg8HnfPfEmN43pytI4Jal0dwY3s0LuPT27/BQ2FAKlZsC2xAAAAAElFTkSuQmCC',
+  img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAACXBIWXMAAAsTAAALEwEAmpwYAAAB50lEQVRYhd2YTU7bYBCGn7GyoF0Eu17EpyARS1hEogeI1IXbs/QAvUpJFogcAESkwhIBvQRUMna9ABaQr4tgk9j5lSd1zLNybI8y7ze/shx3z+j4bfq9gaGCdPy29HsDxBhDvzcwIoLtfCjbr5WIwkeMMXT8tshx98wAWJawbVdLyN/okeFwlEg1AOfTx/Sh69bL8WpFgiBODz68fxgJSUhEbNVrecsN4il+xnXrBEGc3rOyL226CJjuo4WU4Ik2Apa8AyUC1KDY+PD3TiZ+9y4+r9VuFoULouU56fXVbbh2u1kUFvL9aBeAH18uaXlOetKzTtjfO0GApudwfRvSLRiJBPUW1fIcru+iuc9TFMtTTch4ZJoNOxeZb/unDI2h5Tn8/hPx89eB1l8Dkp8jWkycPLDTsNN7yVqhh9FPrWzNfN0/xbxG4uYu4vBcMxJvFBayqLibDTu9Hpp8JBbZL4tK+53WPscjM68mZtmvikqNLGo+L+o1kUelRua5mURm3VhT0rZyGKOUWpaUv3iqrSjZJXAZRISuUjtWmyPZAbgMGt0qQX1FKYu1rSj/m5yQp/i5DD9WYpqPE6kVBDGuW6+EmPEvKPAqJLx/AEbft7IvbDKJ3zBKrfKHQHEkSS0BzLjCCiEA/wAmNq0sQ6WYFQAAAA5lWElmTU0AKgAAAAgAAAAAAAAA0lOTAAAAAElFTkSuQmCC',
 });
 const modsProgress = ref<ProgressBoxType>({
   label: 'Mods - Waiting . . .',
   percent: 0,
   progress: 0,
-  img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAOCSURBVFhH7ZlLaBNBGID/yW4eTTYxEbRFhVrtSUS8+apY0ZsgxWsPivakHvTitUVFCh6sNwXBs1gN2h70Ymx9gUYQQRH0oFQEldrmsUm6j6z/v9nUTdrspskmacCvGXYyO03mn3z7z2zCotFYmEksyvOufmAMQNMAAI/4aIe6hkdVyY9s6hWusMvDY7Ht23b2h8MdwFzUq71QlDykkjl4HX/xkE3em9YEwasHEokEjS7tw9xcCrS8BolEDtjk/WdaMOjVA/H4OOB9LqNb/ZwbeAmpeRmyigo3JvogFPEYZ5xBzqiQyyqQTIowP5eFkpE7GQixOSLA1rVBCHrcRouzuP2cUSvg7OgrQZdiEy5H22AYZjiPx1Ox3Lz4CU72T8HxA0/hzfSfknPMiMDHcXB+4BWcwn6DfTHIilDSr5pC47DDMhgOB+F2WyvSJXRAL6q0Meg3WpbSKfh03aiEvHxNHxKNwy4gy2CqmY0i1LWazM65ajfbbjwl2cwfLv0UeJ4Hl82b3x39DB+ez+oZ60cyCxr+qbiQnb20A/Yd7jJ6AVwdfAtiQoZfYg7SkqK3ZWUVbj0+CGuqzHKKokA+nzeeFUjNLiyfzeqhg+dQI2FRuUpzuD7ggy2Y5agINSpXCceCMUMDrNZQ2pQ4hWOamcmRcilUjvZNWM5UUO5nOgcZGZXDwDOk3CNr5ZqmmRkfKkcaUfbaYKEcZbke7NcTRuU89SvXkGDM6ANsknIN0cyMOcvljSy3dxnlfosLkJJkva1SlmuJZmbKs1wl1gW8i1kugMrVQsODKWcF6/CKabhmlK2OXeiF3Yf+qXX6yBTeGkj6zSJd/BxuHb7Oi3B9Yv/qy2Zm8L5JL2YogK04eaQeBeIUTdeskTREM9FQa0+ZWsk5CTejDLrDAeDw+A3VGrNRy0xLNKNrgYoZUou0omxFgRBlXermv2ZmiprR3qqQtTqNMya1cAvQHSmoNZPMwLUHtX25UZdmqqoaNXtoU0krvJlFtXDRLKpFfWrRi16fihWWwdA/S5JkPGstsizbBmOpWb2MnXgPmaQC31Gt0fFdEHL49YnmLZrGekj3NM7nrqWUBEPfELYTC+nS8bKJ8WnN73cD7+YgFApgU3EGaVpXfz2REOlXAEinJWDRO7ERBmw43Oa/AmjAhlg8HnfPfEmN43pytI4Jal0dwY3s0LuPT27/BQ2FAKlZsC2xAAAAAElFTkSuQmCC',
+  img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAACXBIWXMAAAsTAAALEwEAmpwYAAAB50lEQVRYhd2YTU7bYBCGn7GyoF0Eu17EpyARS1hEogeI1IXbs/QAvUpJFogcAESkwhIBvQRUMna9ABaQr4tgk9j5lSd1zLNybI8y7ze/shx3z+j4bfq9gaGCdPy29HsDxBhDvzcwIoLtfCjbr5WIwkeMMXT8tshx98wAWJawbVdLyN/okeFwlEg1AOfTx/Sh69bL8WpFgiBODz68fxgJSUhEbNVrecsN4il+xnXrBEGc3rOyL226CJjuo4WU4Ik2Apa8AyUC1KDY+PD3TiZ+9y4+r9VuFoULouU56fXVbbh2u1kUFvL9aBeAH18uaXlOetKzTtjfO0GApudwfRvSLRiJBPUW1fIcru+iuc9TFMtTTch4ZJoNOxeZb/unDI2h5Tn8/hPx89eB1l8Dkp8jWkycPLDTsNN7yVqhh9FPrWzNfN0/xbxG4uYu4vBcMxJvFBayqLibDTu9Hpp8JBbZL4tK+53WPscjM68mZtmvikqNLGo+L+o1kUelRua5mURm3VhT0rZyGKOUWpaUv3iqrSjZJXAZRISuUjtWmyPZAbgMGt0qQX1FKYu1rSj/m5yQp/i5DD9WYpqPE6kVBDGuW6+EmPEvKPAqJLx/AEbft7IvbDKJ3zBKrfKHQHEkSS0BzLjCCiEA/wAmNq0sQ6WYFQAAAA5lWElmTU0AKgAAAAgAAAAAAAAA0lOTAAAAAElFTkSuQmCC',
 });
 
 const downloadShards = async () => {
   if (downloadShardsClicked.value) return;
+  shardsDisabled.value = true;
+  processingShards.value = true;
+  disableBackNav.value = true;
 
   downloadShardsClicked.value = true;
   downloadShardsLabel.value = 'Downloading';
@@ -147,6 +165,7 @@ const downloadShards = async () => {
 
         if (extracted === map.value.shards.length) {
           downloadShardsLabel.value = 'Complete!';
+          processingShards.value = false;
           downloadResourcePack(mapDir);
         }
       });
@@ -155,14 +174,22 @@ const downloadShards = async () => {
 };
 
 const fabricClick = async () => {
+  processingFabric.value = true;
+  disableBackNav.value = true;
+
+  fabricDisabled.value = true;
   fabricProgress.value.img =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAMGSURBVFhH7Zm7b9NAGMC/i+2kcZzE2RmZoCL9E7pSiYoOTDB2ZWklxKOo4aFKiIFKCKkTLGVAlEZAWYlUxIIygBAPITZmVBLbSRo7Nvc5Dlyi+JU4TSPll1i+xHfxfeefv7MdUiyWZNIkRZ6PzQMhAJYFAHRN35NQtui6ZZiFEyelDXJ3fbM0e2puXpaTQGJYa7IwDBOUagM+lN+/Insv9i1JStiB5HJpp8rkcHCggGVaUKk0gOztvrPS6YQdSHyGA34m5lQbnnsbm6BpNTBaLbixtgIpKeVsiQa91oJG3YBqVYM/B3Xo6nmUgSDZbAZychbigtD2PGIEkXNKbaLtvRtHdCp2aSbKdAR7IDTDCTiyLjzdfg6fP30Bk2aVi5cuQH5u1tkC8PDBFtRqddDo0mw27e9QucLtqyCFVE7XdTtz9aL8PuyvWS8cx3kGgkiiaKuU9uhcSkzadXBJxL1/zw3sBw6sF57B+DVmwZpBqhMyuNl+/fHUjOd5iMW8d/5y9w18//aD5nsDFE2jkxn4KofKIDptE0Y53Idpms6nNoE1CwMGnsu2VfJTTqZZDpf4gMq5EVkwLMHljJbINGMxjBZVTg2lHCq07qPckWnGwvNcaOWECJQbSTDjYiSasQTNcrU6TqzeWW4smrGwWS7joZyYZLKcz0TtxlQzFj/NdN2AxaWzcCb/X607t+6DplL1KHgkcGavVBW4fnP1+GUzFgtfPdeHcib971otzCWTH1PNWPpphhPhuaUFyPdTix4JPDJB1WIZi2a2VW5qOefIKJhqxtLRDCe6xfMLNGuddrb0V6uqqHBtbSWwWixDadait7iBoSmr97a2n1r9bn2DgO382noGg4079+7jxu0ZAIunZsOy9egx1Ol1l6KqsHrlMqRSorMlOo500kRME0d0ML3C0BUMPiEcGSOI5VDt7i95vbNviaIAvMBBJoMZprNXPGGPf7lS0fBfAFDVJpDis1KBAFmXJ/xfAAvIMimXy8Kvn8oOnU8Whxig8ZUp9JRc/vj17ZO/pGkNRRTwc1YAAAAASUVORK5CYII=';
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAACXBIWXMAAAsTAAALEwEAmpwYAAAByklEQVRYhd2YTVLCQBCFX6dYqIsIztyHI7DjGpYuRV2ouNTyGGRFbgD3yRDMAlhQtIs4KfKHhEwS4rcKSaboN6+7pys0ncwwGPbhOnNGCxkM++Q6cxAzw3XmTETo9i6bjqsQS38NZsZg2CeaTmYMAJZFuO62S8j3co3dLkykDgD0bq6ih0LYzURVEKWCaOP9xSoUotEiLuxOeuUZsQm2EMKGUkF0z0q+dO4igOwYLVADkZiGAIv+gRIC0AHKHR+jh6fY7/H7a6Xr8ihdEFLK6NrzvMrX5UGuM+NuL2y/QtgnF/vnx1csqLwd1k5IKeF53slObIJt1LWW/qq8I0mklFBKHXxeBcYc0eQ58zh6BjNHQt/GL6X+J+7IOn2OmCK580KI6B6z6fmUzTui0c4opYw6oTFeI7p484pWCBFdZznx1/pjMdJ+s9rn3f0tgNCZQ07krS9KZTWyj/maSFP5hKidqRqrhs2qHGZDqUXU/OBZOrV06iSHwGMgImPt2FiNnDJ6mOhWGmNC6irqPGppv3WQErIJtk3EUYisGGOppVQAIexWiNn/ggL8CvEXKwDh963kC+eMjhsIU6v5Q6A8pFOLAPC+whZBAPAD4SrOvdEMgKQAAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==';
   installFabric(fabricProgress);
   return;
 };
 const modsClick = async () => {
+  processingMods.value = true;
+  disableBackNav.value = true;
+
+  modsDisabled.value = true;
   modsProgress.value.img =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAYAAAB0v5O6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAMGSURBVFhH7Zm7b9NAGMC/i+2kcZzE2RmZoCL9E7pSiYoOTDB2ZWklxKOo4aFKiIFKCKkTLGVAlEZAWYlUxIIygBAPITZmVBLbSRo7Nvc5Dlyi+JU4TSPll1i+xHfxfeefv7MdUiyWZNIkRZ6PzQMhAJYFAHRN35NQtui6ZZiFEyelDXJ3fbM0e2puXpaTQGJYa7IwDBOUagM+lN+/Insv9i1JStiB5HJpp8rkcHCggGVaUKk0gOztvrPS6YQdSHyGA34m5lQbnnsbm6BpNTBaLbixtgIpKeVsiQa91oJG3YBqVYM/B3Xo6nmUgSDZbAZychbigtD2PGIEkXNKbaLtvRtHdCp2aSbKdAR7IDTDCTiyLjzdfg6fP30Bk2aVi5cuQH5u1tkC8PDBFtRqddDo0mw27e9QucLtqyCFVE7XdTtz9aL8PuyvWS8cx3kGgkiiaKuU9uhcSkzadXBJxL1/zw3sBw6sF57B+DVmwZpBqhMyuNl+/fHUjOd5iMW8d/5y9w18//aD5nsDFE2jkxn4KofKIDptE0Y53Idpms6nNoE1CwMGnsu2VfJTTqZZDpf4gMq5EVkwLMHljJbINGMxjBZVTg2lHCq07qPckWnGwvNcaOWECJQbSTDjYiSasQTNcrU6TqzeWW4smrGwWS7joZyYZLKcz0TtxlQzFj/NdN2AxaWzcCb/X607t+6DplL1KHgkcGavVBW4fnP1+GUzFgtfPdeHcib971otzCWTH1PNWPpphhPhuaUFyPdTix4JPDJB1WIZi2a2VW5qOefIKJhqxtLRDCe6xfMLNGuddrb0V6uqqHBtbSWwWixDadait7iBoSmr97a2n1r9bn2DgO382noGg4079+7jxu0ZAIunZsOy9egx1Ol1l6KqsHrlMqRSorMlOo500kRME0d0ML3C0BUMPiEcGSOI5VDt7i95vbNviaIAvMBBJoMZprNXPGGPf7lS0fBfAFDVJpDis1KBAFmXJ/xfAAvIMimXy8Kvn8oOnU8Whxig8ZUp9JRc/vj17ZO/pGkNRRTwc1YAAAAASUVORK5CYII=';
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAACXBIWXMAAAsTAAALEwEAmpwYAAAByklEQVRYhd2YTVLCQBCFX6dYqIsIztyHI7DjGpYuRV2ouNTyGGRFbgD3yRDMAlhQtIs4KfKHhEwS4rcKSaboN6+7pys0ncwwGPbhOnNGCxkM++Q6cxAzw3XmTETo9i6bjqsQS38NZsZg2CeaTmYMAJZFuO62S8j3co3dLkykDgD0bq6ih0LYzURVEKWCaOP9xSoUotEiLuxOeuUZsQm2EMKGUkF0z0q+dO4igOwYLVADkZiGAIv+gRIC0AHKHR+jh6fY7/H7a6Xr8ihdEFLK6NrzvMrX5UGuM+NuL2y/QtgnF/vnx1csqLwd1k5IKeF53slObIJt1LWW/qq8I0mklFBKHXxeBcYc0eQ58zh6BjNHQt/GL6X+J+7IOn2OmCK580KI6B6z6fmUzTui0c4opYw6oTFeI7p484pWCBFdZznx1/pjMdJ+s9rn3f0tgNCZQ07krS9KZTWyj/maSFP5hKidqRqrhs2qHGZDqUXU/OBZOrV06iSHwGMgImPt2FiNnDJ6mOhWGmNC6irqPGppv3WQErIJtk3EUYisGGOppVQAIexWiNn/ggL8CvEXKwDh963kC+eMjhsIU6v5Q6A8pFOLAPC+whZBAPAD4SrOvdEMgKQAAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==';
   downloadMods(modsProgress);
   return;
 };

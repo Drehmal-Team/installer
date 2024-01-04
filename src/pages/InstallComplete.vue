@@ -38,7 +38,6 @@
           <div class="footer">
             <!-- Footer Content -->
             <div class="nav-footer">
-              <!-- <next-button path="/path/"></next-button> -->
               <div>
                 <q-btn
                   size="20px"

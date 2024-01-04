@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     // name: 'path',
-    path: '/path',
+    path: '/path/',
     component: () => import('pages/PathSelect.vue'),
     // meta: {title: appTitle}
     props: true,

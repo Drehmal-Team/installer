@@ -6,6 +6,7 @@
         @mouseenter="social.img = social.hover"
         @mouseleave="social.img = social.default"
         @click="openUrl(social.url)"
+        class="clickable"
       />
     </div>
   </div>

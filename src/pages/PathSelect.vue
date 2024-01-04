@@ -38,7 +38,7 @@
           <div class="footer">
             <div class="nav-footer">
               <back-button path="/"></back-button>
-              <next-button path="/install"></next-button>
+              <next-button path="/install/"></next-button>
             </div>
           </div>
         </div>

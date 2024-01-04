@@ -24,8 +24,8 @@
         <div class="border-footer">
           <div class="footer">
             <div class="nav-footer">
-              <back-button path="/path/"></back-button>
-              <next-button path="/complete/"></next-button>
+              <back-button path="/path/" />
+              <next-button path="/complete/" />
             </div>
           </div>
         </div>
@@ -52,6 +52,7 @@ const versionFileName = map.value.versionName
   .toLowerCase()
   .split(' ')
   .join('-');
+
 const shardsArr: Shard[] = [];
 map.value.shards.forEach((shard, i) => {
   shardsArr.push({
