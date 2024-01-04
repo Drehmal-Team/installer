@@ -28,7 +28,7 @@ const getLogFileName: () => string = () => {
 // can't use function call in resolve path as it'll create a new file for each logger instance
 const logFileName = getLogFileName();
 log.transports.file.resolvePathFn = () => path.join(logFolder, logFileName);
-log.transports.file.format = '[{h}:{i}:{s}.{ms}] [{label}] {text}';
+log.transports.file.format = '[{h}:{i}:{s}.{ms}] [{level}] {text}';
 
 log.info('Logger initialised');
 
