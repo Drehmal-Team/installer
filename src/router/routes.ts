@@ -17,10 +17,13 @@ const routes: RouteRecordRaw[] = [
     props: true,
   },
   {
-    // name: 'path',
     path: '/install/',
     component: () => import('pages/InstallPage.vue'),
-    // meta: {title: appTitle}
+    props: true,
+  },
+  {
+    path: '/complete/',
+    component: () => import('pages/InstallComplete.vue'),
     props: true,
   },
 

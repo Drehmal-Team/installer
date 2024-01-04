@@ -25,7 +25,7 @@
           <div class="footer">
             <div class="nav-footer">
               <back-button path="/path/"></back-button>
-              <!-- <next-button path="/complete/"></next-button> -->
+              <next-button path="/complete/"></next-button>
             </div>
           </div>
         </div>
