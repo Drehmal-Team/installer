@@ -11,7 +11,6 @@ export const useInstallerStore = defineStore('installer', () => {
   const shardsDir = ref('');
 
   const minecraftDir = ref(path.join('', '.minecraft'));
-  const minecraftDirIsDefault = ref(true);
   log.info(`Home: ${os.homedir()}`);
 
   const memory = ref(
@@ -23,7 +22,6 @@ export const useInstallerStore = defineStore('installer', () => {
     appDir,
     minecraftDir,
     shardsDir,
-    minecraftDirIsDefault,
     memory,
   };
 });

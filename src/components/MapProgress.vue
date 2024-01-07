@@ -1,12 +1,22 @@
 <template>
   <div class="this-div">
-    <span class="label">{{ label }}</span>
+    <span class="label">{{ downloadLabel }}</span>
     <q-linear-progress
-      size="15px"
-      :value="progress"
+      size="30px"
+      :value="downloadProgress"
       color="accent"
-      class="q-mt-sm bar"
+      class="bar"
       animation-speed="200"
+      rounded
+    />
+    <span class="label">{{ extractLabel }}</span>
+    <q-linear-progress
+      size="30px"
+      :value="extractProgress"
+      color="accent"
+      class="bar"
+      animation-speed="200"
+      rounded
     />
     <span class="this-btn">
       <img
@@ -38,7 +48,7 @@
       <img
         src="../assets/images/icons/buttons/down-button-grey.png"
         class="disabled"
-        v-if="isClicked && progress < 1"
+        v-if="isClicked && extractProgress < 1"
         width="50px"
         height="30px"
         no-spinner
@@ -48,7 +58,7 @@
       <img
         src="../assets/images/icons/buttons/small-button-check.png"
         class="disabled"
-        v-if="isClicked && progress === 1"
+        v-if="isClicked && extractProgress === 1"
         width="50px"
         height="30px"
         no-spinner
@@ -60,15 +70,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { ref } from 'vue';
 
 const props = defineProps([
-  'label',
-  'progress',
-  'percent',
-  'buttonClick',
+  'totalSize',
+  'downloaded',
+  'downloadLabel',
+  'downloadProgress',
+  'downloadPercent',
+  'extractCount',
+  'extracted',
+  'extractLabel',
+  'extractProgress',
+  'extractPercent',
   'img',
+  'buttonClick',
   'buttonDisabled',
 ]);
 
@@ -84,28 +100,27 @@ const click = async () => {
 .this-div {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   background-color: #8151c4;
   border: 3px solid #511f95;
   border-radius: 10px;
   padding: 5px 0px;
-  height: 100px;
+  height: 200px;
 }
 .this-btn {
   text-align: right;
-  padding-right: 5%;
+  padding-right: 2%;
+  padding-bottom: 0px;
   padding-top: 0px;
+  /* height: 20px; */
 }
 .bar {
   margin: auto;
-  width: 94%;
+  width: 96%;
 }
 .label {
   text-align: left;
-  padding-left: 3%;
+  padding-top: 1%;
+  padding-left: 2%;
   font-size: 13px;
-}
-img {
-  transition: 0.2s ease;
 }
 </style>

@@ -1,8 +1,12 @@
 <template>
   <label class="file-select">
     <div class="select-button flex custom">
-      <span v-if="filePath !== '.'">{{ filePath }} </span>
-      <span v-else>Select Minecraft Directory</span>
+      <q-item-section>
+        <q-item-label overline v-if="defaultPath"
+          >Default Minecraft directory found</q-item-label
+        >
+        <q-item-label class="text-accent">{{ filePath }}</q-item-label>
+      </q-item-section>
       <div class="folder-icon">
         <q-icon name="folder" />
       </div>
@@ -18,24 +22,17 @@ import { useInstallerStore } from 'src/stores/InstallerStore';
 import { ref } from 'vue';
 const path = require('path');
 
-const { minecraftDir, minecraftDirIsDefault } = storeToRefs(
-  useInstallerStore()
-);
+const { minecraftDir } = storeToRefs(useInstallerStore());
 
 const folderPath = ref(minecraftDir.value);
 const filePath = ref('Select Minecraft Directory');
 filePath.value = minecraftDir.value;
-// const filePath = computed(() => {
-//   let firstFilePath = folderPath.value.split('\\');
-//   firstFilePath.pop();
-//   installerStore.setMinecraftDir(filePath)
-//   log.info(`Minecraft Path updated to ${installerStore.minecraftDir.value}`)
-//   return path.join(...firstFilePath);
-// });
 
-// @change="(event) => (folderPath = event.target.files[0].path)"
+const defaultPath = ref(true);
+
 const folderSelectChange = async (event: any) => {
   folderPath.value = event.target.files[0].path;
+  defaultPath.value = false;
 
   let firstFilePath = folderPath.value.split('\\');
   firstFilePath.pop();

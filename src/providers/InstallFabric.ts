@@ -134,25 +134,29 @@ export async function downloadMods(ref: Ref) {
   processingMods.value = false;
 }
 
-export async function downloadResourcePack(mapPath: string, ref?: Ref) {
+export async function downloadResourcePack(ref: Ref) {
   const { resourcePack } = storeToRefs(useSourcesStore());
   const { minecraftDir } = storeToRefs(useInstallerStore());
+  const { processingResourcepack } = storeToRefs(useStateStore());
+  ref.value.label = 'Downloading resource pack';
 
   const rpName = `Drehmal Resource Pack v${resourcePack.value.version}.zip`;
   const filePath = path.join(minecraftDir.value, 'resourcepacks', rpName);
+  downloadFile(resourcePack.value.source, filePath, ref).then(() => {
+    ref.value.label = 'Updating resource pack order';
 
-  fs.copyFileSync(path.join(mapPath, 'resources.zip'), filePath);
-  log.info(`Copied resource pack to ${filePath}`);
+    const optionsFilePath = path.join(minecraftDir.value, 'options.txt');
+    const data = fs.readFileSync(optionsFilePath).toString().split('\n');
+    const resourceOptIndex = data.findIndex(
+      (item: string[]) => item.indexOf('resourcePacks:') !== -1
+    );
+    data[
+      resourceOptIndex
+    ] = `resourcePacks:["vanilla","Fabric Mods","file/${rpName}"]`;
 
-  const optionsFilePath = path.join(minecraftDir.value, 'options.txt');
-  const data = fs.readFileSync(optionsFilePath).toString().split('\n');
-  const resourceOptIndex = data.findIndex(
-    (item: string[]) => item.indexOf('resourcePacks:') !== -1
-  );
-  data[
-    resourceOptIndex
-  ] = `resourcePacks:["vanilla","Fabric Mods","file/${rpName}"]`;
-
-  fs.writeFileSync(optionsFilePath, data.join('\n'), 'utf-8');
-  log.info('Updated Resource Pack order');
+    fs.writeFileSync(optionsFilePath, data.join('\n'), 'utf-8');
+    ref.value.label = 'Resource pack downloaded!';
+    log.info('Updated Resource Pack order');
+    processingResourcepack.value = false;
+  });
 }

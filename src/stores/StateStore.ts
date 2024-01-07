@@ -8,6 +8,7 @@ export const useStateStore = defineStore('state', () => {
   const processingShards = ref(false);
   const processingFabric = ref(false);
   const processingMods = ref(false);
+  const processingResourcepack = ref(false);
 
   return {
     disableNav,
@@ -16,5 +17,6 @@ export const useStateStore = defineStore('state', () => {
     processingShards,
     processingFabric,
     processingMods,
+    processingResourcepack,
   };
 });

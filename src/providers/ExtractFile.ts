@@ -16,12 +16,11 @@ export function extractTargz(
         function (err: any) {
           if (err) console.error(err.stack);
           else {
-            if (ref) {
-              ref.value.label = 'Files successfully extracted!';
-              log.info(`Extraction complete. Removing ${archivePath}`);
-              fs.unlinkSync(archivePath);
-              resolve();
-            }
+            if (ref) ref.value.label = 'Files successfully extracted!';
+
+            log.info(`Extraction complete. Removing ${archivePath}`);
+            fs.unlinkSync(archivePath);
+            resolve();
           }
         }
       )

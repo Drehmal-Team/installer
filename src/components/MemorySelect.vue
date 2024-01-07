@@ -26,7 +26,7 @@ const { memory } = storeToRefs(useInstallerStore());
 
 const minMem = 4;
 const memoryInGB = os.totalmem() / Math.pow(1024, 3);
-const maxMem = Math.round(memoryInGB / 0.5 - 1) * 0.5;
+const maxMem = Math.round((memoryInGB * 0.75) / 0.5 - 1) * 0.5;
 const step = 0.5;
 </script>
 <style scoped>

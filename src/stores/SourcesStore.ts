@@ -21,7 +21,7 @@ export const useSourcesStore = defineStore('sources', () => {
   const resourcePack = ref({
     version: '1.1.0',
     source:
-      'https://www.drehmal.net/_files/archives/a539b0_9a3145ee71fb4e3d81fe35b12dca08e0.zip?dn=Primordial%20Pack%20BETA%201.1.0.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/a539b0_9a3145ee71fb4e3d81fe35b12dca08e0.zip',
   });
 
   const launcher = ref({

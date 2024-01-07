@@ -91,6 +91,8 @@ const openUrl = (url: string) => {
 <style scoped>
 .icons {
   display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
   gap: 10px;
 }
 .icons > div {
