@@ -22,6 +22,6 @@ import { storeToRefs } from 'pinia';
 import { useStateStore } from 'src/stores/StateStore';
 
 const { installType } = storeToRefs(useStateStore());
-log.info(installType.value);
+log.info(`Using install type: ${installType.value}`);
 </script>
 <style scoped lang="sass"></style>

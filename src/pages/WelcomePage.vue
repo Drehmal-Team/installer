@@ -24,26 +24,16 @@ const { homeDir, appDir, minecraftDir, serverDir, shardsDir, memory } =
   storeToRefs(useInstallerStore());
 
 ipcRenderer.invoke('getAppDataPath').then((appData) => {
+  log.info(`Got AppData path: ${appData}`);
   homeDir.value = appData;
   appDir.value = path.join(appData, 'Drehmal Installer');
   minecraftDir.value = path.join(appData, '.minecraft');
   shardsDir.value = path.join(appDir.value, 'shards');
   memory.value = 4;
-
-  log.info(
-    'Defaults loaded: ',
-    JSON.stringify({
-      homeDir: homeDir.value,
-      appDir: appDir.value,
-      minecraftDir: minecraftDir.value,
-      shardsDir: shardsDir.value,
-      memory: memory.value,
-    })
-  );
 });
 
 ipcRenderer.invoke('getDesktopPath').then((desktop) => {
-  log.info('Home path: ');
+  log.info(`Got Desktop path: ${desktop}`);
   serverDir.value = path.join(desktop, 'Drehmal Server');
 });
 </script>

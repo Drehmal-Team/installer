@@ -158,13 +158,14 @@ const shardsClick = async () => {
   if (!fs.existsSync(shardsDir.value))
     fs.mkdirSync(shardsDir.value, { recursive: true });
   if (!fs.existsSync(mapDir)) fs.mkdirSync(mapDir, { recursive: true });
+  log.info(`Downloading map archives to ${shardsDir}`);
+  log.info(`Extracting map to ${mapDir}`);
 
   map.value.shards.forEach((shard, index) => {
     const filePath = path.join(
       shardsDir.value,
       `${versionFileName}-${index}.zip`
     );
-    log.info(`Downloading map shard to ${filePath}`);
 
     downloadShards(shard, filePath, shardsProgress).then(async () => {
       downloaded++;
@@ -174,7 +175,6 @@ const shardsClick = async () => {
       if (downloaded === map.value.shards.length)
         shardsProgress.value.downloadLabel = 'Map successfully downloaded!';
 
-      log.info(`Extracting map to ${mapDir}`);
       await extract(filePath, { dir: mapDir });
       extracted++;
       fs.unlinkSync(filePath);

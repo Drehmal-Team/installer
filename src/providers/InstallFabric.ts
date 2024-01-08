@@ -51,7 +51,7 @@ export async function installFabric(ref: Ref) {
 
     fabricProc.on('close', (code: any) => {
       const taken = Date.now() - startTime;
-      log.info(`child process exited with code ${code} in ${taken}ms`);
+      log.info(`Fabric process exited with code ${code} in ${taken}ms`);
       fs.unlinkSync(fabricPath);
 
       ref.value.label = 'Fabric successfully installed!';
@@ -64,6 +64,7 @@ export async function installFabric(ref: Ref) {
       );
 
       // TODO: edit fabric launcher profile
+      log.info(`Updating installer profiles file at: ${profileFilePath}`);
       const data = JSON.parse(
         fs.readFileSync(profileFilePath, 'utf-8') as string
       );
@@ -80,7 +81,6 @@ export async function installFabric(ref: Ref) {
       ] = `-Xmx${memory.value}G`;
 
       fs.writeFileSync(profileFilePath, JSON.stringify(data), 'utf-8');
-      log.info('readFileSync complete');
 
       ref.value.label = 'Minecraft profile created!';
       ref.value.progress = 1;
@@ -142,6 +142,7 @@ export async function downloadResourcePack(ref: Ref) {
 
   const rpName = `Drehmal Resource Pack v${resourcePack.value.version}.zip`;
   const filePath = path.join(minecraftDir.value, 'resourcepacks', rpName);
+  log.info(`Downloading resource pack to: ${filePath}`);
   downloadFile(resourcePack.value.source, filePath, ref).then(() => {
     ref.value.label = 'Updating resource pack order';
 
@@ -154,8 +155,10 @@ export async function downloadResourcePack(ref: Ref) {
       resourceOptIndex
     ] = `resourcePacks:["vanilla","Fabric Mods","file/${rpName}"]`;
 
+    log.info(`Updating resource pack order in file: ${optionsFilePath}`);
     fs.writeFileSync(optionsFilePath, data.join('\n'), 'utf-8');
     ref.value.label = 'Resource pack downloaded!';
+
     log.info('Updated Resource Pack order');
     processingResourcepack.value = false;
   });

@@ -9,7 +9,7 @@ function downloadFile(url: string, savePath: string, ref?: Ref): Promise<void> {
     const name = savePath.split(path.sep).pop();
     const file = fs.createWriteStream(savePath);
     file.on('error', (err: any) => {
-      log.info(`file error on ${name} ${url}`, err);
+      log.error(`file error on ${name} ${url}`, err);
     });
 
     const options = {
@@ -60,14 +60,14 @@ function downloadFile(url: string, savePath: string, ref?: Ref): Promise<void> {
         })
         .on('end', function () {
           file.end();
-          log.info(`${name} downloaded successfully. ${Date.now()}`);
+          log.info(`${name} downloaded successfully`);
           resolve();
         })
         .on('error', (err: any) => {
-          log.info(`download error on ${name} ${url}`, err);
+          log.error(`download error on ${name} ${url}`, err);
         })
         .on('timeout', () => {
-          log.info('got timeout event');
+          log.error(`got timeout event for ${url}`);
         });
     });
   });
