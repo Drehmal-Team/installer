@@ -9,15 +9,6 @@
         src="../assets/images/transparent-logo.png"
         style="max-width: 224px"
       />
-      <!-- <p>
-            Next steps:
-            <q-list bordered separator dense padding>
-              <q-item>Open the Minecraft Launcher</q-item>
-              <q-item>From the profile list, select Drehmal Apotheosis</q-item>
-              <q-item>Press play!</q-item>
-            </q-list>
-          </p>
-          <p>Check out our socials using any of the buttons below</p> -->
     </div>
   </q-page>
 </template>

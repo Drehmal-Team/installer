@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
           next: '',
         },
       },
-      // Installation types
+      // Install Type + Configuration
       {
         path: '/singleplayer/',
         component: () => import('src/pages/SingleplayerInstall.vue'),
@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
           title: 'Single Player Installation',
           socials: false,
           back: '/select/',
-          next: '/path/',
+          next: '/install/',
         },
       },
       {
@@ -45,7 +45,7 @@ const routes: RouteRecordRaw[] = [
           title: 'Multi-Player Installation',
           socials: false,
           back: '/select/',
-          next: '/path/',
+          next: '/install/',
         },
       },
       {
@@ -56,27 +56,17 @@ const routes: RouteRecordRaw[] = [
           title: 'Server Installation',
           socials: false,
           back: '/select/',
-          next: '/path/',
-        },
-      },
-      // Install Configurations
-      {
-        path: '/path/',
-        component: () => import('src/pages/PathSelect.vue'),
-        meta: {
-          title: 'Configure Installation',
-          socials: false,
-          back: '/select/',
           next: '/install/',
         },
       },
+      // Install & Post-Install
       {
         path: '/install/',
         component: () => import('pages/InstallPage.vue'),
         meta: {
           title: 'Download & Install',
           socials: false,
-          back: '/path/',
+          back: '/select/',
           next: '/complete/',
         },
       },

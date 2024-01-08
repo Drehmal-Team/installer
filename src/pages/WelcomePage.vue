@@ -20,9 +20,8 @@ const { ipcRenderer } = require('electron');
 useSourcesStore();
 useInstallerStore();
 
-const { homeDir, appDir, minecraftDir, shardsDir, memory } = storeToRefs(
-  useInstallerStore()
-);
+const { homeDir, appDir, minecraftDir, serverDir, shardsDir, memory } =
+  storeToRefs(useInstallerStore());
 
 ipcRenderer.invoke('getAppDataPath').then((appData) => {
   homeDir.value = appData;
@@ -41,6 +40,11 @@ ipcRenderer.invoke('getAppDataPath').then((appData) => {
       memory: memory.value,
     })
   );
+});
+
+ipcRenderer.invoke('getDesktopPath').then((desktop) => {
+  log.info('Home path: ');
+  serverDir.value = path.join(desktop, 'Drehmal Server');
 });
 </script>
 <style scoped lang="sass">

@@ -4,8 +4,6 @@ import {
   createRouter,
   createWebHashHistory,
   createWebHistory,
-  NavigationFailure,
-  RouteLocationNormalized,
 } from 'vue-router';
 
 import routes from './routes';
@@ -35,18 +33,6 @@ export default route(function (/*{ store }*/) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
-
-  // Router.afterEach((to, from, next) => {
-  //   const newMeta = to.meta;
-  //   console.log(newMeta);
-  //   const metaElement = document.createElement('meta');
-
-  //   Object.keys(newMeta).forEach((key) =>
-  //     metaElement.setAttribute(key, newMeta[key] as string)
-  //   );
-  //   console.log(metaElement);
-  //   document.head.appendChild(metaElement);
-  // });
 
   return Router;
 });

@@ -4,7 +4,12 @@
       <!-- Body Content -->
       <div class="q-pa-sm fixed-center selector">
         <q-list bordered separator>
-          <q-item clickable v-ripple to="/path/">
+          <q-item
+            clickable
+            v-ripple
+            to="/singleplayer/"
+            @click="installType = 'singleplayer'"
+          >
             <q-item-section>
               <q-item-label header class="text-info text-h5"
                 >Singleplayer Installation</q-item-label
@@ -18,7 +23,12 @@
               >
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple to="/multiplayer/">
+          <q-item
+            clickable
+            v-ripple
+            to="/multiplayer/"
+            @click="installType = 'multiplayer'"
+          >
             <q-item-section>
               <q-item-label header class="text-info text-h5"
                 >Multiplayer Installation</q-item-label
@@ -33,7 +43,12 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/server/">
+          <q-item
+            clickable
+            v-ripple
+            to="/server/"
+            @click="installType = 'server'"
+          >
             <q-item-section>
               <!-- <q-item-label overline>Coming Soon!</q-item-label> -->
               <q-item-label header class="text-info text-h5"
@@ -54,9 +69,10 @@
 </template>
 
 <script setup lang="ts">
-const __options = {
-  displayName: 'Installation Type',
-};
+import { storeToRefs } from 'pinia';
+import { useStateStore } from 'src/stores/StateStore';
+
+const { installType } = storeToRefs(useStateStore());
 </script>
 
 <style scoped>

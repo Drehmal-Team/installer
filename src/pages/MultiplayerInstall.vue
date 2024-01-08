@@ -1,19 +1,37 @@
 <template>
   <q-page padding>
-    <!--
-      TODO:
-      - minecraft directory: for resourcepacks, mods folder
-      - memory allocation
-      - (later) mod list
-    -->
-    <!-- <p>
-      Welcome to the Drehmal v2.2: Apotheosis installer. This is designed to
-      help set up all mods, saves, and resource packs you may need to play the
-      greatest survival exploration experience in Minecraft!
-    </p> -->
+    <div class="body">
+      <p>
+        In order to play Drehmal on a server, you will need the resource pack
+        and client-side mods.
+        <br />
+        <br />
+        You may configure the installation directory and memory allocation for
+        Drehmal below. If you are unsure, use the default options.
+        <br />
+      </p>
+      <div class="options-div">
+        <folder-select />
+        <memory-select />
+      </div>
+    </div>
   </q-page>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import FolderSelect from 'src/components/FolderSelect.vue';
+import MemorySelect from 'src/components/MemorySelect.vue';
+</script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.body p
+  margin: 10px
+  margin-bottom: 40px
+
+.options-div
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 20px
+</style>

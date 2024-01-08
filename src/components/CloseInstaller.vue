@@ -64,16 +64,19 @@ const click = () => {
       log.info(
         `Launching Minecraft on ${platform.value} with file: ${windowsPath}`
       );
-      ipcRenderer.invoke('minecraftWin', windowsPath);
+      ipcRenderer.invoke('minecraftWin', windowsPath).then(() => {
+        log.info('Minecraft launched, exiting...');
+        ipcRenderer.invoke('quit');
+      });
     } else {
       log.info(
         `Launching Minecraft on ${platform.value} with cmd: minecraft-launcher`
       );
-      ipcRenderer.invoke('minecraftNotWin');
+      ipcRenderer.invoke('minecraftNotWin').then(() => {
+        log.info('Minecraft launched, exiting...');
+        ipcRenderer.invoke('quit');
+      });
     }
   }
-
-  log.info('Exiting launcher...');
-  ipcRenderer.invoke('quit');
 };
 </script>

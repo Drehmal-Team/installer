@@ -20,7 +20,7 @@ Drehmal, Minecraft map installer. The idea is to install everything needed for D
 - ❌ Test on MacOs
 - ✅ Test on Windows
 - ❌ Create backend server pointing to up to date resources
-- ❌ Refactor large components (eg. `components/MapDownload.vue`) into multiple smaller ones
+- ✅ Refactor large components (eg. `components/MapDownload.vue`) into multiple smaller ones
 - ✅ Set Drehmal Resource Pack as active
 - ✅ Cleanup installation files (fabric launcher, map tarball)
 - ❌ Improve application logging
@@ -28,7 +28,7 @@ Drehmal, Minecraft map installer. The idea is to install everything needed for D
 - ❌ Recovery states on errors
 - ✅ Singleplayer functionality (map, resource pack, mods)
 - ✅ Multiplayer client functionality (resource pack, mods)
-- ❌ Multiplayer host functionality (map, server jar)
+- ✅ Multiplayer host functionality (map, server jar)
 
 ## Known Issues
 

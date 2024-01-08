@@ -1,6 +1,6 @@
 {
   "name": "drehmal-installer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Drehmal, Minecraft map installer",
   "productName": "Drehmal Installer",
   "author": "majorlue",
@@ -25,9 +25,9 @@
     "axios": "^1.2.1",
     "dayjs": "^1.11.10",
     "electron-log": "^5.0.3",
+    "extract-zip": "^2.0.1",
     "pinia": "^2.0.11",
     "quasar": "^2.14.2",
-    "tar-pack": "^3.4.1",
     "vue": "^3.0.0",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.0"

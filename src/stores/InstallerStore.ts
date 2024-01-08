@@ -11,6 +11,8 @@ export const useInstallerStore = defineStore('installer', () => {
   const shardsDir = ref('');
 
   const minecraftDir = ref(path.join('', '.minecraft'));
+  const serverDir = ref(path.join('', 'Drehmal Server'));
+
   log.info(`Home: ${os.homedir()}`);
 
   const memory = ref(
@@ -21,6 +23,7 @@ export const useInstallerStore = defineStore('installer', () => {
     homeDir,
     appDir,
     minecraftDir,
+    serverDir,
     shardsDir,
     memory,
   };
