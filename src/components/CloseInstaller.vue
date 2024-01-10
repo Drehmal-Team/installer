@@ -27,7 +27,10 @@ const launchButton = ref(false);
 const platform: Ref<NodeJS.Platform | undefined> = ref();
 
 const windowsLocations: string[] = [
+  // Microsoft Store install location
   'C:\\XboxGames\\Minecraft Launcher\\Content\\Minecraft.exe',
+  // Legacy install location
+  'C:\\Program Files (x86)\\Minecraft',
 ];
 let windowsPath = '';
 

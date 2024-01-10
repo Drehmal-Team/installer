@@ -58,12 +58,10 @@ import {
   Shard,
   ShardsBox,
 } from 'src/components/models';
+import { downloadMods } from 'src/providers/DownloadMods';
+import { downloadResourcePack } from 'src/providers/DownloadResourcePack';
 import { downloadShards } from 'src/providers/DownloadShards';
-import {
-  downloadMods,
-  downloadResourcePack,
-  installFabric,
-} from 'src/providers/InstallFabric';
+import { installFabric } from 'src/providers/InstallFabric';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { useStateStore } from 'src/stores/StateStore';

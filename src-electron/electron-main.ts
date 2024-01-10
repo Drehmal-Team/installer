@@ -6,6 +6,8 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 
+import { version } from '../package.json';
+
 // Optional, initialize the logger for any renderer process
 log.initialize({ spyRendererConsole: true });
 const currDate = dayjs().format('DD-MM-YYYY');
@@ -34,7 +36,7 @@ log.transports.file.format = '[{h}:{i}:{s}.{ms}] [{level}] {text}';
 log.errorHandler.startCatching();
 log.eventLogger.startLogging();
 
-log.info('Logger initialised');
+log.info(`Installer v${version}: Logger initialised`);
 
 let mainWindow: BrowserWindow | undefined;
 
@@ -46,6 +48,7 @@ function createWindow() {
     icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
     width: 1000,
     height: 600,
+    resizable: false,
     useContentSize: true,
     webPreferences: {
       nodeIntegration: true,

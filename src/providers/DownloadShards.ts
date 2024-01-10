@@ -4,7 +4,7 @@ import { ShardsBox } from 'src/components/models';
 import { Ref } from 'vue';
 const path = require('path');
 
-function downloadShards(
+export function downloadShards(
   url: string,
   savePath: string,
   ref: Ref<ShardsBox>
@@ -74,5 +74,3 @@ function downloadShards(
     });
   });
 }
-
-export { downloadShards };

@@ -3,7 +3,11 @@ const fs = require('fs');
 import { Ref } from 'vue';
 const path = require('path');
 
-function downloadFile(url: string, savePath: string, ref?: Ref): Promise<void> {
+export function downloadFile(
+  url: string,
+  savePath: string,
+  ref?: Ref
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const name = savePath.split(path.sep).pop();
     const file = fs.createWriteStream(savePath);
@@ -71,5 +75,3 @@ function downloadFile(url: string, savePath: string, ref?: Ref): Promise<void> {
     });
   });
 }
-
-export { downloadFile };

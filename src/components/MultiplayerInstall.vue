@@ -34,11 +34,9 @@
 import { storeToRefs } from 'pinia';
 import ProgressBox from 'src/components/ProgressBox.vue';
 import { ProgressBox as ProgressBoxType, Shard } from 'src/components/models';
-import {
-  downloadMods,
-  downloadResourcePack,
-  installFabric,
-} from 'src/providers/InstallFabric';
+import { downloadMods } from 'src/providers/DownloadMods';
+import { downloadResourcePack } from 'src/providers/DownloadResourcePack';
+import { installFabric } from 'src/providers/InstallFabric';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { useStateStore } from 'src/stores/StateStore';
 import { ref } from 'vue';
