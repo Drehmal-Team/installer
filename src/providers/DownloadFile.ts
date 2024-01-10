@@ -1,6 +1,5 @@
 const https = require('https');
 const fs = require('fs');
-import log from 'electron-log';
 import { Ref } from 'vue';
 const path = require('path');
 
@@ -9,7 +8,7 @@ function downloadFile(url: string, savePath: string, ref?: Ref): Promise<void> {
     const name = savePath.split(path.sep).pop();
     const file = fs.createWriteStream(savePath);
     file.on('error', (err: any) => {
-      log.error(`file error on ${name} ${url}`, err);
+      console.error(`file error on ${name} ${url}`, err);
     });
 
     const options = {
@@ -60,14 +59,14 @@ function downloadFile(url: string, savePath: string, ref?: Ref): Promise<void> {
         })
         .on('end', function () {
           file.end();
-          log.info(`${name} downloaded successfully`);
+          console.log(`${name} downloaded successfully`);
           resolve();
         })
         .on('error', (err: any) => {
-          log.error(`download error on ${name} ${url}`, err);
+          console.error(`download error on ${name} ${url}`, err);
         })
         .on('timeout', () => {
-          log.error(`got timeout event for ${url}`);
+          console.error(`got timeout event for ${url}`);
         });
     });
   });

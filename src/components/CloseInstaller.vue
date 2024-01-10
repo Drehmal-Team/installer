@@ -21,7 +21,6 @@
 import { ref } from 'vue';
 const fs = require('fs');
 const { ipcRenderer } = require('electron');
-import log from 'electron-log';
 import { Ref } from 'vue';
 
 const launchButton = ref(false);
@@ -61,22 +60,27 @@ ipcRenderer.invoke('getPlatform').then((result: NodeJS.Platform) => {
 const click = () => {
   if (launchButton.value === true) {
     if (platform.value === 'win32') {
-      log.info(
+      console.log(
         `Launching Minecraft on ${platform.value} with file: ${windowsPath}`
       );
+      throw Error('Launch button should not be visible');
       ipcRenderer.invoke('minecraftWin', windowsPath).then(() => {
-        log.info('Minecraft launched, exiting...');
+        console.log('Minecraft launched, exiting...');
         ipcRenderer.invoke('quit');
       });
     } else {
-      log.info(
+      console.log(
         `Launching Minecraft on ${platform.value} with cmd: minecraft-launcher`
       );
       ipcRenderer.invoke('minecraftNotWin').then(() => {
-        log.info('Minecraft launched, exiting...');
+        console.log('Minecraft launched, exiting...');
         ipcRenderer.invoke('quit');
       });
     }
+  } else {
+    throw Error('Launch button should not be visible');
+    console.log('Closing installer...');
+    ipcRenderer.invoke('quit');
   }
 };
 </script>

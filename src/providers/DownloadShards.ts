@@ -1,6 +1,5 @@
 const https = require('https');
 const fs = require('fs');
-import log from 'electron-log';
 import { ShardsBox } from 'src/components/models';
 import { Ref } from 'vue';
 const path = require('path');
@@ -14,7 +13,7 @@ function downloadShards(
     const name = savePath.split(path.sep).pop();
     const file = fs.createWriteStream(savePath);
     file.on('error', (err: any) => {
-      log.error(`file error on ${name} ${url}`, err);
+      console.error(`file error on ${name} ${url}`, err);
     });
 
     const options = {
@@ -63,14 +62,14 @@ function downloadShards(
         })
         .on('end', function () {
           file.end();
-          log.info(`${name} downloaded successfully. ${Date.now()}`);
+          console.log(`${name} downloaded successfully`);
           resolve();
         })
         .on('error', (err: any) => {
-          log.error(`download error on ${name} ${url}`, err);
+          console.error(`download error on ${name} ${url}`, err);
         })
         .on('timeout', () => {
-          log.error(`got timeout event for ${url}`);
+          console.error(`got timeout event for ${url}`);
         });
     });
   });

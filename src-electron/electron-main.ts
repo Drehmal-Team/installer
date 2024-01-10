@@ -7,7 +7,7 @@ const os = require('os');
 const fs = require('fs');
 
 // Optional, initialize the logger for any renderer process
-log.initialize();
+log.initialize({ spyRendererConsole: true });
 const currDate = dayjs().format('DD-MM-YYYY');
 
 const logFolder = path.join(
@@ -29,6 +29,10 @@ const getLogFileName: () => string = () => {
 const logFileName = getLogFileName();
 log.transports.file.resolvePathFn = () => path.join(logFolder, logFileName);
 log.transports.file.format = '[{h}:{i}:{s}.{ms}] [{level}] {text}';
+
+// initialise logger for uncaught execptions
+log.errorHandler.startCatching();
+log.eventLogger.startLogging();
 
 log.info('Logger initialised');
 
@@ -63,7 +67,6 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-  console.log(app.getPath('appData'));
 });
 
 app.on('window-all-closed', () => {
@@ -79,5 +82,5 @@ app.on('activate', () => {
 });
 
 ipcMain.on('greet', (event, args) => {
-  console.log(args);
+  log.info(args);
 });

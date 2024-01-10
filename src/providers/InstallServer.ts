@@ -1,4 +1,3 @@
-import log from 'electron-log';
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
@@ -14,7 +13,7 @@ export async function installServer(ref: Ref) {
   const { serverDir, memory } = storeToRefs(useInstallerStore());
 
   const serverPath = path.join(serverDir.value, 'server.jar');
-  log.info(`Downloading server jar to ${serverPath}`);
+  console.log(`Downloading server jar to ${serverPath}`);
 
   ref.value.label = 'Downloading server jar';
   ref.value.progress = 0.25;

@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import log from 'electron-log';
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { ref } from 'vue';
@@ -41,7 +40,7 @@ const folderSelectChange = async (event: any) => {
   filePath.value = path.join(...firstFilePath);
   // installerStore.setMinecraftDir(filePath.value)
   minecraftDir.value = filePath.value;
-  log.info(`Minecraft Path updated to ${minecraftDir.value}`);
+  console.log(`Minecraft Path updated to ${minecraftDir.value}`);
 };
 </script>
 

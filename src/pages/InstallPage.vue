@@ -16,12 +16,11 @@
 import SingleplayerInstall from 'src/components/SingleplayerInstall.vue';
 import MultiplayerInstall from 'src/components/MultiplayerInstall.vue';
 import ServerInstall from 'src/components/ServerInstall.vue';
-import log from 'electron-log';
 
 import { storeToRefs } from 'pinia';
 import { useStateStore } from 'src/stores/StateStore';
 
 const { installType } = storeToRefs(useStateStore());
-log.info(`Using install type: ${installType.value}`);
+console.log(`Using install type: ${installType.value}`);
 </script>
 <style scoped lang="sass"></style>

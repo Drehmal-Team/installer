@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import log from 'electron-log';
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
@@ -24,7 +23,7 @@ const { homeDir, appDir, minecraftDir, serverDir, shardsDir, memory } =
   storeToRefs(useInstallerStore());
 
 ipcRenderer.invoke('getAppDataPath').then((appData) => {
-  log.info(`Got AppData path: ${appData}`);
+  console.log(`Got AppData path: ${appData}`);
   homeDir.value = appData;
   appDir.value = path.join(appData, 'Drehmal Installer');
   minecraftDir.value = path.join(appData, '.minecraft');
@@ -33,7 +32,7 @@ ipcRenderer.invoke('getAppDataPath').then((appData) => {
 });
 
 ipcRenderer.invoke('getDesktopPath').then((desktop) => {
-  log.info(`Got Desktop path: ${desktop}`);
+  console.log(`Got Desktop path: ${desktop}`);
   serverDir.value = path.join(desktop, 'Drehmal Server');
 });
 </script>

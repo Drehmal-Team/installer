@@ -12,7 +12,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import log from 'electron-log';
 import { Ref } from 'vue';
 const { ipcRenderer } = require('electron');
 import { ref } from 'vue';
