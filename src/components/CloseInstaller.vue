@@ -30,7 +30,9 @@ const windowsLocations: string[] = [
   // Microsoft Store install location
   'C:\\XboxGames\\Minecraft Launcher\\Content\\Minecraft.exe',
   // Legacy install location
-  'C:\\Program Files (x86)\\Minecraft',
+  'C:\\Program Files (x86)\\Minecraft\\MinecraftLauncher.exe',
+  // Legacy install location #2
+  'C:\\Program Files (x86)\\Minecraft Launcher\\MinecraftLauncher.exe',
 ];
 let windowsPath = '';
 
