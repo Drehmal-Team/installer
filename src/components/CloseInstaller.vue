@@ -63,7 +63,6 @@ const click = () => {
       console.log(
         `Launching Minecraft on ${platform.value} with file: ${windowsPath}`
       );
-      throw Error('Launch button should not be visible');
       ipcRenderer.invoke('minecraftWin', windowsPath).then(() => {
         console.log('Minecraft launched, exiting...');
         ipcRenderer.invoke('quit');
@@ -78,7 +77,6 @@ const click = () => {
       });
     }
   } else {
-    throw Error('Launch button should not be visible');
     console.log('Closing installer...');
     ipcRenderer.invoke('quit');
   }
