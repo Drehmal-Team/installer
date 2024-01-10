@@ -35,3 +35,9 @@ jobs:
 
       - name: Build
         run: yarn build:${{ matrix.platform }} --publish=never
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.platform }}-build
+          path: ./dist
