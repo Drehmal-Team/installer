@@ -75,9 +75,11 @@ export async function installFabric(ref: Ref) {
       data['profiles'][map.value.versionName]['name'] = map.value.versionName;
       data['profiles'][map.value.versionName]['icon'] =
         launcher.value.launcher_icon; // in base64
+      // convert to MB to handle fractional values (eg. 10.5GB)
+      const memoryInMb = Math.round(memory.value * 1024);
       data['profiles'][map.value.versionName][
         'javaArgs'
-      ] = `-Xmx${memory.value}G`;
+      ] = `-Xmx${memoryInMb}M`;
 
       fs.writeFileSync(profileFilePath, JSON.stringify(data), 'utf-8');
 
