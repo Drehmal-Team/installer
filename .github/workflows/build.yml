@@ -1,12 +1,15 @@
 name: Build/release
 
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build:
     name: Building ${{ matrix.platform }}
     runs-on: ${{ matrix.os }}
-    if: "contains(github.event.head_commit.message, '#build')"
+    # if: "contains(github.event.head_commit.message, '#build')"
 
     strategy:
       matrix:
@@ -37,11 +40,23 @@ jobs:
       - name: Build
         run: yarn build:${{ matrix.platform }} --publish=never
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ${{ matrix.platform }}-build
+      #     path: |
+      #       dist/electron/Packaged/*.exe
+      #       dist/electron/Packaged/*.AppImage
+      #       dist/electron/Packaged/*.deb
+      #       dist/electron/Packaged/*.tar.gz
+      #       dist/electron/Packaged/*.dmg
+      #       dist/electron/Packaged/*.zip
+      #       dist/electron/Packaged/builder-debug.yml
+
+      - name: Create new release
+        uses: softprops/action-gh-release@v1
         with:
-          name: ${{ matrix.platform }}-build
-          path: |
+          files: |
             dist/electron/Packaged/*.exe
             dist/electron/Packaged/*.AppImage
             dist/electron/Packaged/*.deb
