@@ -6,7 +6,7 @@ export const useSourcesStore = defineStore('sources', () => {
     version: '2.2.0',
     versionName: 'Drehmal 2.2 Apotheosis Beta 1.1.0',
     shards: [
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_6fad213dbc254126b7c1f55ec01dcf96.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5265bd1e5c624ac6ac1334638f35959f.zip',
       'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_6ea1c432427546bd97c500c7a450090b.zip',
       'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_73304719d3bf4512bd5b451d4e402d1c.zip',
       'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_03c3c8dcb17348aab2497878973e458a.zip',
@@ -17,14 +17,14 @@ export const useSourcesStore = defineStore('sources', () => {
       'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_6a637d2ab5cd499da94fc752f534aefb.zip',
       'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_addffbfe9a98431c8b18a2ac9077c616.zip',
       'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_0f6737ea1a6c4b1184061b2e5b23b5bc.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5965427040014834b1eafd147debc45f.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_9655b665d4e74086874ef199a863914c.zip',
     ],
   });
 
   const resourcePack = ref({
     version: '1.1.0',
     source:
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/a539b0_9a3145ee71fb4e3d81fe35b12dca08e0.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_49ebdcd7dd584d6fbbfb70a1b4be83ea.zip',
   });
 
   const launcher = ref({
