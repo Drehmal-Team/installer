@@ -15,6 +15,7 @@ An installer made for Drehmal 2.2: Apotheosis to simplify the map's installation
 
 ## How-To
 
+- Ensure you've downloaded the [Minecraft Launcher](https://www.minecraft.net/en-us/download) and ran it _at least once_
 - Download the [latest release for your platform](https://github.com/Drehmal-Team/installer/releases/latest)
   - Windows: `.exe`
   - MacOS: `.dmg`, `.zip`
@@ -57,9 +58,9 @@ yarn clean
 
 ### Building
 
-Build commands are platform-specific, and you must be on that platform to build for it. This is automated via GitHub actions using [this workflow](/.github/workflows/build.yml) when a new tag is created. To begin the workflow, [draft a new release](https://github.com/Drehmal-Team/installer/releases/new) with a _new tag_. Choose an appropriate title and description. GitHub will build releases for all platforms and add them to the created release.
+Build commands are platform-specific, and you must be on that platform to build for it. This is automated via GitHub actions using [this workflow](/.github/workflows/build.yml) when a new tag is created. To begin the workflow, [draft a new release](https://github.com/Drehmal-Team/installer/releases/new) with a _new tag_. Choose an appropriate title and description. GitHub will build for all platforms and add each platform's files to the newly created release.
 
-If you would like to build a release for your current platform, then you can use one of the following commands (after cloning the repo).
+If you would like to build a release locally for your current platform, you may use one of the following commands (after cloning the repo).
 
 ```bash
 # you must be on that platform to build a release for it
