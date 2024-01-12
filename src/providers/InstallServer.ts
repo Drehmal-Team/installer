@@ -70,8 +70,6 @@ export async function installServer(ref: Ref) {
           );
           exec(`chmod +x "${path.join(serverDir.value, 'run.sh')}"`);
           break;
-        default:
-        // TODO: unrecognised platform
       }
     });
 

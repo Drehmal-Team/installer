@@ -36,7 +36,6 @@ export async function installFabric(ref: Ref) {
     ref.value.progress = 0.5;
     ref.value.percent = 50;
     console.log('Calling Fabric installer');
-    // TODO: check if user has java installed, popup if fail
     const fabricProc = spawn('java', [
       '-jar',
       fabricPath,
@@ -67,7 +66,6 @@ export async function installFabric(ref: Ref) {
         'launcher_profiles.json'
       );
 
-      // TODO: edit fabric launcher profile
       console.log(`Updating installer profiles file at: ${profileFilePath}`);
       const data = JSON.parse(
         fs.readFileSync(profileFilePath, 'utf-8') as string

@@ -1,42 +1,42 @@
-# Drehmal Installer
+# Drehmal 2.2: Apotheosis Installer
 
-Drehmal, Minecraft map installer. The idea is to install everything needed for Drehmal with as little friction as possible.
+[![Discord](https://img.shields.io/discord/695817407557795910?style=for-the-badge&label=Drehmal%202.2%3A%20Apotheosis)](https://discord.gg/xFsRQsDnuj)
 
-## Goals:
+An installer made for Drehmal 2.2: Apotheosis to simplify the map's installation process.
 
-- Easy to use, low memory footprint
-- Based on host OS, appropriately select path(s)
-- Install files for any of single player, multiplayer or multiplayer host
-- Download the map file
-- Download the resource pack
-- Download and install fabric
-- Download and install client-side mods
-- Creates a named Minecraft launcher profile
+## Features
 
-## Todo
+- Multiple installation types
+  - The classic singleplayer experience
+  - Multiplayer installation for playing with friends on a server
+  - Server setup for running your own Drehmal serever
+- Dedicated Minecraft Launcher profile for client-side installations
+- Lightweight and easy-to-use with a low memory footprint
 
-- ✅ Use non-gdrive map source (eg. drehmal.net sharded archives)
-- ❌ Test on Linux
-- ❌ Test on MacOs
-- ✅ Test on Windows
-- ❌ Create backend server pointing to up to date resources
-- ✅ Refactor large components (eg. `components/MapDownload.vue`) into multiple smaller ones
-- ✅ Set Drehmal Resource Pack as active
-- ✅ Cleanup installation files (fabric launcher, map tarball)
-- ❌ Improve application logging
-- ❌ App-wide error catching and handling
-- ❌ Recovery states on errors
-- ✅ Singleplayer functionality (map, resource pack, mods)
-- ✅ Multiplayer client functionality (resource pack, mods)
-- ✅ Multiplayer host functionality (map, server jar)
+## How-To
 
-## Known Issues
+- Download the [latest release for your platform](https://github.com/Drehmal-Team/installer/releases)
+  - Windows: `.exe`
+  - MacOS: `.dmg`, `.zip`
+  - Linux: `.AppImage`, `.deb`, `.tar.gz`
+- Run the installer, following the instructions provided by the application
+- You may install Drehmal for a singleplayer, multiplayer, or server hosting
+  - **NOTE**: If you plan on hosting a Drehmal server, you must handle port forwarding, domain names etc. yourself. The installer _will not_ manage that on your behalf. The installer will provide all files necessary for running the server.
 
-- Install page state isn't stored
-- Users can use browser forward/back button to navigate between pages
-- Fabric install button breaks if user doesn't have Java installed or Java in their path (needed for CLI Fabric call)
+## Bugs
 
-### Development
+If you encounter issues with the installer, please check [open bug reports](https://github.com/Drehmal-Team/installer/issues?q=is%3Aissue+is%3Aopen+label%3A%22bug%22) to see if your issue has already been reported, if there are any updates, workarounds etc.
+
+If there isn't an open report for your issue, then [please fill out a bug report](https://github.com/Drehmal-Team/installer/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=%5BBUG%5D+Bug+Title) with the requested information.
+
+The most helpful part is uploading your log file, so please don't forget to do that. Logs can be found at one of these locations:
+
+- Widows: `%APPDATA%/Drehmal Installer/logs`
+- Other: `~/Drehmal Installer/logs`
+
+Thanks in advance <3
+
+## Development
 
 Created using [Quasar](https://quasar.dev/), [Electron](https://www.electronjs.org/), and [Vue](https://vuejs.org/) with HTML, CSS and [TypeScript](https://www.typescriptlang.org/) in [VSCode](https://code.visualstudio.com/).
 
@@ -47,19 +47,22 @@ Development mode supports hot-code reloading, error reporting etc. via Quasar. [
 ```bash
 # Install dependencies
 yarn
-# In development mode
+# build the project in development mode (hot reloading, auto-recompilation etc.)
 yarn dev
-# Linting
+# lint project for errors or warnings
 yarn lint
-# Building the project on win
+# clean re-install: removes /node_modules, /dist etc. and re-fetches deps
+yarn clean
 ```
 
 ### Building
 
-Build commands are platform-specific, and you must be on that platform to build for it. The idea here is to automate this via eg. GitHub Actions and publish the build artifacts for each platform that way.
+Build commands are platform-specific, and you must be on that platform to build for it. This is automated via GitHub actions using [this workflow](/.github/workflows/build.yml) when a new tag is created. To begin the workflow, [draft a new release](https://github.com/Drehmal-Team/installer/releases/new) with a _new tag_. Choose an appropriate title and description. GitHub will build releases for all platforms and add them to the created release.
+
+If you would like to build a release for your current platform, then you can use one of the following commands (after cloning the repo).
 
 ```bash
-# Build commands are platform-specific, and you must be on that platform to build for it
+# you must be on that platform to build a release for it
 yarn build:win
 yarn build:linux
 yarn build:osx

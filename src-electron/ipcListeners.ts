@@ -74,9 +74,6 @@ ipcMain.handle('getPlatformPretty', () => {
       return 'MacOS';
     case 'linux':
       return 'Linux';
-    default:
-      // TODO: default platform
-      return 'Unknown';
   }
 });
 

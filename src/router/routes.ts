@@ -1,6 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
 
-// TODO: convert to explicit loading, rather than lazy loading
 const routes: RouteRecordRaw[] = [
   {
     path: '/',

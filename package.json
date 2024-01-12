@@ -1,6 +1,6 @@
 {
   "name": "drehmal-installer",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Drehmal, Minecraft map installer",
   "productName": "Drehmal Installer",
   "author": "jgaribsin",
@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
-    "axios": "^1.2.1",
     "dayjs": "^1.11.10",
     "electron-log": "^5.0.3",
     "extract-zip": "^2.0.1",

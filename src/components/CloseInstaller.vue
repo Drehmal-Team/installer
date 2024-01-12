@@ -61,7 +61,6 @@ ipcRenderer.invoke('getPlatform').then((result: NodeJS.Platform) => {
     // If platform unrecognised, don't attempt to open Minecraft launcher
     default:
       launchButton.value = false;
-    // TODO: unrecognised platform
   }
 });
 
