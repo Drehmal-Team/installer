@@ -49,18 +49,18 @@ export async function installServer(ref: Ref) {
       switch (result) {
         case 'win32':
           fs.writeFileSync(
-            path.join(serverDir.value, 'run.bat'),
+            path.join(serverDir.value, 'server.bat'),
             `@echo off\n${command}\npause`,
             'utf-8'
           );
           break;
         case 'darwin':
           fs.writeFileSync(
-            path.join(serverDir.value, 'run.sh'),
+            path.join(serverDir.value, 'server.sh'),
             `#!/bin/bash\n${command}`,
             'utf-8'
           );
-          exec(`chmod +x "${path.join(serverDir.value, 'run.sh')}"`);
+          exec(`chmod +x "${path.join(serverDir.value, 'server.sh')}"`);
           break;
         case 'linux':
           fs.writeFileSync(

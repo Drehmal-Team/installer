@@ -3,9 +3,9 @@
     <img
       src="../assets/images/next-button-grey.png"
       :class="{ clickable: hover, disabled: isDisabled }"
-      @mouseenter="hover = true"
       @mouseleave="hover = false"
-      v-if="isDisabled"
+      @mouseover="hover = true"
+      v-show="isDisabled"
       width="68px"
       height="44px"
     />
@@ -15,7 +15,7 @@
       @mouseenter="hover = true"
       @mouseleave="hover = false"
       @click="nav(path)"
-      v-else-if="hover"
+      v-show="hover"
       width="68px"
       height="44px"
     />
@@ -25,7 +25,7 @@
       @mouseenter="hover = true"
       @mouseleave="hover = false"
       @click="nav(path)"
-      v-else
+      v-show="!hover && !isDisabled"
       width="68px"
       height="44px"
     />

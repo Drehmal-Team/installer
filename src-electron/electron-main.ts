@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import log from 'electron-log';
 import Listeners from './ipcListeners';
 const path = require('path');
@@ -59,7 +59,7 @@ function createWindow() {
     autoHideMenuBar: true,
   });
 
-  new Listeners(mainWindow, app, shell);
+  new Listeners(mainWindow, app, shell, dialog);
 
   mainWindow.loadURL(process.env.APP_URL);
 

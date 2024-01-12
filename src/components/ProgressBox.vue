@@ -15,7 +15,7 @@
         @mouseenter="hover = true"
         @mouseleave="hover = false"
         @click="if (!isClicked) click();"
-        v-if="!isClicked && !hover"
+        v-show="!isClicked && !hover"
         width="50px"
         height="30px"
         no-spinner
@@ -28,7 +28,7 @@
         @mouseenter="hover = true"
         @mouseleave="hover = false"
         @click="if (!isClicked) click();"
-        v-if="!isClicked && hover"
+        v-show="!isClicked && hover"
         width="50px"
         height="30px"
         no-spinner
@@ -38,7 +38,7 @@
       <img
         src="../assets/images/icons/buttons/down-button-grey.png"
         class="disabled"
-        v-if="isClicked && progress < 1"
+        v-show="isClicked && progress < 1"
         width="50px"
         height="30px"
         no-spinner
@@ -48,7 +48,7 @@
       <img
         src="../assets/images/icons/buttons/small-button-check.png"
         class="disabled"
-        v-if="isClicked && progress === 1"
+        v-show="isClicked && progress === 1"
         width="50px"
         height="30px"
         no-spinner

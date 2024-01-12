@@ -1,7 +1,7 @@
 <template>
   <label class="file-select">
     <div class="select-button flex custom">
-      <q-item-section>
+      <q-item-section @click="folderSelectChange">
         <q-item-label overline v-if="defaultPath"
           >Default Minecraft directory found</q-item-label
         >
@@ -11,36 +11,30 @@
         <q-icon name="folder" />
       </div>
     </div>
-    <input type="file" webkitdirectory @change="folderSelectChange" />
   </label>
 </template>
 
 <script setup lang="ts">
+const { ipcRenderer } = require('electron');
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { ref } from 'vue';
-const path = require('path');
 
 const { minecraftDir } = storeToRefs(useInstallerStore());
 
-const folderPath = ref(minecraftDir.value);
 const filePath = ref('Select Minecraft Directory');
 filePath.value = minecraftDir.value;
 
 const defaultPath = ref(true);
 
-const folderSelectChange = async (event: any) => {
-  folderPath.value = event.target.files[0].path;
-  defaultPath.value = false;
-
-  let firstFilePath = folderPath.value.split('\\');
-  firstFilePath.pop();
-  minecraftDir.value = filePath.value;
-
-  filePath.value = path.join(...firstFilePath);
-  // installerStore.setMinecraftDir(filePath.value)
-  minecraftDir.value = filePath.value;
-  console.log(`Minecraft Path updated to ${minecraftDir.value}`);
+const folderSelectChange = async () => {
+  const result = await ipcRenderer.invoke('openFileDialog');
+  if (!result.canceled && result.filePaths.length > 0) {
+    filePath.value = result.filePaths[0];
+    defaultPath.value = false;
+    minecraftDir.value = filePath.value;
+    console.log(`Minecraft Path updated to ${minecraftDir.value}`);
+  }
 };
 </script>
 

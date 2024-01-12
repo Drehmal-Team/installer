@@ -129,7 +129,7 @@ module.exports = configure(function (/* ctx */) {
       // importStrategy: 'auto',
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Dialog'],
     },
 
     // animations: 'all', // --- includes all animations

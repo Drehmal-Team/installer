@@ -69,10 +69,52 @@
 </template>
 
 <script setup lang="ts">
+const { ipcRenderer } = require('electron');
 import { storeToRefs } from 'pinia';
+import { useQuasar } from 'quasar';
 import { useStateStore } from 'src/stores/StateStore';
+import { onMounted } from 'vue';
 
 const { installType } = storeToRefs(useStateStore());
+
+const q = useQuasar();
+
+async function checkJavaInstallation() {
+  const platform = await ipcRenderer.invoke('getPlatformPretty');
+  const arch = await ipcRenderer.invoke('getArch');
+
+  // Verify the user has java installed, otherwise prevent them from continuing
+  let javaCheckResult = false;
+  // Loop until java installation is verified
+  while (!javaCheckResult) {
+    try {
+      // check java installation
+      await ipcRenderer.invoke('checkJava');
+      javaCheckResult = true;
+    } catch (error) {
+      // 'checkJava' throws an error if java is not installed (fails to run 'java -version')
+      // await a new promise until user clicks ok, otherwise the dialog is spammed
+      await new Promise<void>((resolve) => {
+        q.dialog({
+          title: 'Java not installed',
+          // allow html in dialog message
+          html: true,
+          // provide user with their current OS type and architecture, then provide a link to the java downloads page
+          message:
+            'Java is not installed on your system.' +
+            ` Please download the installer for <span style="color: #ffde00;"><strong>${platform}-${arch}</strong></span> and install it.<br/><br/>` +
+            '<a href="open-java-page://">Java Downloads Page</a><br/><br/>' +
+            'After installing, click the button below.',
+          ok: 'I have installed Java', // text for the ok button
+          persistent: true,
+          dark: true,
+        }).onOk(() => resolve()); // resolve promise on ok button click
+      });
+    }
+  }
+}
+
+onMounted(checkJavaInstallation);
 </script>
 
 <style scoped>

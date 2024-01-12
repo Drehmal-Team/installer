@@ -5,23 +5,26 @@
       color="secondary"
       @click="click"
       label="Launch Minecraft"
-      v-if="launchButton"
+      v-if="launchButton && installType !== 'server'"
     />
     <q-btn
       size="20px"
       color="secondary"
       @click="click"
       label="Close Installer"
-      v-if="!launchButton"
+      v-else
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useStateStore } from 'src/stores/StateStore';
+import { Ref, ref } from 'vue';
 const fs = require('fs');
 const { ipcRenderer } = require('electron');
-import { Ref } from 'vue';
+
+const { installType } = storeToRefs(useStateStore());
 
 const launchButton = ref(false);
 const platform: Ref<NodeJS.Platform | undefined> = ref();
@@ -63,7 +66,7 @@ ipcRenderer.invoke('getPlatform').then((result: NodeJS.Platform) => {
 });
 
 const click = () => {
-  if (launchButton.value === true) {
+  if (launchButton.value === true && installType.value !== 'server') {
     if (platform.value === 'win32') {
       console.log(
         `Launching Minecraft on ${platform.value} with file: ${windowsPath}`
