@@ -15,7 +15,7 @@ An installer made for Drehmal 2.2: Apotheosis to simplify the map's installation
 
 ## How-To
 
-- Download the [latest release for your platform](https://github.com/Drehmal-Team/installer/releases)
+- Download the [latest release for your platform](https://github.com/Drehmal-Team/installer/releases/latest)
   - Windows: `.exe`
   - MacOS: `.dmg`, `.zip`
   - Linux: `.AppImage`, `.deb`, `.tar.gz`
