@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const https = require('https');
 const fs = require('fs');
 import { ShardsBox } from 'src/components/models';
@@ -9,7 +10,7 @@ export function downloadShards(
   savePath: string,
   ref: Ref<ShardsBox>
 ): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const name = savePath.split(path.sep).pop();
     const file = fs.createWriteStream(savePath);
     file.on('error', (err: any) => {
@@ -23,6 +24,7 @@ export function downloadShards(
     };
     https.get(url, options).on('response', function (res: any) {
       // const startTime = Date.now();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let downloaded = 0;
       const contentLength = +(res.headers['content-length'] as string);
       const fileSize = contentLength ? contentLength : 1;
@@ -41,9 +43,6 @@ export function downloadShards(
           }
 
           downloaded += chunk.length;
-          const downloadPortion = downloaded / fileSize;
-          const percent = downloadPortion * 100;
-          const downloadedMB = downloaded / Math.pow(1024, 2);
 
           ref.value.downloaded += chunk.length / Math.pow(1024, 2);
           ref.value.downloadProgress =

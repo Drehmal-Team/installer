@@ -3,7 +3,7 @@
   "version": "0.0.8",
   "description": "Drehmal, Minecraft map installer",
   "productName": "Drehmal Installer",
-  "author": "majorlue",
+  "author": "jgaribsin",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",

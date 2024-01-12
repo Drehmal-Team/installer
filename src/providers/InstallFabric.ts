@@ -1,12 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
+import { useStateStore } from 'src/stores/StateStore';
 import { Ref } from 'vue';
 import { downloadFile } from './DownloadFile';
-import { useStateStore } from 'src/stores/StateStore';
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+
+dayjs.extend(utc);
 
 export async function installFabric(ref: Ref) {
   const startTime = Date.now();
@@ -80,6 +85,9 @@ export async function installFabric(ref: Ref) {
       data['profiles'][map.value.versionName][
         'javaArgs'
       ] = `-Xmx${memoryInMb}M`;
+      const currDateISO = dayjs.utc().toISOString();
+      data['profiles'][map.value.versionName]['lastUsed'] = currDateISO;
+      data['profiles'][map.value.versionName]['created'] = currDateISO;
 
       fs.writeFileSync(profileFilePath, JSON.stringify(data), 'utf-8');
 

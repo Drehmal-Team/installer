@@ -41,6 +41,7 @@ import {
   ShardsBox,
 } from 'src/components/models';
 import { downloadShards } from 'src/providers/DownloadShards';
+import { getOldDirName } from 'src/providers/GetOldDirName';
 import { installServer } from 'src/providers/InstallServer';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
@@ -131,6 +132,8 @@ const shardsClick = async () => {
 
   if (!fs.existsSync(shardsDir.value))
     fs.mkdirSync(shardsDir.value, { recursive: true });
+  // check if the world directory already, if so, move it and create a new directory
+  if (fs.existsSync(mapDir)) fs.renameSync(mapDir, getOldDirName(mapDir));
   if (!fs.existsSync(mapDir)) fs.mkdirSync(mapDir, { recursive: true });
   console.log(`Downloading map archives to ${shardsDir.value}`);
   console.log(`Extracting map to ${mapDir}`);

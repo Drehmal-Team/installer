@@ -4,6 +4,7 @@ import { useSourcesStore } from 'src/stores/SourcesStore';
 import { useStateStore } from 'src/stores/StateStore';
 import { Ref } from 'vue';
 import { downloadFile } from './DownloadFile';
+import { getOldDirName } from './GetOldDirName';
 const fs = require('fs');
 const path = require('path');
 
@@ -20,6 +21,7 @@ export async function downloadMods(ref: Ref) {
   let downloaded = 0;
 
   const modsPath = path.join(minecraftDir.value, 'mods');
+  if (fs.existsSync(modsPath)) fs.renameSync(modsPath, getOldDirName(modsPath));
   if (!fs.existsSync(modsPath)) fs.mkdirSync(modsPath, { recursive: true });
 
   async function processArray(mods: typeof modList): Promise<void> {

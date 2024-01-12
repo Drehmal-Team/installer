@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const https = require('https');
 const fs = require('fs');
 import { Ref } from 'vue';
@@ -8,7 +9,7 @@ export function downloadFile(
   savePath: string,
   ref?: Ref
 ): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const name = savePath.split(path.sep).pop();
     const file = fs.createWriteStream(savePath);
     file.on('error', (err: any) => {

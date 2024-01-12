@@ -61,6 +61,7 @@ import {
 import { downloadMods } from 'src/providers/DownloadMods';
 import { downloadResourcePack } from 'src/providers/DownloadResourcePack';
 import { downloadShards } from 'src/providers/DownloadShards';
+import { getOldDirName } from 'src/providers/GetOldDirName';
 import { installFabric } from 'src/providers/InstallFabric';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
@@ -154,6 +155,7 @@ const shardsClick = async () => {
 
   if (!fs.existsSync(shardsDir.value))
     fs.mkdirSync(shardsDir.value, { recursive: true });
+  if (fs.existsSync(mapDir)) fs.renameSync(mapDir, getOldDirName(mapDir));
   if (!fs.existsSync(mapDir)) fs.mkdirSync(mapDir, { recursive: true });
   console.log(`Downloading map archives to ${shardsDir.value}`);
   console.log(`Extracting map to ${mapDir}`);
