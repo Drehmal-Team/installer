@@ -73,11 +73,8 @@ if (installType.value === 'server') {
   ipcRenderer.invoke('getPlatform').then((result: NodeJS.Platform) => {
     platform.value = result;
 
-    if (platform.value === 'win32') {
-      executable.value = 'server.bat';
-      additionalText.value =
-        'You may need to make it executable first. To do that, run "chmod +x server.sh" in the terminal.';
-    } else {
+    if (platform.value === 'win32') executable.value = 'server.bat';
+    else {
       executable.value = 'server.sh';
       executableCmd.value = `chmod +x ${path.join(
         serverDir.value,

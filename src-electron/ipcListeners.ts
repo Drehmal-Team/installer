@@ -8,6 +8,7 @@ import {
 } from 'electron';
 const { spawn } = require('child_process');
 const os = require('os');
+const path = require('path');
 
 let browserWindow: BrowserWindow;
 let app: typeof ElectronApp;
@@ -85,6 +86,22 @@ ipcMain.handle('minecraftWin', (_event, path) => {
 
 ipcMain.handle('minecraftNotWin', () => {
   spawn('minecraft-launcher');
+});
+
+/*
+Linux: /home/<USER>/.minecraft
+Mac: /Library/Application Support/minecraft
+Windows: C:\Users\<USER>\AppData\Roaming\.minecraft
+*/
+ipcMain.handle('getMinecraftPath', () => {
+  switch (process.platform) {
+    case 'win32':
+      return path.join(app.getPath('appData'), '.minecraft');
+    case 'darwin':
+      return path.join('/', 'Library', 'Application Support', 'minecraft');
+    case 'linux':
+      return path.join(os.homedir(), '.minecraft');
+  }
 });
 
 ipcMain.handle(

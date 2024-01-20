@@ -6,6 +6,7 @@ import { Ref } from 'vue';
 import { downloadFile } from './DownloadFile';
 import { updateMinecraftOpts } from './UpdateMinecraftOpts';
 const path = require('path');
+const fs = require('fs');
 
 export async function downloadResourcePack(ref: Ref) {
   const { resourcePack } = storeToRefs(useSourcesStore());
@@ -15,6 +16,10 @@ export async function downloadResourcePack(ref: Ref) {
 
   // NOTE: if changing this, edit the value in src/providers/UpdateMinecraftOpts.ts
   const rpName = `Drehmal Resource Pack v${resourcePack.value.version}.zip`;
+  // ensure the resourcepacks folder exists first (should be caught by the profile file validation, but just in case)
+  const rpFolder = path.join(minecraftDir.value, 'resourcepacks');
+  if (!fs.existsSync(rpFolder)) fs.mkdirSync(rpFolder);
+
   const filePath = path.join(minecraftDir.value, 'resourcepacks', rpName);
   console.log(`Downloading resource pack to: ${filePath}`);
   downloadFile(resourcePack.value.source, filePath, ref).then(() => {

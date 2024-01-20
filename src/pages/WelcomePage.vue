@@ -22,11 +22,15 @@ useInstallerStore();
 const { homeDir, appDir, minecraftDir, serverDir, shardsDir, memory } =
   storeToRefs(useInstallerStore());
 
+ipcRenderer.invoke('getMinecraftPath').then((minecraft) => {
+  console.log(`Got Minecraft path: ${minecraft}`);
+  minecraftDir.value = minecraft;
+});
+
 ipcRenderer.invoke('getAppDataPath').then((appData) => {
   console.log(`Got AppData path: ${appData}`);
   homeDir.value = appData;
   appDir.value = path.join(appData, 'Drehmal Installer');
-  minecraftDir.value = path.join(appData, '.minecraft');
   shardsDir.value = path.join(appDir.value, 'shards');
   memory.value = 4;
 });
