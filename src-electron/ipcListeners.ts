@@ -98,7 +98,12 @@ ipcMain.handle('getMinecraftPath', () => {
     case 'win32':
       return path.join(app.getPath('appData'), '.minecraft');
     case 'darwin':
-      return path.join('/', 'Library', 'Application Support', 'minecraft');
+      return path.join(
+        os.homedir(),
+        'Library',
+        'Application Support',
+        'minecraft'
+      );
     case 'linux':
       return path.join(os.homedir(), '.minecraft');
   }

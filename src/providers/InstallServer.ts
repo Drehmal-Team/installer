@@ -64,11 +64,11 @@ export async function installServer(ref: Ref) {
           break;
         case 'linux':
           fs.writeFileSync(
-            path.join(serverDir.value, 'run.sh'),
+            path.join(serverDir.value, 'server.sh'),
             `#!/bin/bash\n${command}`,
             'utf-8'
           );
-          exec(`chmod +x "${path.join(serverDir.value, 'run.sh')}"`);
+          exec(`chmod +x "${path.join(serverDir.value, 'server.sh')}"`);
           break;
       }
     });
