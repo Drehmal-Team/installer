@@ -34,7 +34,7 @@ const folderSelectChange = async () => {
     filePath.value = result.filePaths[0];
     defaultPath.value = false;
     serverDir.value = filePath.value;
-    console.log(`Server Path updated to ${serverDir.value}`);
+    console.log(`Server Path updated to "${serverDir.value}"`);
   }
 };
 

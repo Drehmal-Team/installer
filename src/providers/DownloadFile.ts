@@ -64,7 +64,7 @@ export function downloadFile(
         })
         .on('end', function () {
           file.end();
-          console.log(`${name} downloaded successfully`);
+          // console.log(`File ${name} downloaded successfully to "${savePath"}`);
           resolve();
         })
         .on('error', (err: any) => {

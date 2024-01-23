@@ -17,7 +17,9 @@ export async function installFabric(ref: Ref) {
   const startTime = Date.now();
 
   const { launcher, map } = storeToRefs(useSourcesStore());
-  const { homeDir, minecraftDir, memory } = storeToRefs(useInstallerStore());
+  const { homeDir, minecraftDir, drehmalDir, memory } = storeToRefs(
+    useInstallerStore()
+  );
   const { processingFabric } = storeToRefs(useStateStore());
 
   const fabricPath = path.join(
@@ -26,7 +28,7 @@ export async function installFabric(ref: Ref) {
     'fabric-installer-' + launcher.value.fabric.version + '.jar'
   );
 
-  console.log(`Downloading Fabric installer to ${fabricPath}`);
+  console.log(`Downloading Fabric installer to "${fabricPath}"`);
 
   ref.value.label = 'Downloading Fabric installer';
   ref.value.progress = 0.25;
@@ -46,15 +48,16 @@ export async function installFabric(ref: Ref) {
       '1.17.1',
     ]);
     fabricProc.stdout.on('data', (data: any) => {
-      console.log(`stdout: ${data}`);
+      console.log(`Fabric: ${data}`);
     });
     fabricProc.stderr.on('data', (data: any) => {
-      console.error(`stderr: ${data}`);
+      console.error(`Fabric: ${data}`);
     });
 
     fabricProc.on('close', (code: any) => {
-      const taken = Date.now() - startTime;
-      console.log(`Fabric process exited with code ${code} in ${taken}ms`);
+      const taken = ((Date.now() - startTime) / 1000).toFixed(2);
+
+      console.log(`Fabric process exited with code ${code} (${taken}s total)`);
       fs.unlinkSync(fabricPath);
 
       ref.value.label = 'Fabric successfully installed!';
@@ -86,6 +89,8 @@ export async function installFabric(ref: Ref) {
       const currDateISO = dayjs.utc().toISOString();
       data['profiles'][map.value.versionName]['lastUsed'] = currDateISO;
       data['profiles'][map.value.versionName]['created'] = currDateISO;
+
+      data['profiles'][map.value.versionName]['gameDir'] = drehmalDir.value;
 
       fs.writeFileSync(profileFilePath, JSON.stringify(data), 'utf-8');
 

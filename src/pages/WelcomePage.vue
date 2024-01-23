@@ -19,12 +19,24 @@ const { ipcRenderer } = require('electron');
 useSourcesStore();
 useInstallerStore();
 
-const { homeDir, appDir, minecraftDir, serverDir, shardsDir, memory } =
-  storeToRefs(useInstallerStore());
+const {
+  homeDir,
+  appDir,
+  minecraftDir,
+  drehmalDir,
+  serverDir,
+  shardsDir,
+  memory,
+} = storeToRefs(useInstallerStore());
 
 ipcRenderer.invoke('getMinecraftPath').then((minecraft) => {
   console.log(`Got Minecraft path: ${minecraft}`);
   minecraftDir.value = minecraft;
+});
+
+ipcRenderer.invoke('getDrehmalPath').then((drehmal) => {
+  console.log(`Got Drehmal path: ${drehmal}`);
+  drehmalDir.value = drehmal;
 });
 
 ipcRenderer.invoke('getAppDataPath').then((appData) => {

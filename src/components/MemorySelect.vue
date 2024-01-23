@@ -46,8 +46,8 @@ const step = 0.5;
 
   text-align: center
   font-weight: bold
-  line-height: 48px
+  line-height: 32px
   width: 60%
-  height: 96px
-  max-height: 96px
+  height: 80px
+  max-height: 80px
 </style>

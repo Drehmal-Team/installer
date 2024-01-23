@@ -36,7 +36,9 @@ log.transports.file.format = '[{h}:{i}:{s}.{ms}] [{level}] {text}';
 log.errorHandler.startCatching();
 log.eventLogger.startLogging();
 
-log.info(`Installer v${version}: Logger initialised`);
+log.info(
+  `Installer v${version} (${process.platform} ${os.arch()}): Logger initialised`
+);
 
 let mainWindow: BrowserWindow | undefined;
 

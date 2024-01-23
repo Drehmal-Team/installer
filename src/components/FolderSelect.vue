@@ -1,11 +1,20 @@
 <template>
   <label class="file-select">
     <div class="select-button flex custom">
-      <q-item-section @click="folderSelectChange">
-        <q-item-label overline v-if="defaultPath"
-          >Default Minecraft directory found</q-item-label
-        >
-        <q-item-label class="text-accent">{{ filePath }}</q-item-label>
+      <q-item-section @click="folderSelectChange('minecraft')">
+        <q-item-label overline>Minecraft Installation Directory</q-item-label>
+        <q-item-label class="text-accent">{{ minecraftDir }}</q-item-label>
+      </q-item-section>
+      <div class="folder-icon">
+        <q-icon name="folder" />
+      </div>
+    </div>
+  </label>
+  <label class="file-select">
+    <div class="select-button flex custom">
+      <q-item-section @click="folderSelectChange('drehmal')">
+        <q-item-label overline>Drehmal Directory</q-item-label>
+        <q-item-label class="text-accent">{{ drehmalDir }}</q-item-label>
       </q-item-section>
       <div class="folder-icon">
         <q-icon name="folder" />
@@ -18,22 +27,19 @@
 const { ipcRenderer } = require('electron');
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
-import { ref } from 'vue';
 
-const { minecraftDir } = storeToRefs(useInstallerStore());
+const { minecraftDir, drehmalDir } = storeToRefs(useInstallerStore());
 
-const filePath = ref('Select Minecraft Directory');
-filePath.value = minecraftDir.value;
-
-const defaultPath = ref(true);
-
-const folderSelectChange = async () => {
+const folderSelectChange = async (type: 'minecraft' | 'drehmal') => {
   const result = await ipcRenderer.invoke('openFileDialog');
   if (!result.canceled && result.filePaths.length > 0) {
-    filePath.value = result.filePaths[0];
-    defaultPath.value = false;
-    minecraftDir.value = filePath.value;
-    console.log(`Minecraft Path updated to ${minecraftDir.value}`);
+    if (type === 'minecraft') {
+      minecraftDir.value = result.filePaths[0];
+      console.log(`Minecraft Path updated to "${minecraftDir.value}"`);
+    } else if (type === 'drehmal') {
+      drehmalDir.value = result.filePaths[0];
+      console.log(`Drehmal Path updated to "${minecraftDir.value}"`);
+    }
   }
 };
 </script>
@@ -48,7 +54,8 @@ const folderSelectChange = async () => {
   background-color: #493270;
 }
 .file-select > .select-button {
-  padding: 1rem;
+  padding: 5px;
+  padding-right: 20px;
 
   background-color: #7e57c2;
 

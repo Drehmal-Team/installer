@@ -3,8 +3,8 @@
     <img
       src="../assets/images/back-button-grey.png"
       :class="{ clickable: hover, disabled: isDisabled }"
-      @mouseenter="hover = true"
       @mouseleave="hover = false"
+      @mouseover="hover = true"
       v-show="isDisabled"
       width="68px"
       height="44px"
@@ -15,7 +15,7 @@
       @mouseenter="hover = true"
       @mouseleave="hover = false"
       @click="nav(path)"
-      v-show="hover"
+      v-show="hover && !isDisabled"
       width="68px"
       height="44px"
     />

@@ -1,14 +1,15 @@
 <template>
-  <q-page padding>
+  <q-page>
     <div class="body">
       <p>
-        In order to play Drehmal in singleplayer, you will need the map,
-        client-side mods and resource pack.
+        To play Drehmal in singleplayer, you will need the map, client-side mods
+        and resource pack. Drehmal's files will be installed in it's own
+        directory alongside the default Minecraft location to preserve existing
+        game data.
         <br />
         <br />
-        You may configure the installation directory and memory allocation for
+        You may configure the installation directories and memory allocation for
         Drehmal below. If you are unsure, use the default options.
-        <br />
       </p>
 
       <div class="options-div">
@@ -26,8 +27,7 @@ import MemorySelect from 'src/components/MemorySelect.vue';
 
 <style scoped lang="sass">
 .body p
-  margin: 10px
-  margin-bottom: 40px
+  padding: 10px
 
 .options-div
   display: flex

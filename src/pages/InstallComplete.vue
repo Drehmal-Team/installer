@@ -17,7 +17,7 @@
         />
       </div>
       <div v-else-if="installType === 'server'">
-        <p>
+        <!-- <p>
           Thanks for downloading Drehmal!
           <br />
           To start the server, run the following command to make the server
@@ -25,6 +25,14 @@
           <span style="color: #ffde00"
             ><strong>{{ executableCmd }}</strong></span
           ><br />After that, you can run the
+          <span style="color: #ffde00"
+            ><strong>{{ executable }}</strong></span
+          >
+          file. This opens a terminal window for the server in which you can
+          enter commands.
+        </p> -->
+        <p>
+          Thanks for downloading Drehmal! To start the server, run the
           <span style="color: #ffde00"
             ><strong>{{ executable }}</strong></span
           >

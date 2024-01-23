@@ -50,13 +50,12 @@ ipcRenderer.invoke('getPlatform').then((result: NodeJS.Platform) => {
         }
       });
       break;
-    // On both MacOS ('darwin') and Linux, Minecraft's installer is callable from the command line
-    // source: https://minecraft.fandom.com/wiki/Minecraft_Launcher#Command_line_usage
+    // TODO: get executable locations for linux and macos
     case 'darwin':
-      launchButton.value = true;
+      launchButton.value = false; // NOTE: disabled manually for now
       break;
     case 'linux':
-      launchButton.value = true;
+      launchButton.value = false; // NOTE: disabled manually for now
       break;
     // If platform unrecognised, don't attempt to open Minecraft launcher
     default:

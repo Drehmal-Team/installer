@@ -15,7 +15,7 @@
       @mouseenter="hover = true"
       @mouseleave="hover = false"
       @click="nav(path)"
-      v-show="hover"
+      v-show="hover && !isDisabled"
       width="68px"
       height="44px"
     />

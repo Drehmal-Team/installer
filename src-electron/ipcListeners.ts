@@ -108,6 +108,21 @@ ipcMain.handle('getMinecraftPath', () => {
       return path.join(os.homedir(), '.minecraft');
   }
 });
+ipcMain.handle('getDrehmalPath', () => {
+  switch (process.platform) {
+    case 'win32':
+      return path.join(app.getPath('appData'), '.minecraft_drehmal');
+    case 'darwin':
+      return path.join(
+        os.homedir(),
+        'Library',
+        'Application Support',
+        'minecraft_drehmal'
+      );
+    case 'linux':
+      return path.join(os.homedir(), '.minecraft_drehmal');
+  }
+});
 
 ipcMain.handle(
   'openFileDialog',
@@ -129,6 +144,11 @@ ipcMain.handle('checkJava', () => {
   });
 });
 
+ipcMain.handle('execute', (_event, cmd) => {
+  console.log(`Executing command: ${cmd}`);
+  exec(cmd);
+});
+
 ipcMain.handle(
   'checkJDK',
   () =>
@@ -140,7 +160,7 @@ ipcMain.handle(
           else {
             const match = stderr.match(/version "(.*?)"/);
             const javaVersion = match ? match[1] : null;
-            console.log(`Java Version found: ${javaVersion}`);
+            console.log(`Java Version found: ${javaVersion}!`);
             if (javaVersion)
               resolve(parseInt(javaVersion)); // Resolve with the JDK version
             else resolve(0); // Resolve with 0 if the version cannot be determined

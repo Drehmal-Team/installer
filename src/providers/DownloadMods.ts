@@ -12,7 +12,7 @@ export async function downloadMods(ref: Ref) {
   const startTime = Date.now();
 
   const { launcher } = storeToRefs(useSourcesStore());
-  const { minecraftDir } = storeToRefs(useInstallerStore());
+  const { drehmalDir } = storeToRefs(useInstallerStore());
   const { processingMods } = storeToRefs(useStateStore());
 
   const modList = launcher.value.modList;
@@ -20,8 +20,12 @@ export async function downloadMods(ref: Ref) {
   const totalMods = modList.length;
   let downloaded = 0;
 
-  const modsPath = path.join(minecraftDir.value, 'mods');
-  if (fs.existsSync(modsPath)) fs.renameSync(modsPath, getOldDirName(modsPath));
+  const modsPath = path.join(drehmalDir.value, 'mods');
+
+  if (fs.existsSync(modsPath)) {
+    console.log(`Mods folder exists, moving to "${getOldDirName(modsPath)}"`);
+    fs.renameSync(modsPath, getOldDirName(modsPath));
+  }
   if (!fs.existsSync(modsPath)) fs.mkdirSync(modsPath, { recursive: true });
 
   async function processArray(mods: typeof modList): Promise<void> {
@@ -29,7 +33,7 @@ export async function downloadMods(ref: Ref) {
       const { name, mod_version, mc_version, source } = mod;
       const modName =
         name + ' - ' + modLoader + mod_version + '-' + mc_version + '.jar';
-      console.log(`Downloading ${modName} to ${modsPath}`);
+      console.log(`Downloading "${modName}" to "${modsPath}"`);
       const modPath = path.join(modsPath, modName);
       await downloadFile(source, modPath);
       downloaded++;
@@ -40,9 +44,10 @@ export async function downloadMods(ref: Ref) {
       ref.value.percent = percent;
       // Note: Roughly 21 character limit, consider truncating mod name
       ref.value.label = `Downloading: ${name}`;
-
-      const taken = Date.now() - startTime;
-      console.log(`downloaded mod ${downloaded}/${totalMods} in ${taken}ms`);
+      const taken = ((Date.now() - startTime) / 1000).toFixed(2);
+      console.log(
+        `Downloaded mod ${downloaded}/${totalMods} (${taken}s elapsed)`
+      );
     }
   }
   await processArray(modList);

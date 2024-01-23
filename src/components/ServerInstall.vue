@@ -127,18 +127,34 @@ const shardsClick = async () => {
 
   const mapDir = path.join(serverDir.value, 'world');
   const totalShards = map.value.shards.length;
-  let downloaded = 0;
-  let extracted = 0;
 
   if (!fs.existsSync(shardsDir.value))
     fs.mkdirSync(shardsDir.value, { recursive: true });
   // check if the world directory already, if so, move it and create a new directory
-  if (fs.existsSync(mapDir)) fs.renameSync(mapDir, getOldDirName(mapDir));
-  if (!fs.existsSync(mapDir)) fs.mkdirSync(mapDir, { recursive: true });
-  console.log(`Downloading map archives to ${shardsDir.value}`);
-  console.log(`Extracting map to ${mapDir}`);
+  if (fs.existsSync(mapDir)) {
+    console.log(`Save exists, moving to "${getOldDirName(mapDir)}"`);
+    fs.renameSync(mapDir, getOldDirName(mapDir));
+  } else if (!fs.existsSync(mapDir)) fs.mkdirSync(mapDir, { recursive: true });
+  console.log(`Downloading map shards to "${shardsDir.value}"`);
+  console.log(`Extracting map to "${mapDir}"`);
+
+  let state = 0;
+  let downloaded = 0;
+  let extracted = 0;
+
+  const intervalId = setInterval(() => {
+    const progress = ((extracted / totalShards) * 100).toFixed(2);
+    shardsProgress.value.extractLabel =
+      downloaded === 0
+        ? 'Map Extract - Waiting for map download ' + ' .'.repeat(state)
+        : `Extracting map files: ${progress}% ` + ' .'.repeat(state);
+
+    state++;
+    if (state > 4) state = 0;
+  }, 1000);
 
   map.value.shards.forEach((shard, index) => {
+    const startTime = Date.now();
     const filePath = path.join(
       shardsDir.value,
       `${versionFileName}-${index}.zip`
@@ -146,25 +162,38 @@ const shardsClick = async () => {
 
     downloadShards(shard, filePath, shardsProgress).then(async () => {
       downloaded++;
-      if (downloaded === 1)
-        shardsProgress.value.extractLabel = 'Extracting map files: 0%';
+      const downloadTime = ((Date.now() - startTime) / 1000).toFixed(2);
+      console.log(
+        `Downloaded shard ${downloaded}/${totalShards} to "${filePath}" (${downloadTime}s elapsed)`
+      );
 
-      if (downloaded === map.value.shards.length)
+      if (downloaded === totalShards)
         shardsProgress.value.downloadLabel = 'Map successfully downloaded!';
 
+      const extractStart = Date.now();
       await extract(filePath, { dir: mapDir });
-      console.log(`Extraction complete. Removing ${filePath}`);
       extracted++;
+      const extractTime = ((Date.now() - extractStart) / 1000).toFixed(2);
+      console.log(
+        `Extracted shard ${extracted}/${totalShards}, removing "${filePath}" (in ${extractTime}s)`
+      );
+
       fs.unlinkSync(filePath);
       shardsProgress.value.extracted = extracted;
       shardsProgress.value.extractProgress = extracted / totalShards;
       shardsProgress.value.extractPercent = (extracted / totalShards) * 100;
-      shardsProgress.value.extractLabel = `Extracting map files: ${(
-        (extracted / totalShards) *
-        100
-      ).toFixed(2)}%`;
+      // updated by the interval above
+      // shardsProgress.value.extractLabel = `Extracting map files: ${(
+      //   (extracted / totalShards) *
+      //   100
+      // ).toFixed(2)}%`;
 
       if (extracted === totalShards) {
+        const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
+        console.log(
+          `Map downloaded and extracted complete! (${timeTaken}s total)`
+        );
+        clearInterval(intervalId);
         shardsProgress.value.extractLabel = 'Map successfully extracted!';
         processingShards.value = false;
       }
