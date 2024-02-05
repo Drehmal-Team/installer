@@ -49,6 +49,7 @@ export async function getJre(): Promise<string> {
   const { appDir } = storeToRefs(useInstallerStore());
 
   const javaPath = path.join(appDir.value, 'java_runtimes');
+  if (!fs.existsSync(javaPath)) fs.mkdirSync(javaPath, { recursive: true });
   const javaNames = [
     platform === 'win32' ? 'java.exe' : 'java',
     platform === 'win32' ? 'javaw.exe' : 'java', // linux/mac does not have javaw
