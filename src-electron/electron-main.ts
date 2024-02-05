@@ -4,7 +4,6 @@ import log from 'electron-log';
 import Listeners from './ipcListeners';
 const path = require('path');
 const os = require('os');
-const fs = require('fs');
 
 import { version } from '../package.json';
 
@@ -18,18 +17,8 @@ const logFolder = path.join(
   'logs'
 );
 
-const getLogFileName: () => string = () => {
-  let index = 1;
-  let name = `${currDate}_${index}-installer.log`;
-  while (true) {
-    if (!fs.existsSync(path.join(logFolder, name))) break;
-    else name = `${currDate}_${index++}-installer.log`;
-  }
-  return name;
-};
-// can't use function call in resolve path as it'll create a new file for each logger instance
-const logFileName = getLogFileName();
-log.transports.file.resolvePathFn = () => path.join(logFolder, logFileName);
+log.transports.file.resolvePathFn = () =>
+  path.join(logFolder, `${currDate}-installer.log`);
 log.transports.file.format = '[{h}:{i}:{s}.{ms}] [{level}] {text}';
 
 // initialise logger for uncaught execptions

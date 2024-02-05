@@ -5,6 +5,7 @@ import { useSourcesStore } from 'src/stores/SourcesStore';
 import { useStateStore } from 'src/stores/StateStore';
 import { Ref } from 'vue';
 import { downloadFile } from './DownloadFile';
+import { getJre } from './JavaDownload';
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -17,9 +18,8 @@ export async function installFabric(ref: Ref) {
   const startTime = Date.now();
 
   const { launcher, map } = storeToRefs(useSourcesStore());
-  const { homeDir, minecraftDir, drehmalDir, memory } = storeToRefs(
-    useInstallerStore()
-  );
+  const { homeDir, minecraftDir, drehmalDir, memory, javaExePath } =
+    storeToRefs(useInstallerStore());
   const { processingFabric } = storeToRefs(useStateStore());
 
   const fabricPath = path.join(
@@ -30,15 +30,18 @@ export async function installFabric(ref: Ref) {
 
   console.log(`Downloading Fabric installer to "${fabricPath}"`);
 
-  ref.value.label = 'Downloading Fabric installer';
+  ref.value.label = 'Downloading Java runtime';
+  await getJre();
   ref.value.progress = 0.25;
   ref.value.percent = 25;
+
+  ref.value.label = 'Downloading Fabric installer';
   downloadFile(launcher.value.fabric.source, fabricPath).then(() => {
     ref.value.label = 'Installing Fabric';
     ref.value.progress = 0.5;
     ref.value.percent = 50;
     console.log('Calling Fabric installer');
-    const fabricProc = spawn('java', [
+    const fabricProc = spawn(javaExePath.value, [
       '-jar',
       fabricPath,
       'client',
@@ -54,7 +57,7 @@ export async function installFabric(ref: Ref) {
       console.error(`Fabric: ${data}`);
     });
 
-    fabricProc.on('close', (code: any) => {
+    fabricProc.on('close', async (code: any) => {
       const taken = ((Date.now() - startTime) / 1000).toFixed(2);
 
       console.log(`Fabric process exited with code ${code} (${taken}s total)`);
@@ -86,11 +89,16 @@ export async function installFabric(ref: Ref) {
       data['profiles'][map.value.versionName][
         'javaArgs'
       ] = `-Xmx${memoryInMb}M`;
+      // ['javaArgs'] = `-Xmx${memoryInMb}M -Xms${memoryInMb}M  -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+AlwaysActAsServerClassMachine -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+UseNUMA -XX:NmethodSweepActivity=1 -XX:ReservedCodeCacheSize=400M -XX:NonNMethodCodeHeapSize=12M -XX:ProfiledCodeHeapSize=194M -XX:NonProfiledCodeHeapSize=194M -XX:-DontCompileHugeMethods -XX:MaxNodeLimit=240000 -XX:NodeLimitFudgeFactor=8000 -XX:+UseVectorCmov -XX:+PerfDisableSharedMem -XX:+UseFastUnorderedTimeStamps -XX:+UseCriticalJavaThreadPriority -XX:ThreadPriorityPolicy=1 -XX:AllocatePrefetchStyle=3 -XX:+UseG1GC -XX:MaxGCPauseMillis=130 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=28 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=20 -XX:G1MixedGCCountTarget=3 -XX:InitiatingHeapOccupancyPercent=10 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=0 -XX:SurvivorRatio=32 -XX:MaxTenuringThreshold=1 -XX:G1SATBBufferEnqueueingThresholdPercent=30 -XX:G1ConcMarkStepDurationMillis=5 -XX:G1ConcRSHotCardLimit=16 -XX:G1ConcRefinementServiceIntervalMillis=150`;
       const currDateISO = dayjs.utc().toISOString();
       data['profiles'][map.value.versionName]['lastUsed'] = currDateISO;
       data['profiles'][map.value.versionName]['created'] = currDateISO;
 
       data['profiles'][map.value.versionName]['gameDir'] = drehmalDir.value;
+
+      const javawPath = await getJre();
+      if (javawPath)
+        data['profiles'][map.value.versionName]['javaDir'] = javaExePath.value;
 
       fs.writeFileSync(profileFilePath, JSON.stringify(data), 'utf-8');
 

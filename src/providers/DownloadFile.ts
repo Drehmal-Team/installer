@@ -15,11 +15,12 @@ export function downloadFile(
     file.on('error', (err: any) => {
       console.error(`file error on ${name} ${url}`, err);
     });
-
+    // User-Agent: github_username/project_name/1.56.0 (launcher.com)
     const options = {
-      // headers: {
-      //   'accept-encoding': 'gzip, deflate, br',
-      // },
+      headers: {
+        'User-Agent': 'Drehmal-Team/installer/0.2.0 (drehmal.net)',
+        // 'accept-encoding': 'gzip, deflate, br',
+      },
     };
     https.get(url, options).on('response', function (res: any) {
       // const startTime = Date.now();

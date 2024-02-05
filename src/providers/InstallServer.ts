@@ -3,49 +3,55 @@ import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { Ref } from 'vue';
 import { downloadFile } from './DownloadFile';
+import { getJre } from './JavaDownload';
 const { ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
 export async function installServer(ref: Ref) {
   const { server } = storeToRefs(useSourcesStore());
-  const { serverDir, memory } = storeToRefs(useInstallerStore());
+  const { serverDir, memory, javawExePath } = storeToRefs(useInstallerStore());
 
   const serverPath = path.join(serverDir.value, 'server.jar');
   console.log(`Downloading server jar to "${serverPath}"`);
 
-  ref.value.label = 'Downloading server jar';
-  ref.value.progress = 0.25;
-  ref.value.percent = 25;
+  ref.value.label = 'Downloading Java runtime';
+  await getJre();
+  ref.value.progress = 0.5;
+  ref.value.percent = 50;
 
-  downloadFile(server.value.source, serverPath).then(() => {
+  ref.value.label = 'Downloading server jar';
+
+  downloadFile(server.value.source, serverPath).then(async () => {
+    ref.value.progress = 0.67;
+    ref.value.percent = 67;
+
     ref.value.label = 'Configuring server';
-    ref.value.progress = 0.5;
-    ref.value.percent = 50;
     console.log('Creating eula.txt');
     fs.writeFileSync(
       path.join(serverDir.value, 'eula.txt'),
       'eula=true',
       'utf-8'
     );
-
-    ref.value.label = 'Updating server properties';
+    await new Promise((resolve) => setTimeout(resolve, 100));
     ref.value.progress = 0.75;
     ref.value.percent = 75;
+
+    ref.value.label = 'Updating server properties';
     console.log(`Creating server.properties with ${server.value.properties}`);
     fs.writeFileSync(
       path.join(serverDir.value, 'server.properties'),
       server.value.properties,
       'utf-8'
     );
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    ref.value.progress = 0.88;
+    ref.value.percent = 88;
 
     ref.value.label = 'Creating executable file';
-    ref.value.progress = 0.75;
-    ref.value.percent = 75;
-
     const memoryInMb = Math.round(memory.value * 1024);
-    const command = `java -Xmx${memoryInMb}M -Xms${memoryInMb}M -jar "${serverPath}" nogui`;
-
+    const command = `"${javawExePath.value}" -Xms128M -Xmx${memoryInMb}M -jar "${serverPath}" nogui`;
+    // const command = `"${javawExePath.value}" -Xms${memoryInMb}M -Xmx${memoryInMb}M -jar "${serverPath}" nogui`;
     ipcRenderer.invoke('getPlatform').then((result: NodeJS.Platform) => {
       const chmodCmd = `chmod +x "${path.join(serverDir.value, 'server.sh')}"`;
       switch (result) {
@@ -78,6 +84,7 @@ export async function installServer(ref: Ref) {
       }
     });
 
+    await new Promise((resolve) => setTimeout(resolve, 100));
     ref.value.label = 'Server successfully installed!';
     ref.value.progress = 1;
     ref.value.percent = 100;

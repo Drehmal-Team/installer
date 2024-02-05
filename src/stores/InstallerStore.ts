@@ -12,6 +12,9 @@ export const useInstallerStore = defineStore('installer', () => {
   const drehmalDir = ref(path.join('', '.minecraft_drehmal'));
   const serverDir = ref(path.join('', 'Drehmal Server'));
 
+  const javaExePath = ref('');
+  const javawExePath = ref('');
+
   const memory = ref(
     parseInt(process.env.MINECRAFT_MEMORY ? process.env.MINECRAFT_MEMORY : '4')
   );
@@ -24,5 +27,7 @@ export const useInstallerStore = defineStore('installer', () => {
     serverDir,
     shardsDir,
     memory,
+    javaExePath,
+    javawExePath,
   };
 });

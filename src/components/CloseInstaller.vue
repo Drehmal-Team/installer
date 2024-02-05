@@ -67,7 +67,7 @@ const click = () => {
   if (launchButton.value === true && installType.value !== 'server') {
     if (platform.value === 'win32') {
       console.log(
-        `Launching Minecraft on ${platform.value} with file: ${windowsPath}`
+        `Launching Minecraft on ${platform.value} with file: "${windowsPath}"`
       );
       ipcRenderer.invoke('minecraftWin', windowsPath).then(() => {
         console.log('Minecraft launched, exiting...');
