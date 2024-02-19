@@ -78,47 +78,33 @@ export async function getJre(): Promise<string> {
     // https://api.adoptium.net/v3/binary/latest/17/ga/windows/x64/jre/hotspot/normal/eclipse
     const url = `https://api.adoptium.net/v3/binary/latest/${flags.feature_version}/${flags.release_type}/${flags.os}/${flags.arch}/${flags.image_type}/${flags.jvm_impl}/${flags.heap_size}/${flags.vendor}`;
 
-    const options = {
-      headers: {
-        'User-Agent': 'Drehmal-Team/installer/0.2.0 (drehmal.net)',
-        // 'accept-encoding': 'gzip, deflate, br',
-      },
-    };
-
     const result = (await new Promise((resolve, reject) => {
-      // API responds with two redirects, TODO: recursively follow 302 redirects
-      https.get(url, options).on('response', (res: any) => {
-        https.get(res.headers.location, options).on('response', (res: any) => {
-          const downloadUrl = res.headers.location;
-          console.log(`Downloading Java zip from: "${downloadUrl}"`);
-          downloadFile(downloadUrl, filePath).then(async () => {
-            console.log(`Java zip successfully downloaded to: "${filePath}"`);
+      downloadFile(url, filePath).then(async () => {
+        console.log(`Java zip successfully downloaded to: "${filePath}"`);
 
-            if (platform === 'win32')
-              await extract(filePath, { dir: javaPath });
-            else await tar.x({ file: filePath, cwd: javaPath });
-            fs.unlinkSync(filePath);
-            console.log(`Java zip successfully extracted to: "${javaPath}"`);
+        if (platform === 'win32') await extract(filePath, { dir: javaPath });
+        else await tar.x({ file: filePath, cwd: javaPath });
+        fs.unlinkSync(filePath);
+        console.log(`Java zip successfully extracted to: "${javaPath}"`);
 
-            javawExe = findFile(javaPath, javaNames[0]);
-            javaExe = findFile(javaPath, javaNames[1]);
-            if (javaExe && javawExe) {
-              console.log(`Setting Java Exe path to "${javaExe}"`);
-              javaStorePath.value = javaExe;
-              console.log(`Setting Javaw Exe path to "${javawExe}"`);
-              javawStorePath.value = javawExe;
-              if (platform !== 'win32') {
-                console.log('Making javaw executable');
-                ipcRenderer.invoke('execute', `chmod +x "${javawExe}"`);
-              }
+        console.log(`Checking for Java runtime in "${javaPath}"`);
+        javawExe = findFile(javaPath, javaNames[0]);
+        javaExe = findFile(javaPath, javaNames[1]);
+        if (javaExe && javawExe) {
+          console.log(`Setting Java Exe path to "${javaExe}"`);
+          javaStorePath.value = javaExe;
+          console.log(`Setting Javaw Exe path to "${javawExe}"`);
+          javawStorePath.value = javawExe;
+          if (platform !== 'win32') {
+            console.log('Making javaw executable');
+            ipcRenderer.invoke('execute', `chmod +x "${javawExe}"`);
+          }
 
-              resolve(javawExe);
-            } else
-              reject(
-                `Could not find ${javaNames[0]} ${javaNames[1]} in "${javaPath}" after downloading`
-              );
-          });
-        });
+          resolve(javawExe);
+        } else
+          reject(
+            `Could not find ${javaNames[0]} ${javaNames[1]} in "${javaPath}" after downloading`
+          );
       });
     })) as string;
 
@@ -130,6 +116,7 @@ function findFile(dir: string, filename: string): string {
   const files = fs.readdirSync(dir);
   for (const file of files) {
     const filePath = path.join(dir, file);
+    if (filePath.endsWith('.zip')) continue;
 
     if (fs.statSync(filePath).isDirectory()) {
       const recursive = findFile(filePath, filename);

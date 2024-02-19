@@ -35,7 +35,16 @@ export const useSourcesStore = defineStore('sources', () => {
         'https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.11.2/fabric-installer-0.11.2.jar',
       minecraftVersion: '1.17.1',
     },
+    // using https://www.drehmal.net/2-2-mod-list
     modList: [
+      {
+        name: 'Animatica',
+        url: 'https://modrinth.com/mod/animatica',
+        source:
+          'https://cdn.modrinth.com/data/PRN43VSY/versions/0.4%2B1.17/animatica-0.4%2B1.17.jar',
+        mc_version: '1.17.1',
+        mod_version: '0.4',
+      },
       {
         name: 'CIT Resewn',
         url: 'https://modrinth.com/mod/cit-resewn',
@@ -45,12 +54,36 @@ export const useSourcesStore = defineStore('sources', () => {
         mod_version: '0.9.1',
       },
       {
-        name: 'Entity Texture Features',
-        url: 'https://modrinth.com/mod/entitytexturefeatures',
+        name: 'Cull Leaves',
+        url: 'https://modrinth.com/mod/cull-leaves',
         source:
-          'https://cdn.modrinth.com/data/BVzZfTc1/versions/a4YzsmzU/entity_texture_features_fabric_1.17.1-4.3.1.jar',
+          'https://cdn.modrinth.com/data/GNxdLCoP/versions/2.3.2/cullleaves-2.3.2.jar',
         mc_version: '1.17.1',
-        mod_version: '4.3.1',
+        mod_version: '2.3.2',
+      },
+      {
+        name: 'Dynamic FPS',
+        url: 'https://modrinth.com/mod/dynamic-fps',
+        source:
+          'https://cdn.modrinth.com/data/LQ3K71Q1/versions/v2.0.6/dynamic-fps-2.0.6.jar',
+        mc_version: '1.17.1',
+        mod_version: '2.0.6',
+      },
+      {
+        name: 'Entity Culling',
+        url: 'https://modrinth.com/mod/entity-culling',
+        source:
+          'https://cdn.modrinth.com/data/NNAgCjsB/versions/1.5.0-fabric-1.17/entityculling-fabric-mc1.17.1-1.5.0.jar',
+        mc_version: '1.17.1',
+        mod_version: '1.5.0',
+      },
+      {
+        name: 'Fabric API',
+        url: 'https://modrinth.com/mod/fabric-api',
+        source:
+          'https://cdn.modrinth.com/data/P7dR8mSH/versions/0.46.1%2B1.17/fabric-api-0.46.1%2B1.17.jar',
+        mc_version: '1.17.1',
+        mod_version: '0.46.1',
       },
       {
         name: 'FabricSkyboxes',
@@ -69,6 +102,14 @@ export const useSourcesStore = defineStore('sources', () => {
         mod_version: '1.0.1',
       },
       {
+        name: 'Iris Shaders',
+        url: 'https://modrinth.com/mod/iris',
+        source:
+          'https://cdn.modrinth.com/data/YL57xq9U/versions/pkGrlTNQ/iris-mc1.17.1-1.2.7.jar',
+        mc_version: '1.17.1',
+        mod_version: '1.2.7',
+      },
+      {
         name: 'LambDynamicLights',
         url: 'https://modrinth.com/mod/lambdynamiclights',
         source:
@@ -77,20 +118,28 @@ export const useSourcesStore = defineStore('sources', () => {
         mod_version: 'LambDynamicLights 2.1.0 (1.17-1.18)',
       },
       {
-        name: 'Fabric API',
-        url: 'https://modrinth.com/mod/fabric-api',
+        name: 'Lazy DFU',
+        url: 'https://modrinth.com/mod/lazydfu',
         source:
-          'https://cdn.modrinth.com/data/P7dR8mSH/versions/0.46.1%2B1.17/fabric-api-0.46.1%2B1.17.jar',
+          'https://cdn.modrinth.com/data/hvFnDODi/versions/0.1.2/lazydfu-0.1.2.jar',
         mc_version: '1.17.1',
-        mod_version: '0.46.1',
+        mod_version: '0.1.2',
       },
       {
-        name: 'Animatica',
-        url: 'https://modrinth.com/mod/animatica',
+        name: 'Lithium',
+        url: 'https://modrinth.com/mod/lithium',
         source:
-          'https://cdn.modrinth.com/data/PRN43VSY/versions/0.4%2B1.17/animatica-0.4%2B1.17.jar',
+          'https://cdn.modrinth.com/data/gvQqBUqZ/versions/mc1.17.1-0.7.5/lithium-fabric-mc1.17.1-0.7.5.jar',
         mc_version: '1.17.1',
-        mod_version: '0.4',
+        mod_version: '0.7.5',
+      },
+      {
+        name: 'Starlight',
+        url: 'https://modrinth.com/mod/starlight',
+        source:
+          'https://cdn.modrinth.com/data/H8CaAYZC/versions/Starlight%201.0.0%201.17.x/starlight-1.0.0%2Bfabric.73f6d37.jar',
+        mc_version: '1.17.1',
+        mod_version: '1.0.0',
       },
       {
         name: 'Sodium',
@@ -117,12 +166,28 @@ export const useSourcesStore = defineStore('sources', () => {
         mod_version: '1.5.0',
       },
       {
-        name: 'Dynamic FPS',
-        url: 'https://modrinth.com/mod/dynamic-fps',
+        name: 'WI Zoom',
+        url: 'https://modrinth.com/mod/wi-zoom',
         source:
-          'https://cdn.modrinth.com/data/LQ3K71Q1/versions/v2.0.6/dynamic-fps-2.0.6.jar',
+          'https://cdn.modrinth.com/data/o7DitHWP/versions/OYzl0qI6/WI-Zoom-1.3-MC1.17.1.jar',
         mc_version: '1.17.1',
-        mod_version: '2.0.6',
+        mod_version: '1.3',
+      },
+      {
+        name: 'Entity Texture Features',
+        url: 'https://modrinth.com/mod/entitytexturefeatures',
+        source:
+          'https://cdn.modrinth.com/data/BVzZfTc1/versions/a4YzsmzU/entity_texture_features_fabric_1.17.1-4.3.1.jar',
+        mc_version: '1.17.1',
+        mod_version: '4.3.1',
+      },
+      {
+        name: 'CEM',
+        url: 'https://github.com/YoungSoulluoS/cem_Fork',
+        source:
+          'https://github.com/YoungSoulluoS/cem_Fork/releases/download/Soul_Fork_10_1.19.4/cem-0.7.1_S8_1.17.jar',
+        mc_version: '1.17.1',
+        mod_version: '0.7.1',
       },
     ],
     launcher_icon:

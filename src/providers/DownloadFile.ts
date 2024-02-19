@@ -18,11 +18,19 @@ export function downloadFile(
     // User-Agent: github_username/project_name/1.56.0 (launcher.com)
     const options = {
       headers: {
-        'User-Agent': 'Drehmal-Team/installer/0.2.0 (drehmal.net)',
+        'User-Agent': 'Drehmal-Team/installer/0.3.1 (drehmal.net)',
         // 'accept-encoding': 'gzip, deflate, br',
       },
     };
     https.get(url, options).on('response', function (res: any) {
+      if (res.statusCode > 300 && res.statusCode < 400) {
+        console.log(
+          `Got ${res.statusCode} for ${url}, redirecting to ${res.headers.location}`
+        );
+        return downloadFile(res.headers.location, savePath, ref).then(() =>
+          resolve()
+        );
+      }
       // const startTime = Date.now();
       let downloaded = 0;
       const contentLength = +(res.headers['content-length'] as string);
