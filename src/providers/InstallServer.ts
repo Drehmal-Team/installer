@@ -10,7 +10,9 @@ const path = require('path');
 
 export async function installServer(ref: Ref) {
   const { server } = storeToRefs(useSourcesStore());
-  const { serverDir, memory, javawExePath } = storeToRefs(useInstallerStore());
+  const { serverDir, memory, javawExePath, serverOpts } = storeToRefs(
+    useInstallerStore()
+  );
 
   const serverPath = path.join(serverDir.value, 'server.jar');
   console.log(`Downloading server jar to "${serverPath}"`);
@@ -39,9 +41,17 @@ export async function installServer(ref: Ref) {
 
     ref.value.label = 'Updating server properties';
     console.log(`Creating server.properties with ${server.value.properties}`);
+    const serverProperties = server.value.properties.map(
+      (property) => property
+    );
+    for (const key in serverOpts.value)
+      serverProperties.push(
+        `${key}=${serverOpts.value[key as keyof typeof serverOpts.value]}`
+      );
+
     fs.writeFileSync(
       path.join(serverDir.value, 'server.properties'),
-      server.value.properties,
+      serverProperties.join('\n'),
       'utf-8'
     );
     await new Promise((resolve) => setTimeout(resolve, 100));

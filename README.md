@@ -37,6 +37,39 @@ The most helpful part is uploading your log file, so please don't forget to do t
 
 Thanks in advance <3
 
+## Credits
+
+This project was created using [Quasar](https://quasar.dev/), [Electron](https://www.electronjs.org/), and [Vue](https://vuejs.org/) with HTML, CSS and [TypeScript](https://www.typescriptlang.org/) in [VSCode](https://code.visualstudio.com/).
+
+### Mods
+
+Massive thanks to each of the following Minecraft mods for enhancing the experience and immersiveness of the map!
+
+- [Animatica](https://modrinth.com/mod/animatica)
+- [CIT Resewn](https://modrinth.com/mod/cit-resewn)
+- [Cull Leaves](https://modrinth.com/mod/cull-leaves)
+- [Dynamic FPS](https://modrinth.com/mod/dynamic-fps)
+- [Entity Culling](https://modrinth.com/mod/entity-culling)
+- [Fabric API](https://modrinth.com/mod/fabric-api)
+- [FabricSkyboxes](https://modrinth.com/mod/fabricskyboxes)
+- [Indium](https://modrinth.com/mod/indium)
+- [Iris Shaders](https://modrinth.com/mod/iris)
+- [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights)
+- [Lazy DFU](https://modrinth.com/mod/lazydfu)
+- [Lithium](https://modrinth.com/mod/lithium)
+- [Starlight](https://modrinth.com/mod/starlight)
+- [Sodium](https://modrinth.com/mod/sodium)
+- [Sodium Extra](https://modrinth.com/mod/sodium-extra)
+- [Reese's Sodium Options](https://modrinth.com/mod/reeses-sodium-options)
+- [WI Zoom](https://modrinth.com/mod/wi-zoom)
+- [Entity Texture Features](https://modrinth.com/mod/entitytexturefeatures)
+- [CEM](https://modrinth.com/mod/cem)
+  - [Modified Version](https://github.com/YoungSoulluoS/cem_Fork): YoungSoulluoS for creating a modified version with additional compatabilities!
+
+### Shaders
+
+Additional thanks goes out to Sildur for creating [Sildur's Enhanced Default](https://sildurs-shaders.github.io/)!
+
 ## Development
 
 Created using [Quasar](https://quasar.dev/), [Electron](https://www.electronjs.org/), and [Vue](https://vuejs.org/) with HTML, CSS and [TypeScript](https://www.typescriptlang.org/) in [VSCode](https://code.visualstudio.com/).

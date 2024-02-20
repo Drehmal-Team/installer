@@ -34,7 +34,7 @@ const routes: RouteRecordRaw[] = [
           title: 'Single Player Installation',
           socials: false,
           back: '/select/',
-          next: '/install/',
+          next: '/configure/',
         },
       },
       {
@@ -44,7 +44,7 @@ const routes: RouteRecordRaw[] = [
           title: 'Multi-Player Installation',
           socials: false,
           back: '/select/',
-          next: '/install/',
+          next: '/configure/',
         },
       },
       {
@@ -53,6 +53,17 @@ const routes: RouteRecordRaw[] = [
 
         meta: {
           title: 'Server Installation',
+          socials: false,
+          back: '/select/',
+          next: '/configure/',
+        },
+      },
+      // Install configuration
+      {
+        path: '/configure/',
+        component: () => import('src/pages/InstallOptions.vue'),
+        meta: {
+          title: 'Configure Installation',
           socials: false,
           back: '/select/',
           next: '/install/',

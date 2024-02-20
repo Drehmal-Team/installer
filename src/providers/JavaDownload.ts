@@ -7,7 +7,6 @@ const { ipcRenderer } = require('electron');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
-const https = require('https');
 const tar = require('tar');
 
 /*

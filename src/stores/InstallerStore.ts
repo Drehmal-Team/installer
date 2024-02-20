@@ -1,8 +1,10 @@
-import { defineStore } from 'pinia';
+import { defineStore, storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import { useSourcesStore } from './SourcesStore';
 const path = require('path');
 
 export const useInstallerStore = defineStore('installer', () => {
+  const { map } = storeToRefs(useSourcesStore());
   // Use empty values for now, this will be overwritten with *actual* defaults on app launch using electron
   const homeDir = ref('');
   const appDir = ref('');
@@ -19,6 +21,15 @@ export const useInstallerStore = defineStore('installer', () => {
     parseInt(process.env.MINECRAFT_MEMORY ? process.env.MINECRAFT_MEMORY : '4')
   );
 
+  const shaders = ref(false);
+  const serverOpts = ref({
+    motd: map.value.versionName,
+    pvp: false,
+    difficulty: 'normal',
+    hardcore: false,
+    maxPlayers: 10,
+  });
+
   return {
     homeDir,
     appDir,
@@ -29,5 +40,7 @@ export const useInstallerStore = defineStore('installer', () => {
     memory,
     javaExePath,
     javawExePath,
+    shaders,
+    serverOpts,
   };
 });
