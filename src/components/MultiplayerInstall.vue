@@ -41,6 +41,8 @@ import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { useStateStore } from 'src/stores/StateStore';
 import { ref } from 'vue';
+const fs = require('fs');
+const path = require('path');
 
 const { map } = storeToRefs(useSourcesStore());
 const {
@@ -49,7 +51,7 @@ const {
   processingResourcepack,
   disableBackNav,
 } = storeToRefs(useStateStore());
-const { shaders: enableShaders } = storeToRefs(useInstallerStore());
+const { drehmalDir, shaders: enableShaders } = storeToRefs(useInstallerStore());
 const versionFileName = map.value.versionName
   .toLowerCase()
   .split(' ')
@@ -98,10 +100,27 @@ const resourcepackProgress = ref<ProgressBoxType>({
 const fabricClick = async () => {
   processingFabric.value = true;
   disableBackNav.value = true;
-
   fabricDisabled.value = true;
   fabricProgress.value.img =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAACXBIWXMAAAsTAAALEwEAmpwYAAAByklEQVRYhd2YTVLCQBCFX6dYqIsIztyHI7DjGpYuRV2ouNTyGGRFbgD3yRDMAlhQtIs4KfKHhEwS4rcKSaboN6+7pys0ncwwGPbhOnNGCxkM++Q6cxAzw3XmTETo9i6bjqsQS38NZsZg2CeaTmYMAJZFuO62S8j3co3dLkykDgD0bq6ih0LYzURVEKWCaOP9xSoUotEiLuxOeuUZsQm2EMKGUkF0z0q+dO4igOwYLVADkZiGAIv+gRIC0AHKHR+jh6fY7/H7a6Xr8ihdEFLK6NrzvMrX5UGuM+NuL2y/QtgnF/vnx1csqLwd1k5IKeF53slObIJt1LWW/qq8I0mklFBKHXxeBcYc0eQ58zh6BjNHQt/GL6X+J+7IOn2OmCK580KI6B6z6fmUzTui0c4opYw6oTFeI7p484pWCBFdZznx1/pjMdJ+s9rn3f0tgNCZQ07krS9KZTWyj/maSFP5hKidqRqrhs2qHGZDqUXU/OBZOrV06iSHwGMgImPt2FiNnDJ6mOhWGmNC6irqPGppv3WQErIJtk3EUYisGGOppVQAIexWiNn/ggL8CvEXKwDh963kC+eMjhsIU6v5Q6A8pFOLAPC+whZBAPAD4SrOvdEMgKQAAAAOZVhJZk1NACoAAAAIAAAAAAAAANJTkwAAAABJRU5ErkJggg==';
+
+  const readmeText =
+    'This folder is used to store the files used for the installation of Drehmal as well as any files needed for the game to run.\n\n' +
+    "./fabric folder houses the fabric installer jarfile. It's used during installation to create a fabric profile for the game.\n" +
+    "./java_runtimes folder is where the custom java executable is stored. DO NOT DELETE THIS UNLESS YOU KNOW WHAT YOU'RE DOING.\n" +
+    "\tIf you do intend on deleting this, then you'll have to update the Java runtime from within the Minecraft launcher.\n";
+
+  const installerFilesPath = path.join(drehmalDir.value, 'installer');
+  if (!fs.existsSync(installerFilesPath))
+    fs.mkdirSync(installerFilesPath, { recursive: true });
+
+  console.log(`Writing README to "${installerFilesPath}"`);
+  fs.writeFileSync(
+    path.join(installerFilesPath, 'README.txt'),
+    readmeText,
+    'utf-8'
+  );
+
   installFabric(fabricProgress);
   return;
 };

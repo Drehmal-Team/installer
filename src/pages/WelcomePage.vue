@@ -19,38 +19,24 @@ const { ipcRenderer } = require('electron');
 useSourcesStore();
 useInstallerStore();
 
-const {
-  homeDir,
-  appDir,
-  minecraftDir,
-  drehmalDir,
-  serverDir,
-  shardsDir,
-  memory,
-} = storeToRefs(useInstallerStore());
+const { homeDir, appDir, minecraftDir, memory } = storeToRefs(
+  useInstallerStore()
+);
 
 ipcRenderer.invoke('getMinecraftPath').then((minecraft) => {
   console.log(`Got Minecraft path: ${minecraft}`);
   minecraftDir.value = minecraft;
 });
 
-ipcRenderer.invoke('getDrehmalPath').then((drehmal) => {
-  console.log(`Got Drehmal path: ${drehmal}`);
-  drehmalDir.value = drehmal;
-});
-
 ipcRenderer.invoke('getAppDataPath').then((appData) => {
   console.log(`Got AppData path: ${appData}`);
   homeDir.value = appData;
   appDir.value = path.join(appData, 'Drehmal Installer');
-  shardsDir.value = path.join(appDir.value, 'shards');
   memory.value = 4;
 });
 
-ipcRenderer.invoke('getDesktopPath').then((desktop) => {
-  console.log(`Got Desktop path: ${desktop}`);
-  serverDir.value = path.join(desktop, 'Drehmal Server');
-});
+// Drehmal path not set here, will be set after user selects an installation type
+// src/pages/InstallPage.vue
 </script>
 <style scoped lang="sass">
 p

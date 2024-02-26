@@ -2,6 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { downloadFile } from './DownloadFile';
+import { Ref } from 'vue';
 const extract = require('extract-zip');
 const { ipcRenderer } = require('electron');
 const os = require('os');
@@ -19,7 +20,7 @@ https://whichjdk.com/
 // /v3/binary/latest/{feature_version}/{release_type}/{os}/{arch}/{image_type}/{jvm_impl}/{heap_size}/{vendor}
 // https://api.adoptium.net/v3/binary/latest/17/ga/windows/x64/jre/hotspot/normal/eclipse?project=jdk
 
-export async function getJre(): Promise<string> {
+export async function getJre(ref: Ref): Promise<string> {
   const osMap: { [key: string]: string } = {
     win32: 'windows',
     darwin: 'mac',
@@ -45,9 +46,9 @@ export async function getJre(): Promise<string> {
     vendor: 'eclipse',
   };
 
-  const { appDir } = storeToRefs(useInstallerStore());
+  const { drehmalDir } = storeToRefs(useInstallerStore());
 
-  const javaPath = path.join(appDir.value, 'java_runtimes');
+  const javaPath = path.join(drehmalDir.value, 'installer', 'java_runtimes');
   if (!fs.existsSync(javaPath)) fs.mkdirSync(javaPath, { recursive: true });
   const javaNames = [
     platform === 'win32' ? 'java.exe' : 'java',
@@ -80,6 +81,9 @@ export async function getJre(): Promise<string> {
     const result = (await new Promise((resolve, reject) => {
       downloadFile(url, filePath).then(async () => {
         console.log(`Java zip successfully downloaded to: "${filePath}"`);
+        ref.value.label = 'Extracting Java runtime';
+        ref.value.progress = 0.125;
+        ref.value.percent = 12.5;
 
         if (platform === 'win32') await extract(filePath, { dir: javaPath });
         else await tar.x({ file: filePath, cwd: javaPath });

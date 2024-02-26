@@ -8,7 +8,7 @@
             clickable
             v-ripple
             to="/singleplayer/"
-            @click="installType = 'singleplayer'"
+            @click="typeSelect('singleplayer')"
           >
             <q-item-section>
               <q-item-label header class="text-info text-h5"
@@ -27,7 +27,7 @@
             clickable
             v-ripple
             to="/multiplayer/"
-            @click="installType = 'multiplayer'"
+            @click="typeSelect('multiplayer')"
           >
             <q-item-section>
               <q-item-label header class="text-info text-h5"
@@ -47,7 +47,7 @@
             clickable
             v-ripple
             to="/server/"
-            @click="installType = 'server'"
+            @click="typeSelect('server')"
           >
             <q-item-section>
               <!-- <q-item-label overline>Coming Soon!</q-item-label> -->
@@ -70,9 +70,28 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useStateStore } from 'src/stores/StateStore';
+const path = require('path');
+const { ipcRenderer } = require('electron');
 
 const { installType } = storeToRefs(useStateStore());
+const { drehmalDir } = storeToRefs(useInstallerStore());
+
+const typeSelect = async (type: 'singleplayer' | 'multiplayer' | 'server') => {
+  console.log(`Selected installation type: ${type}`);
+  installType.value = type;
+
+  if (type === 'singleplayer' || type === 'multiplayer') {
+    const drehmalPath = await ipcRenderer.invoke('getDrehmalPath');
+    drehmalDir.value = drehmalPath;
+    console.log(`Setting Drehmal installation path to "${drehmalPath}"`);
+  } else {
+    const desktopPath = await ipcRenderer.invoke('getDesktopPath');
+    drehmalDir.value = path.join(desktopPath, 'Drehmal Server');
+    console.log(`Setting Drehmal installation path to "${drehmalDir.value}"`);
+  }
+};
 </script>
 
 <style scoped>

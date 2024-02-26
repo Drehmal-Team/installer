@@ -47,12 +47,11 @@ export async function downloadMods(ref: Ref) {
 
       ref.value.progress = progress;
       ref.value.percent = percent;
-      // Note: Roughly 21 character limit, consider truncating mod name
       // if singleplayer install, trunc mod name
       // Downloading: Reese's Sodium Options
       const labelStr = `Downloading: ${name}`;
-      if (installType.value === 'singleplayer' && labelStr.length > 30)
-        ref.value.label = labelStr.slice(0, 30) + '...';
+      if (installType.value === 'singleplayer' && labelStr.length > 27)
+        ref.value.label = labelStr.slice(0, 27) + '...';
       else ref.value.label = labelStr;
       const taken = ((Date.now() - startTime) / 1000).toFixed(2);
       console.log(
@@ -93,12 +92,12 @@ export async function downloadMods(ref: Ref) {
     ref.value.label = 'Mods successfully downloaded!';
   } else if (enableShaders.value) {
     console.log('Shaders selected, proceeding to install...');
-    ref.value.label = `Downloading: ${shaders.value.name}`;
+    ref.value.label = `Downloading: ${shaders.value.name}`.slice(0, 27) + '...';
     await installShaders();
     completed++;
     ref.value.progress = completed / progressBar;
     ref.value.percent = (ref.value.progress * 100).toFixed(1);
-    ref.value.label = 'Mods and shaders successfully downloaded!';
+    ref.value.label = 'Mods and shaders downloaded!';
   }
 
   ref.value.img =

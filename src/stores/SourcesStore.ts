@@ -206,6 +206,7 @@ export const useSourcesStore = defineStore('sources', () => {
     // per https://minecraft.wiki/w/Java_Edition_1.17.1
     source:
       'https://piston-data.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar',
+    version: '1.17.1',
     properties: [
       'enable-command-block=true',
       'view-distance=16',

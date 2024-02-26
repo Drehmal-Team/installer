@@ -18,23 +18,25 @@ export async function installFabric(ref: Ref) {
   const startTime = Date.now();
 
   const { launcher, map } = storeToRefs(useSourcesStore());
-  const { homeDir, minecraftDir, drehmalDir, memory, javaExePath } =
-    storeToRefs(useInstallerStore());
+  const { minecraftDir, drehmalDir, memory, javaExePath } = storeToRefs(
+    useInstallerStore()
+  );
   const { processingFabric } = storeToRefs(useStateStore());
 
+  const fabricFolder = path.join(drehmalDir.value, 'installer', 'fabric');
+  if (!fs.existsSync(fabricFolder))
+    fs.mkdirSync(fabricFolder, { recursive: true });
   const fabricPath = path.join(
-    homeDir.value,
-    'Drehmal Installer',
+    fabricFolder,
     'fabric-installer-' + launcher.value.fabric.version + '.jar'
   );
 
-  console.log(`Downloading Fabric installer to "${fabricPath}"`);
-
   ref.value.label = 'Downloading Java runtime';
-  await getJre();
+  await getJre(ref);
   ref.value.progress = 0.25;
   ref.value.percent = 25;
 
+  console.log(`Downloading Fabric installer to "${fabricPath}"`);
   ref.value.label = 'Downloading Fabric installer';
   downloadFile(launcher.value.fabric.source, fabricPath).then(() => {
     ref.value.label = 'Installing Fabric';
@@ -61,7 +63,6 @@ export async function installFabric(ref: Ref) {
       const taken = ((Date.now() - startTime) / 1000).toFixed(2);
 
       console.log(`Fabric process exited with code ${code} (${taken}s total)`);
-      fs.unlinkSync(fabricPath);
 
       ref.value.label = 'Fabric successfully installed!';
       ref.value.progress = 0.67;
@@ -96,8 +97,7 @@ export async function installFabric(ref: Ref) {
 
       data['profiles'][map.value.versionName]['gameDir'] = drehmalDir.value;
 
-      const javawPath = await getJre();
-      if (javawPath)
+      if (javaExePath.value)
         data['profiles'][map.value.versionName]['javaDir'] = javaExePath.value;
 
       fs.writeFileSync(profileFilePath, JSON.stringify(data), 'utf-8');

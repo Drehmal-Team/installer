@@ -1,4 +1,5 @@
 const { exec } = require('child_process');
+import checkDiskSpace from 'check-disk-space';
 import {
   BrowserWindow,
   app as ElectronApp,
@@ -112,6 +113,11 @@ ipcMain.handle(
     await dialog.showOpenDialog({
       properties: ['openDirectory'],
     })
+);
+
+ipcMain.handle(
+  'checkDiskSpace',
+  async (_event, path) => await checkDiskSpace(path)
 );
 
 ipcMain.handle('execute', (_event, cmd) => {

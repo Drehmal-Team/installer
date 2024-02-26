@@ -33,13 +33,10 @@ const { minecraftDir, drehmalDir } = storeToRefs(useInstallerStore());
 const folderSelectChange = async (type: 'minecraft' | 'drehmal') => {
   const result = await ipcRenderer.invoke('openFileDialog');
   if (!result.canceled && result.filePaths.length > 0) {
-    if (type === 'minecraft') {
-      minecraftDir.value = result.filePaths[0];
-      console.log(`Minecraft Path updated to "${minecraftDir.value}"`);
-    } else if (type === 'drehmal') {
-      drehmalDir.value = result.filePaths[0];
-      console.log(`Drehmal Path updated to "${minecraftDir.value}"`);
-    }
+    if (type === 'minecraft') minecraftDir.value = result.filePaths[0];
+    else if (type === 'drehmal') drehmalDir.value = result.filePaths[0];
+
+    console.log(`${type} path updated to "${drehmalDir.value}"`);
   }
 };
 </script>

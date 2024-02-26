@@ -2,10 +2,8 @@
   <label class="file-select">
     <div class="select-button flex custom">
       <q-item-section @click="folderSelectChange">
-        <q-item-label overline v-if="defaultPath"
-          >Using default directory</q-item-label
-        >
-        <q-item-label class="text-accent">{{ filePath }}</q-item-label>
+        <q-item-label overline>Server Directory</q-item-label>
+        <q-item-label class="text-accent">{{ drehmalDir }}</q-item-label>
       </q-item-section>
       <div class="folder-icon">
         <q-icon name="folder" />
@@ -17,23 +15,15 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
-import { ref } from 'vue';
 const { ipcRenderer } = require('electron');
 
-const { serverDir } = storeToRefs(useInstallerStore());
-
-const filePath = ref('Select Minecraft Directory');
-filePath.value = serverDir.value;
-
-const defaultPath = ref(true);
+const { drehmalDir } = storeToRefs(useInstallerStore());
 
 const folderSelectChange = async () => {
   const result = await ipcRenderer.invoke('openFileDialog');
   if (!result.canceled && result.filePaths.length > 0) {
-    filePath.value = result.filePaths[0];
-    defaultPath.value = false;
-    serverDir.value = filePath.value;
-    console.log(`Server Path updated to "${serverDir.value}"`);
+    drehmalDir.value = result.filePaths[0];
+    console.log(`server path updated to "${drehmalDir.value}"`);
   }
 };
 </script>

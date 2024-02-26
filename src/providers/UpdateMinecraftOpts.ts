@@ -8,7 +8,7 @@ export function updateMinecraftOpts(filename: string) {
   const options: Record<string, string> = {};
 
   if (fs.existsSync(filename)) {
-    console.log(`Options file found at ${filename}!`);
+    console.log(`Options file found at "${filename}"!`);
     // Parse options file into an array of strings for each line
     const lines: string[] = fs.readFileSync(filename, 'utf-8').split('\n');
     // add each option to the created object
@@ -19,7 +19,7 @@ export function updateMinecraftOpts(filename: string) {
       }
     });
   } else {
-    console.log(`Options file not found at ${filename} - will be created...`);
+    console.log(`Options file not found at "${filename}" - will be created...`);
     // Ensure render distance is set to minimum if the file doesn't exist
     options['renderDistance'] = '8';
   }

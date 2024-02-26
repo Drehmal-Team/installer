@@ -18,7 +18,7 @@ export function downloadFile(
     // User-Agent: github_username/project_name/1.56.0 (launcher.com)
     const options = {
       headers: {
-        'User-Agent': 'Drehmal-Team/installer/0.4.0 (drehmal.net)',
+        'User-Agent': 'Drehmal-Team/installer/0.4.1 (drehmal.net)',
         // 'accept-encoding': 'gzip, deflate, br',
       },
     };
