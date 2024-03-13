@@ -12,8 +12,10 @@
 import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
+import { useStateStore } from 'src/stores/StateStore';
 const path = require('path');
 const { ipcRenderer } = require('electron');
+const fs = require('fs');
 
 // Ensure these are initialised; Be careful if removing
 useSourcesStore();
@@ -22,6 +24,8 @@ useInstallerStore();
 const { homeDir, appDir, minecraftDir, memory } = storeToRefs(
   useInstallerStore()
 );
+const { map, resourcePack } = storeToRefs(useSourcesStore());
+const { customConfig } = storeToRefs(useStateStore());
 
 ipcRenderer.invoke('getMinecraftPath').then((minecraft) => {
   console.log(`Got Minecraft path: ${minecraft}`);
@@ -33,6 +37,19 @@ ipcRenderer.invoke('getAppDataPath').then((appData) => {
   homeDir.value = appData;
   appDir.value = path.join(appData, 'Drehmal Installer');
   memory.value = 4;
+  // check if config file exists at path
+  const configPath = path.join(appDir.value, 'config.json');
+  if (fs.existsSync(configPath)) {
+    console.log(`Installer config found at "${configPath}", loading`);
+    customConfig.value = true;
+    const rawData = fs.readFileSync(configPath, 'utf-8');
+    const configData = JSON.parse(rawData);
+    map.value = configData.map;
+    console.log(
+      `${map.value.versionName} has ${map.value.shards.length} shards`
+    );
+    resourcePack.value = configData.resourcePack;
+  }
 });
 
 // Drehmal path not set here, will be set after user selects an installation type

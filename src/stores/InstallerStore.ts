@@ -8,6 +8,7 @@ export const useInstallerStore = defineStore('installer', () => {
   // Use empty values for now, this will be overwritten with *actual* defaults on app launch using electron
   const homeDir = ref('');
   const appDir = ref('');
+  const configDir = ref('');
 
   const minecraftDir = ref(path.join('', '.minecraft'));
   const drehmalDir = ref(path.join('', '.minecraft_drehmal'));
@@ -38,6 +39,7 @@ export const useInstallerStore = defineStore('installer', () => {
   return {
     homeDir,
     appDir,
+    configDir,
     minecraftDir,
     drehmalDir,
     memory,

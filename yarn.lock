@@ -547,9 +547,9 @@
     minipass "^4.0.0"
 
 "@types/verror@^1.10.3":
-  version "1.10.9"
-  resolved "https://registry.yarnpkg.com/@types/verror/-/verror-1.10.9.tgz#420c32adb9a2dd50b3db4c8f96501e05a0e72941"
-  integrity sha512-MLx9Z+9lGzwEuW16ubGeNkpBDE84RpB/NyGgg6z2BTpWzKkGU451cAY3UkUzZEp72RHF585oJ3V8JVNqIplcAQ==
+  version "1.10.10"
+  resolved "https://registry.yarnpkg.com/@types/verror/-/verror-1.10.10.tgz#d5a4b56abac169bfbc8b23d291363a682e6fa087"
+  integrity sha512-l4MM0Jppn18hb9xmM6wwD1uTdShpf9Pn80aXTStnK1C94gtPvJcV2FrDmbOQUAQfJ1cKZHktkQUDwEqaAKXMMg==
 
 "@types/yauzl@^2.9.1":
   version "2.10.3"
@@ -1209,7 +1209,7 @@ chardet@^0.7.0:
 
 check-disk-space@^3.4.0:
   version "3.4.0"
-  resolved "https://registry.yarnpkg.com/check-disk-space/-/check-disk-space-3.4.0.tgz#eb8e69eee7a378fd12e35281b8123a8b4c4a8ff7"
+  resolved "https://registry.npmjs.org/check-disk-space/-/check-disk-space-3.4.0.tgz"
   integrity sha512-drVkSqfwA+TvuEhFipiR1OC9boEGZL5RrWvVsOthdcvQNXyCCuKkEiTOTXZ7qxSf/GLwq4GvzfrQD/Wz325hgw==
 
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.5.3:
@@ -4692,6 +4692,14 @@ yauzl@^2.10.0:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
+
+yauzl@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.npmjs.org/yauzl/-/yauzl-3.1.2.tgz"
+  integrity sha512-621iCPgEG1wXViDZS/L3h9F8TgrdQV1eayJlJ8j5A2SZg8OdY/1DLf+VxNeD+q5QbMFEAbjjR8nITj7g4nKa0Q==
+  dependencies:
+    buffer-crc32 "~0.2.3"
+    pend "~1.2.0"
 
 yocto-queue@^0.1.0:
   version "0.1.0"

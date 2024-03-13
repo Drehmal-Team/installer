@@ -5,6 +5,9 @@ export const useSourcesStore = defineStore('sources', () => {
   const map = ref({
     version: '2.2.0',
     versionName: 'Drehmal 2.2 Apotheosis Beta 1.1.0',
+    compressedSizeInBytes: 4290312006,
+    uncompressedSizeInBytes: 6088520568,
+    hash: '1c0e99b7ae74658535cb6be4d0423c30f16e24633585309da39487291b77b29d',
     shards: [
       'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5265bd1e5c624ac6ac1334638f35959f.zip',
       'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_6ea1c432427546bd97c500c7a450090b.zip',

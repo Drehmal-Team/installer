@@ -22,6 +22,7 @@ export interface ShardsBox {
   downloadProgress: number;
   downloadPercent: number;
 
+  totalExtractSize: number;
   extractCount: number;
   extracted: number;
   extractLabel: string;

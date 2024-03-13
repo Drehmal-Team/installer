@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import { useQuasar } from 'quasar';
 import MapProgress from 'src/components/MapProgress.vue';
 import ProgressBox from 'src/components/ProgressBox.vue';
 import {
@@ -41,6 +42,8 @@ import {
   ShardsBox,
 } from 'src/components/models';
 import { downloadShards } from 'src/providers/DownloadShards';
+import { extractShards } from 'src/providers/ExtractShards';
+import { computeHash } from 'src/providers/GetHash';
 import { getOldDirName } from 'src/providers/GetOldDirName';
 import { installServer } from 'src/providers/InstallServer';
 import { useInstallerStore } from 'src/stores/InstallerStore';
@@ -49,13 +52,12 @@ import { useStateStore } from 'src/stores/StateStore';
 import { ref } from 'vue';
 const fs = require('fs');
 const path = require('path');
-const extract = require('extract-zip');
 
+const q = useQuasar();
 const { map } = storeToRefs(useSourcesStore());
 const { drehmalDir } = storeToRefs(useInstallerStore());
-const { processingShards, processingServer, disableBackNav } = storeToRefs(
-  useStateStore()
-);
+const { customConfig, processingShards, processingServer, disableBackNav } =
+  storeToRefs(useStateStore());
 const versionFileName = map.value.versionName
   .toLowerCase()
   .split(' ')
@@ -89,6 +91,7 @@ const shardsProgress = ref<ShardsBox>({
   downloadProgress: 0,
   downloadPercent: 0,
 
+  totalExtractSize: map.value.uncompressedSizeInBytes / Math.pow(1024, 2),
   extractCount: 0,
   extracted: 0,
   extractLabel: 'Map Extract - Waiting for map download',
@@ -140,17 +143,6 @@ const shardsClick = async () => {
   let downloaded = 0;
   let extracted = 0;
 
-  const intervalId = setInterval(() => {
-    const progress = ((extracted / totalShards) * 100).toFixed(2);
-    shardsProgress.value.extractLabel =
-      downloaded === 0
-        ? 'Map Extract - Waiting for map download ' + ' .'.repeat(state)
-        : `Extracting map files: ${progress}% ` + ' .'.repeat(state);
-
-    state++;
-    if (state > 4) state = 0;
-  }, 1000);
-
   map.value.shards.forEach((shard, index) => {
     const startTime = Date.now();
     const filePath = path.join(shardsPath, `${versionFileName}-${index}.zip`);
@@ -166,7 +158,7 @@ const shardsClick = async () => {
         shardsProgress.value.downloadLabel = 'Map successfully downloaded!';
 
       const extractStart = Date.now();
-      await extract(filePath, { dir: mapDir });
+      await extractShards(filePath, mapDir, shardsProgress);
       extracted++;
       const extractTime = ((Date.now() - extractStart) / 1000).toFixed(2);
       console.log(
@@ -174,23 +166,47 @@ const shardsClick = async () => {
       );
 
       fs.unlinkSync(filePath);
-      shardsProgress.value.extracted = extracted;
-      shardsProgress.value.extractProgress = extracted / totalShards;
-      shardsProgress.value.extractPercent = (extracted / totalShards) * 100;
-      // updated by the interval above
-      // shardsProgress.value.extractLabel = `Extracting map files: ${(
-      //   (extracted / totalShards) *
-      //   100
-      // ).toFixed(2)}%`;
 
       if (extracted === totalShards) {
-        const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
-        console.log(
-          `Map downloaded and extracted complete! (${timeTaken}s total)`
-        );
-        clearInterval(intervalId);
-        shardsProgress.value.extractLabel = 'Map successfully extracted!';
-        processingShards.value = false;
+        shardsProgress.value.extractLabel = 'Validating map files...';
+        const validateStart = Date.now();
+        computeHash(mapDir, shardsProgress).then(async (mapHash) => {
+          const hashMatch = mapHash.hash === map.value.hash;
+          if (hashMatch) console.log(`Hash match! Got "${mapHash.hash}"`);
+          else
+            console.log(
+              `Hash mismatch! Got "${mapHash.hash}" but expected "${map.value.hash}"`
+            );
+          const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
+          console.log(
+            `Map downloaded and extracted complete! (${timeTaken}s total)`
+          );
+
+          const validateTime = ((Date.now() - validateStart) / 1000).toFixed(2);
+          console.log(
+            `Validating map files complete! (${validateTime}s total)`
+          );
+
+          if (customConfig.value) {
+            // if using a custom config, display a popup with the hash result
+            q.dialog({
+              title: 'Map Validation',
+              html: true,
+              message:
+                'Map validation complete! Send this to Major, please!' +
+                `</br></br>Expected Hash: ${map.value.hash}` +
+                `</br></br>Resulting Hash: ${mapHash.hash}` +
+                `</br>Match: ${hashMatch}` +
+                `</br>Time taken: ${timeTaken}s` +
+                `</br>Validation time: ${validateTime}s`,
+              persistent: true,
+              dark: true,
+            });
+          }
+
+          shardsProgress.value.extractLabel = 'Map validation complete!';
+          processingShards.value = false;
+        });
       }
     });
   });

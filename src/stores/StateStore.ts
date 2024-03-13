@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
 
 export const useStateStore = defineStore('state', () => {
+  const customConfig = ref(false);
   const disableNav = ref(false);
   const disableBackNav = ref(false);
   const disableNextNav = ref(false);
@@ -16,6 +17,7 @@ export const useStateStore = defineStore('state', () => {
     ref('singleplayer');
 
   return {
+    customConfig,
     disableNav,
     disableBackNav,
     disableNextNav,
