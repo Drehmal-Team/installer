@@ -4,30 +4,31 @@ import { ref } from 'vue';
 export const useSourcesStore = defineStore('sources', () => {
   const map = ref({
     version: '2.2.0',
-    versionName: 'Drehmal 2.2 Apotheosis Beta 1.1.0',
-    compressedSizeInBytes: 4290312006,
-    uncompressedSizeInBytes: 6088520568,
-    hash: '1c0e99b7ae74658535cb6be4d0423c30f16e24633585309da39487291b77b29d',
+    versionName: 'Drehmal 2.2 Apotheosis Beta 1.3.0',
+    compressedSizeInBytes: 4291563668,
+    uncompressedSizeInBytes: 6349809322,
+    hash: 'cf442078a485831e9fc19cb7212dff949e4fd027285ff1a62599eb841a6aa1d9',
     shards: [
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5265bd1e5c624ac6ac1334638f35959f.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_6ea1c432427546bd97c500c7a450090b.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_73304719d3bf4512bd5b451d4e402d1c.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_03c3c8dcb17348aab2497878973e458a.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_9fc26dec57424972859e104e2b0618c5.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_a2519f1872c04a9d96017af881811920.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_503089081c3b470a8e55c0d06bd97d72.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_bc36dceb78f445838decbeb369039957.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_6a637d2ab5cd499da94fc752f534aefb.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_addffbfe9a98431c8b18a2ac9077c616.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_0f6737ea1a6c4b1184061b2e5b23b5bc.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_9655b665d4e74086874ef199a863914c.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_24a975cc26554a10a6e7e35b4ba80879.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_bb088fbb93a245a7b898e3c285d42840.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4b7ad8ee43bf4380bccb160bb25ea49a.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2499405e78014c34bd9bc00d6b9495b5.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_92eea6b559884d69bc211826c3ceab94.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_047ea6ff78c342309d243ba29328a1e4.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_7ddf43c67e34415aafad6a5c779dfe1d.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_a772537ac7fc4d3292882cb54fbfbc6e.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5d383eb1296b452cb9bf0646e431efa2.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_a86b347db8e34938ac7414127959e16c.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5a49a8cea54a4871838902ed894cb24f.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_eb79b09faf4e43f9932d69fc3310638c.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_65051262b5134519b9778a467e2fda57.zip',
     ],
   });
 
   const resourcePack = ref({
-    version: '1.1.0',
+    version: '1.3.0',
     source:
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_49ebdcd7dd584d6fbbfb70a1b4be83ea.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_bd3d3973f1cb45b3becd31f14f01c30c.zip',
   });
 
   const launcher = ref({
