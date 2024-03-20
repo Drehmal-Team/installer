@@ -4,31 +4,31 @@ import { ref } from 'vue';
 export const useSourcesStore = defineStore('sources', () => {
   const map = ref({
     version: '2.2.0',
-    versionName: 'Drehmal 2.2 Apotheosis Beta 1.3.0',
-    compressedSizeInBytes: 4291563668,
-    uncompressedSizeInBytes: 6349809322,
-    hash: 'cf442078a485831e9fc19cb7212dff949e4fd027285ff1a62599eb841a6aa1d9',
+    versionName: 'Drehmal 2.2 Apotheosis Beta 1.3.1',
+    compressedSizeInBytes: 4292658616,
+    uncompressedSizeInBytes: 6350825475,
+    hash: '06a699ff694a16971a45fdb1106487c808c2562e51f38d0d6fbebd9692f3f4f4',
     shards: [
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_24a975cc26554a10a6e7e35b4ba80879.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_bb088fbb93a245a7b898e3c285d42840.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4b7ad8ee43bf4380bccb160bb25ea49a.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2499405e78014c34bd9bc00d6b9495b5.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_92eea6b559884d69bc211826c3ceab94.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_047ea6ff78c342309d243ba29328a1e4.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_7ddf43c67e34415aafad6a5c779dfe1d.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_a772537ac7fc4d3292882cb54fbfbc6e.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5d383eb1296b452cb9bf0646e431efa2.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_a86b347db8e34938ac7414127959e16c.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5a49a8cea54a4871838902ed894cb24f.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_eb79b09faf4e43f9932d69fc3310638c.zip',
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_65051262b5134519b9778a467e2fda57.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_652ed14ae3974e4ea7998a5db0f91746.zip', // 1
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_c887b67e6523474da7dfc8c92cb89785.zip', // 2
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_cb3b0df4350a4a38aa7614d6dd455848.zip', // 3
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_54f4b079bfd147b889b03a0ced04f43a.zip', // 4
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_594b65a7c37344dea9b31df1bd62112a.zip', // 5
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_7e2a2f26229a42d798cf67a0e5f87927.zip', // 6
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_84a0101e9e644c2ea98316750543b6e1.zip', // 7
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_1b98d9074fe3471d890b113d765cf63d.zip', // 8
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5796e61dcaea49deba9ea02038374f97.zip', // 9
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_0f4c83a51ae149379d15a2e256403b59.zip', // 10
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_c899d6ddd642410ca9cff62cc43c7637.zip', // 11
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_b0caff259e4f4f4ba0b6f3f737c01347.zip', // 12
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_d667acd0b235438393dd1aaa76d8871e.zip', // 13
     ],
   });
 
   const resourcePack = ref({
-    version: '1.3.0',
+    version: '1.3.1',
     source:
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_bd3d3973f1cb45b3becd31f14f01c30c.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_71a9cc8afeab42ceb7b8ce4ddab00c5d.zip',
   });
 
   const launcher = ref({
