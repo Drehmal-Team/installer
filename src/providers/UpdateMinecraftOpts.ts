@@ -3,14 +3,29 @@ import { useSourcesStore } from 'src/stores/SourcesStore';
 
 const fs = require('fs');
 
-export function updateMinecraftOpts(filename: string) {
+export function updateMinecraftOpts(drehmalOpts: string, oldOpts: string) {
   // Create object to store the options as a json object for easy access
   const options: Record<string, string> = {};
 
-  if (fs.existsSync(filename)) {
-    console.log(`Options file found at "${filename}"!`);
+  if (fs.existsSync(drehmalOpts)) {
+    console.log(`Drehmal options file found at "${drehmalOpts}"!`);
     // Parse options file into an array of strings for each line
-    const lines: string[] = fs.readFileSync(filename, 'utf-8').split('\n');
+    const lines: string[] = fs.readFileSync(drehmalOpts, 'utf-8').split('\n');
+    // add each option to the created object
+    lines.forEach((line) => {
+      const [key, value] = line.split(':');
+      if (key && value) {
+        options[key.trim()] = value.trim();
+      }
+    });
+  } else if (fs.existsSync(oldOpts)) {
+    // TODO: repeat above check for original .minecraft dir, otherwise create a new options file
+    console.log(
+      `Drehmal options not found - falling back to MC options "${oldOpts}"...`
+    );
+    console.log(`Minecraft options file found at "${oldOpts}"!`);
+    // Parse options file into an array of strings for each line
+    const lines: string[] = fs.readFileSync(oldOpts, 'utf-8').split('\n');
     // add each option to the created object
     lines.forEach((line) => {
       const [key, value] = line.split(':');
@@ -19,9 +34,11 @@ export function updateMinecraftOpts(filename: string) {
       }
     });
   } else {
-    console.log(`Options file not found at "${filename}" - will be created...`);
+    console.log(
+      `Options file not found at "${oldOpts}" - creating new with defaults...`
+    );
     // Ensure render distance is set to minimum if the file doesn't exist
-    options['renderDistance'] = '8';
+    options['renderDistance'] = '16';
   }
 
   const { resourcePack } = storeToRefs(useSourcesStore());
@@ -33,7 +50,14 @@ export function updateMinecraftOpts(filename: string) {
   // disable clouds, gets in the way of towers/structures
   options['renderClouds'] = 'false';
   // increase render distance to required minimum (consider scale based on memory allocation)
-  if (parseInt(options['renderDistance']) < 8) options['renderDistance'] = '8';
+  if (parseInt(options['renderDistance']) < 16)
+    options['renderDistance'] = '16';
+  // if master volume is too low, set it to 50% (MC defaults this to 100% on first run if missing)
+  if (
+    options['soundCategory_master'] !== undefined &&
+    parseInt(options['soundCategory_master']) < 0.5
+  )
+    options['soundCategory_master'] = '0.5';
   // maximise unfocused chat size so players can properly use menus
   options['chatHeightUnfocused'] = '1.0';
   // ensure custom music is enabled
@@ -49,5 +73,5 @@ export function updateMinecraftOpts(filename: string) {
     (key) => (newOptions += `${key}:${options[key]}\n`)
   );
 
-  fs.writeFileSync(filename, newOptions);
+  fs.writeFileSync(drehmalOpts, newOptions);
 }

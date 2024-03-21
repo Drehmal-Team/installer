@@ -10,7 +10,7 @@ const fs = require('fs');
 
 export async function downloadResourcePack(ref: Ref) {
   const { resourcePack } = storeToRefs(useSourcesStore());
-  const { drehmalDir } = storeToRefs(useInstallerStore());
+  const { drehmalDir, minecraftDir } = storeToRefs(useInstallerStore());
   const { processingResourcepack } = storeToRefs(useStateStore());
   ref.value.label = 'Downloading resource pack';
 
@@ -30,9 +30,10 @@ export async function downloadResourcePack(ref: Ref) {
     ref.value.label = 'Updating video settings';
 
     const optionsFilePath = path.join(drehmalDir.value, 'options.txt');
+    const oldOpts = path.join(minecraftDir.value, 'options.txt');
 
     console.log(`Updating Minecraft options in file: ${optionsFilePath}`);
-    updateMinecraftOpts(optionsFilePath);
+    updateMinecraftOpts(optionsFilePath, oldOpts);
 
     ref.value.label = 'Resource pack downloaded!';
 
