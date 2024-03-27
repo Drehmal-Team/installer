@@ -12,7 +12,7 @@ def get_size(start_path = '.'):
 
 def split_directory(path, max_size, output_path):
     current_size = 0
-    current_dir = os.path.join(output_path, 'subdir_1')
+    current_dir = os.path.join(output_path, 'shard_1')
     os.makedirs(current_dir, exist_ok=True)
     dir_counter = 1
 
@@ -34,7 +34,7 @@ def split_directory(path, max_size, output_path):
 
                 # Start a new directory
                 dir_counter += 1
-                current_dir = os.path.join(output_path, f'subdir_{dir_counter}')
+                current_dir = os.path.join(output_path, f'shard_{dir_counter}')
                 os.makedirs(current_dir, exist_ok=True)
                 print(f'Started new directory: {current_dir}')
                 current_size = 0

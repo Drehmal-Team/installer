@@ -39,3 +39,5 @@ _archive
 foo*
 bar*
 /reports/*
+
+/.history

@@ -4,31 +4,31 @@ import { ref } from 'vue';
 export const useSourcesStore = defineStore('sources', () => {
   const map = ref({
     version: '2.2.0',
-    versionName: 'Drehmal 2.2 Apotheosis Beta 1.3.1',
-    compressedSizeInBytes: 4292658616,
-    uncompressedSizeInBytes: 6350825475,
-    hash: '06a699ff694a16971a45fdb1106487c808c2562e51f38d0d6fbebd9692f3f4f4',
+    versionName: 'Drehmal 2.2 Apotheosis Beta 1.3.2',
+    compressedSizeInBytes: 4294261140,
+    uncompressedSizeInBytes: 6358455781,
+    hash: '5f26107ab938e28b4828826846da7e35a8fba74ca01182ab8a1f24c430a87488',
     shards: [
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_652ed14ae3974e4ea7998a5db0f91746.zip', // 1
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_c887b67e6523474da7dfc8c92cb89785.zip', // 2
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_cb3b0df4350a4a38aa7614d6dd455848.zip', // 3
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_54f4b079bfd147b889b03a0ced04f43a.zip', // 4
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_594b65a7c37344dea9b31df1bd62112a.zip', // 5
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_7e2a2f26229a42d798cf67a0e5f87927.zip', // 6
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_84a0101e9e644c2ea98316750543b6e1.zip', // 7
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_1b98d9074fe3471d890b113d765cf63d.zip', // 8
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5796e61dcaea49deba9ea02038374f97.zip', // 9
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_0f4c83a51ae149379d15a2e256403b59.zip', // 10
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_c899d6ddd642410ca9cff62cc43c7637.zip', // 11
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_b0caff259e4f4f4ba0b6f3f737c01347.zip', // 12
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_d667acd0b235438393dd1aaa76d8871e.zip', // 13
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_589c4633af96478c8933954a61c86407.zip', // 1
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_7fd2f832cdfc412f99583f7b270628e6.zip', // 2
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4b9ead4ad8194154b8a33e703e2bef6b.zip', // 3
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2cc77e3507f4411b81766c829c17bcfb.zip', // 4
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_d81dcff846d546a9b20c7e7c07986cc9.zip', // 5
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_9098aeb273ee4607b8dc4e35d6f1a1a8.zip', // 6
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_97fd18d63bb94a009cea85f22f3c4eb5.zip', // 7
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_733d29b7e69646cfa9585aff77d84e0b.zip', // 8
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_04d5dc10c3134dc0b429586c86b3e59f.zip', // 9
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_cc10ca5809284d4db0115e6331f6fab8.zip', // 10
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5ec26a97825549c4a49d9b09353a643c.zip', // 11
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_95411db10bac44c18f317a8ead471966.zip', // 12
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_d7fd0c8f983a4f00b89deb6cb5f75794.zip', // 13
     ],
   });
 
   const resourcePack = ref({
-    version: '1.3.1',
+    version: '1.3.2',
     source:
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_71a9cc8afeab42ceb7b8ce4ddab00c5d.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_9783f65c6cf547868bec8ff923563dc2.zip',
   });
 
   const launcher = ref({

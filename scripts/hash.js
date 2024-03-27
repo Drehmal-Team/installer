@@ -23,6 +23,4 @@ async function computeHash(directoryPath) {
   return hash.digest('hex');
 }
 
-computeHash(path.join('Drehmal 2.2 Apotheosis Beta 1.1.0')).then((h) =>
-  console.log(h)
-);
+computeHash(path.join('./map')).then((h) => console.log(h));
