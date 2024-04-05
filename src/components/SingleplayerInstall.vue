@@ -159,7 +159,12 @@ const shardsClick = async () => {
   downloadShardsClicked.value = true;
   downloadShardsLabel.value = 'Downloading';
 
-  const mapDir = path.join(drehmalDir.value, 'saves', map.value.versionName);
+  const stripChars = [':', '/', '\\', '*', '?', '"', '<', '>', '|'];
+  let mapName = map.value.versionName + ' ' + map.value.version;
+  for (const char of stripChars) mapName = mapName.split(char).join('');
+
+  const mapDir = path.join(drehmalDir.value, 'saves', mapName);
+  // const mapDir = path.join(drehmalDir.value, 'saves', map.value.versionName);
   const totalShards = map.value.shards.length;
 
   if (!fs.existsSync(shardsPath)) fs.mkdirSync(shardsPath, { recursive: true });

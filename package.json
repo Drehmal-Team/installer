@@ -1,9 +1,9 @@
 {
   "name": "drehmal-installer",
-  "version": "0.5.4",
+  "version": "1.0.0",
   "description": "Drehmal, Minecraft map installer",
   "productName": "Drehmal Installer",
-  "author": "jgaribsin",
+  "author": "Primordial Team",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",

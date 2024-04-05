@@ -4,31 +4,36 @@ import { ref } from 'vue';
 export const useSourcesStore = defineStore('sources', () => {
   const map = ref({
     version: '2.2.0',
-    versionName: 'Drehmal 2.2 Apotheosis Beta 1.3.2',
+    versionName: 'Drehmal: APOTHEOSIS',
     compressedSizeInBytes: 4294261140,
     uncompressedSizeInBytes: 6358455781,
-    hash: '5f26107ab938e28b4828826846da7e35a8fba74ca01182ab8a1f24c430a87488',
+    hash: '73d5d8a88611deb342f2a13881b824df1dd48f1d1d904591c641fc236d3172a7',
     shards: [
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_589c4633af96478c8933954a61c86407.zip', // 1
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_7fd2f832cdfc412f99583f7b270628e6.zip', // 2
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4b9ead4ad8194154b8a33e703e2bef6b.zip', // 3
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2cc77e3507f4411b81766c829c17bcfb.zip', // 4
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_d81dcff846d546a9b20c7e7c07986cc9.zip', // 5
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_9098aeb273ee4607b8dc4e35d6f1a1a8.zip', // 6
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_97fd18d63bb94a009cea85f22f3c4eb5.zip', // 7
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_733d29b7e69646cfa9585aff77d84e0b.zip', // 8
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_04d5dc10c3134dc0b429586c86b3e59f.zip', // 9
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_cc10ca5809284d4db0115e6331f6fab8.zip', // 10
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5ec26a97825549c4a49d9b09353a643c.zip', // 11
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_95411db10bac44c18f317a8ead471966.zip', // 12
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_d7fd0c8f983a4f00b89deb6cb5f75794.zip', // 13
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_1925ee30e7144dd4ba217b8ae3bea923.zip', // 1
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_189f047ba71a4e698b3c207fa4b730b2.zip', // 2
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2cc4911c6280435382e391474b862ea3.zip', // 3
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_957adc1e81384831996eb119710b7cd5.zip', // 4
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_dfde9ffd8a6b4d759a95a5ad8091a7e9.zip', // 5
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2595f63014994e4d813eefd063ed19f3.zip', // 6
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_bdd7e62c857b48e2bc144242d2f862c2.zip', // 7
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_8de5237a390647cab15d7981fb76c49f.zip', // 8
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_f803fec50ac74fa695db63b9731cb59c.zip', // 9
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4e16e84671844449b94519d4f95eba2b.zip', // 10
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_c50993f7e7d34bce93b83f13fe3140f8.zip', // 11
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4ac90df5b7ed4250b7be57f0c39550d1.zip', // 12
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_40bba80fd5c7408c9bc9a93ab8288149.zip', // 13
     ],
   });
 
   const resourcePack = ref({
-    version: '1.3.2',
+    version: '2.2.0',
     source:
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_9783f65c6cf547868bec8ff923563dc2.zip',
+      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_e108b896cb2148eb986135f35dff5115.zip',
+  });
+
+  const partner = ref({
+    name: 'Apex Hosting',
+    affilLink: 'https://billing.apexminecrafthosting.com/aff.php?aff=6377',
   });
 
   const launcher = ref({
@@ -221,6 +226,7 @@ export const useSourcesStore = defineStore('sources', () => {
   return {
     map,
     resourcePack,
+    partner,
     launcher,
     shaders,
     server,

@@ -1,10 +1,19 @@
 <template>
-  <q-page padding>
+  <q-page
+    padding
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    "
+  >
     <p>
-      Welcome to the Drehmal v2.2: Apotheosis installer. This is designed to
-      help set up all mods, saves, and resource packs you may need to play the
-      greatest survival exploration experience in Minecraft!
+      Welcome to the Drehmal: APOTHEOSIS installer. This is designed to help set
+      up all mods, saves, and resource packs you may need to play the greatest
+      survival exploration experience in Minecraft!
     </p>
+
+    <sponsor-partner />
   </q-page>
 </template>
 
@@ -13,6 +22,7 @@ import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { useStateStore } from 'src/stores/StateStore';
+import SponsorPartner from 'src/components/SponsorPartner.vue';
 const path = require('path');
 const { ipcRenderer } = require('electron');
 const fs = require('fs');
