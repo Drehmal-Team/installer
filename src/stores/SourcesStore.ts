@@ -5,30 +5,20 @@ export const useSourcesStore = defineStore('sources', () => {
   const map = ref({
     version: '2.2.0',
     versionName: 'Drehmal: APOTHEOSIS',
-    compressedSizeInBytes: 4294261140,
+    compressedSizeInBytes: 4305722304,
     uncompressedSizeInBytes: 6358455781,
-    hash: '73d5d8a88611deb342f2a13881b824df1dd48f1d1d904591c641fc236d3172a7',
+    hash: '60a90f8fb06ae38ecec08d456d4dc08295338acf5a7859fd7597ef9490195185',
     shards: [
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_1925ee30e7144dd4ba217b8ae3bea923.zip', // 1
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_189f047ba71a4e698b3c207fa4b730b2.zip', // 2
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2cc4911c6280435382e391474b862ea3.zip', // 3
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_957adc1e81384831996eb119710b7cd5.zip', // 4
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_dfde9ffd8a6b4d759a95a5ad8091a7e9.zip', // 5
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2595f63014994e4d813eefd063ed19f3.zip', // 6
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_bdd7e62c857b48e2bc144242d2f862c2.zip', // 7
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_8de5237a390647cab15d7981fb76c49f.zip', // 8
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_f803fec50ac74fa695db63b9731cb59c.zip', // 9
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4e16e84671844449b94519d4f95eba2b.zip', // 10
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_c50993f7e7d34bce93b83f13fe3140f8.zip', // 11
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4ac90df5b7ed4250b7be57f0c39550d1.zip', // 12
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_40bba80fd5c7408c9bc9a93ab8288149.zip', // 13
+      'https://github.com/Drehmal-Team/map/releases/download/v2.2.0/shard_1.zip', // 1
+      'https://github.com/Drehmal-Team/map/releases/download/v2.2.0/shard_2.zip', // 2
+      'https://github.com/Drehmal-Team/map/releases/download/v2.2.0/shard_3.zip', // 3
     ],
   });
 
   const resourcePack = ref({
     version: '2.2.0',
     source:
-      'https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_e108b896cb2148eb986135f35dff5115.zip',
+      'https://github.com/Drehmal-Team/map/releases/download/v2.2.0/resources.zip',
   });
 
   const partner = ref({

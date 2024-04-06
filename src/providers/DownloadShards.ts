@@ -23,6 +23,14 @@ export function downloadShards(
       // },
     };
     https.get(url, options).on('response', function (res: any) {
+      if (res.statusCode > 300 && res.statusCode < 400) {
+        console.log(
+          `Got ${res.statusCode} for ${url}, redirecting to ${res.headers.location}`
+        );
+        return downloadShards(res.headers.location, savePath, ref).then(() =>
+          resolve()
+        );
+      }
       // const startTime = Date.now();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let downloaded = 0;
