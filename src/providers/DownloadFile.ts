@@ -18,7 +18,7 @@ export function downloadFile(
     // User-Agent: github_username/project_name/1.56.0 (launcher.com)
     const options = {
       headers: {
-        'User-Agent': 'Drehmal-Team/installer/1.0.1 (drehmal.net)',
+        'User-Agent': 'Drehmal-Team/installer/1.0.2 (drehmal.net)',
         // 'accept-encoding': 'gzip, deflate, br',
       },
     };
@@ -78,6 +78,7 @@ export function downloadFile(
         })
         .on('error', (err: any) => {
           console.error(`download error on ${name} ${url}`, err);
+          console.error(JSON.stringify(err));
         })
         .on('timeout', () => {
           console.error(`got timeout event for ${url}`);

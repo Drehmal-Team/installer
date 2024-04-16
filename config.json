@@ -1,28 +1,12 @@
 {
   "map": {
     "version": "2.2.0",
-    "versionName": "Drehmal 2.2 Apotheosis Beta 1.3.2",
-    "compressedSizeInBytes": 4294261140,
-    "uncompressedSizeInBytes": 6358455781,
-    "hash": "5f26107ab938e28b4828826846da7e35a8fba74ca01182ab8a1f24c430a87488",
-    "shards": [
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_589c4633af96478c8933954a61c86407.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_7fd2f832cdfc412f99583f7b270628e6.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_4b9ead4ad8194154b8a33e703e2bef6b.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_2cc77e3507f4411b81766c829c17bcfb.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_d81dcff846d546a9b20c7e7c07986cc9.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_9098aeb273ee4607b8dc4e35d6f1a1a8.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_97fd18d63bb94a009cea85f22f3c4eb5.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_733d29b7e69646cfa9585aff77d84e0b.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_04d5dc10c3134dc0b429586c86b3e59f.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_cc10ca5809284d4db0115e6331f6fab8.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_5ec26a97825549c4a49d9b09353a643c.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_95411db10bac44c18f317a8ead471966.zip",
-      "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_d7fd0c8f983a4f00b89deb6cb5f75794.zip"
-    ]
+    "versionName": "Drehmal: APOTHEOSIS",
+    "compressedSizeInBytes": 4305446839,
+    "uncompressedSizeInBytes": 6358552801,
+    "hash": "b03d3e38047df58e514a9580793dbf626ef5d7938564063f02b3eec559511748"
   },
   "resourcePack": {
-    "version": "1.3.2",
-    "source": "https://5b92a8a6-6d33-4119-8522-53f0f5e49ea3.usrfiles.com/archives/5b92a8_71a9cc8afeab42ceb7b8ce4ddab00c5d.zip"
+    "version": "2.2.0"
   }
 }
