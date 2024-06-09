@@ -50,7 +50,7 @@ export async function installFabric(ref: Ref) {
       '-dir',
       minecraftDir.value,
       '-mcversion',
-      '1.17.1',
+      launcher.value.fabric.minecraftVersion,
     ]);
     fabricProc.stdout.on('data', (data: any) => {
       console.log(`Fabric: ${data}`);
@@ -79,7 +79,11 @@ export async function installFabric(ref: Ref) {
       );
 
       data['profiles'][map.value.versionName] = JSON.parse(
-        JSON.stringify(data['profiles']['fabric-loader-1.17.1'])
+        JSON.stringify(
+          data['profiles'][
+            `fabric-loader-${launcher.value.fabric.minecraftVersion}`
+          ]
+        )
       );
 
       data['profiles'][map.value.versionName]['name'] = map.value.versionName;
