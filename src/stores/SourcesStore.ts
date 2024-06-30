@@ -3,22 +3,22 @@ import { ref } from 'vue';
 
 export const useSourcesStore = defineStore('sources', () => {
   const map = ref({
-    version: '2.2.1-b1.0.0',
+    version: '2.2.1',
     versionName: 'Drehmal: APOTHEOSIS',
-    compressedSizeInBytes: 4335162502,
-    uncompressedSizeInBytes: 6515883517,
-    hash: '542c0e1b4009071ae1e68d63842af2ed823837fdb31865dd0add0db17303ce8f',
+    compressedSizeInBytes: 4093986974,
+    uncompressedSizeInBytes: 6544470332,
+    hash: 'bd8667154c6f491a41a1c9f4aea8e9221f0e8e2eef2cc3a2b36624d249a66c72',
     shards: [
-      'https://github.com/Drehmal-Team/map/releases/download/v2.2.1-b1.0.0/shard_1.zip', // 1
-      'https://github.com/Drehmal-Team/map/releases/download/v2.2.1-b1.0.0/shard_2.zip', // 2
-      'https://github.com/Drehmal-Team/map/releases/download/v2.2.1-b1.0.0/shard_3.zip', // 3
+      'https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_1.zip', // 1
+      'https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_2.zip', // 2
+      'https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_3.zip', // 3
     ],
   });
 
   const resourcePack = ref({
-    version: '2.2.1-b1.0.0',
+    version: '2.2.1',
     source:
-      'https://github.com/Drehmal-Team/map/releases/download/v2.2.1-b1.0.0/resources.zip',
+      'https://github.com/Drehmal-Team/map/releases/download/v2.2.1/resources.zip',
   });
 
   const partner = ref({
@@ -44,20 +44,20 @@ export const useSourcesStore = defineStore('sources', () => {
         mod_version: '0.6',
       },
       {
+        name: 'C2ME',
+        url: 'https://modrinth.com/mod/c2me-fabric',
+        source:
+          'https://cdn.modrinth.com/data/VSNURh3q/versions/QZ5cUNXs/c2me-fabric-mc1.20.1-0.2.0%2Balpha.11.5.jar',
+        mc_version: '1.20.1',
+        mod_version: '0.2.0-alpha.11.5',
+      },
+      {
         name: 'CIT Resewn',
         url: 'https://modrinth.com/mod/cit-resewn',
         source:
           'https://cdn.modrinth.com/data/otVJckYQ/versions/8uQeAHwk/citresewn-1.1.5%2B1.20.1.jar',
         mc_version: '1.20.1',
         mod_version: '1.1.5',
-      },
-      {
-        name: 'Cloth Config',
-        url: 'https://modrinth.com/mod/cloth-config',
-        source:
-          'https://cdn.modrinth.com/data/9s6osm5g/versions/J3FLptsi/cloth-config-11.1.118-fabric.jar',
-        mc_version: '1.20.1',
-        mod_version: '11.1.118',
       },
       {
         name: 'Cull Leaves',
@@ -84,6 +84,14 @@ export const useSourcesStore = defineStore('sources', () => {
         mod_version: '3.4.2',
       },
       {
+        name: 'Enhanced Block Entities',
+        url: 'https://modrinth.com/mod/ebe',
+        source:
+          'https://cdn.modrinth.com/data/OVuFYfre/versions/i3v1Skck/enhancedblockentities-0.9%2B1.20.jar',
+        mc_version: '1.20.1',
+        mod_version: '0.9',
+      },
+      {
         name: 'Entity Culling',
         url: 'https://modrinth.com/mod/entity-culling',
         source:
@@ -106,6 +114,14 @@ export const useSourcesStore = defineStore('sources', () => {
           'https://cdn.modrinth.com/data/YBz7DOs8/versions/cezLH6eB/fabricskyboxes-0.7.3%2Bmc1.20.1.jar',
         mc_version: '1.20.1',
         mod_version: '0.7.3',
+      },
+      {
+        name: 'Ferrite Core',
+        url: 'https://modrinth.com/mod/ferrite-core',
+        source:
+          'https://cdn.modrinth.com/data/uXXizFIs/versions/unerR5MN/ferritecore-6.0.1-fabric.jar',
+        mc_version: '1.20.1',
+        mod_version: '6.0.1',
       },
       {
         name: 'Indium',
@@ -146,6 +162,22 @@ export const useSourcesStore = defineStore('sources', () => {
           'https://cdn.modrinth.com/data/gvQqBUqZ/versions/ZSNsJrPI/lithium-fabric-mc1.20.1-0.11.2.jar',
         mc_version: '1.20.1',
         mod_version: '0.11.2',
+      },
+      {
+        name: 'Memory Leak Fix',
+        url: 'https://modrinth.com/mod/memoryleakfix',
+        source:
+          'https://cdn.modrinth.com/data/NRjRiSSD/versions/5xvCCRjJ/memoryleakfix-fabric-1.17%2B-1.1.5.jar',
+        mc_version: '1.20.1',
+        mod_version: '1.1.5',
+      },
+      {
+        name: 'ModernFix',
+        url: 'https://modrinth.com/mod/modernfix',
+        source:
+          'https://cdn.modrinth.com/data/nmDcB62a/versions/CB2UOpt3/modernfix-fabric-5.18.1%2Bmc1.20.1.jar',
+        mc_version: '1.20.1',
+        mod_version: '5.18.1',
       },
       {
         name: 'Sodium',
