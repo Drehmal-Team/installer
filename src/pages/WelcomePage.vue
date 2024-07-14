@@ -23,9 +23,9 @@ import { useInstallerStore } from 'src/stores/InstallerStore';
 import { useSourcesStore } from 'src/stores/SourcesStore';
 import { useStateStore } from 'src/stores/StateStore';
 import SponsorPartner from 'src/components/SponsorPartner.vue';
+
 const path = require('path');
 const { ipcRenderer } = require('electron');
-const fs = require('fs');
 
 // Ensure these are initialised; Be careful if removing
 useSourcesStore();
@@ -34,7 +34,15 @@ useInstallerStore();
 const { homeDir, appDir, minecraftDir, memory } = storeToRefs(
   useInstallerStore()
 );
-const { map, resourcePack } = storeToRefs(useSourcesStore());
+const {
+  manifest,
+  selectedVersion,
+  versions,
+  map,
+  resourcePack,
+  server,
+  launcher,
+} = storeToRefs(useSourcesStore());
 const { customConfig } = storeToRefs(useStateStore());
 
 ipcRenderer.invoke('getMinecraftPath').then((minecraft) => {
@@ -47,23 +55,25 @@ ipcRenderer.invoke('getAppDataPath').then((appData) => {
   homeDir.value = appData;
   appDir.value = path.join(appData, 'Drehmal Installer');
   memory.value = 4;
-  // check if config file exists at path
-  const configPath = path.join(appDir.value, 'config.json');
-  if (fs.existsSync(configPath)) {
-    console.log(`Installer config found at "${configPath}", loading`);
-    customConfig.value = true;
-    const rawData = fs.readFileSync(configPath, 'utf-8');
-    const configData = JSON.parse(rawData);
-    map.value = configData.map;
-    console.log(
-      `${map.value.versionName} has ${map.value.shards.length} shards`
-    );
-    resourcePack.value = configData.resourcePack;
-  }
 });
 
-// Drehmal path not set here, will be set after user selects an installation type
-// src/pages/InstallPage.vue
+ipcRenderer.invoke('getManifestData', manifest.value).then((data) => {
+  console.log(`Fetched manifest data from "${manifest.value}"`);
+  versions.value = data;
+  const sources = Object.keys(data);
+  console.log(`Got manifest data for the following sources: ${sources}`);
+  // If "latest" exists in version list, use it; otherwise use the first version
+  selectedVersion.value = sources.includes('latest') ? 'latest' : sources[0];
+  const mapVersion = data[selectedVersion.value].map.version;
+  console.log(`Using source: "${selectedVersion.value}" (v${mapVersion})`);
+  map.value = data[selectedVersion.value].map;
+  resourcePack.value = data[selectedVersion.value].resourcepack;
+  server.value = data[selectedVersion.value].server;
+  launcher.value = data[selectedVersion.value].launcher;
+  console.log(
+    `Updated map, resource pack, server, and launcher source data with "${selectedVersion.value}" sources (v${mapVersion})`
+  );
+});
 </script>
 <style scoped lang="sass">
 p

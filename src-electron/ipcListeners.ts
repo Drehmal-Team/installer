@@ -107,6 +107,11 @@ ipcMain.handle('getDrehmalPath', () => {
   }
 });
 
+ipcMain.handle('getManifestData', async (_event, url) => {
+  const response = await fetch(url);
+  return await response.json();
+});
+
 ipcMain.handle(
   'openFileDialog',
   async () =>
