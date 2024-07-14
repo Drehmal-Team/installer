@@ -63,4 +63,3 @@ jobs:
             dist/electron/Packaged/*.tar.gz
             dist/electron/Packaged/*.dmg
             dist/electron/Packaged/*.zip
-            dist/electron/Packaged/builder-debug.yml
