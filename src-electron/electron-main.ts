@@ -46,6 +46,7 @@ function createWindow() {
       nodeIntegrationInWorker: true,
       webSecurity: false,
       contextIsolation: false,
+      sandbox: false,
     },
     autoHideMenuBar: true,
   });
