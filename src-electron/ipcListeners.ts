@@ -6,6 +6,7 @@ import {
   dialog as ElectronDialog,
   shell as ElectronShell,
   ipcMain,
+  net,
 } from 'electron';
 const { spawn } = require('child_process');
 const os = require('os');
@@ -108,8 +109,25 @@ ipcMain.handle('getDrehmalPath', () => {
 });
 
 ipcMain.handle('getManifestData', async (_event, url) => {
-  const response = await fetch(url);
-  return await response.json();
+  return new Promise((resolve, reject) => {
+    const request = net.request(url);
+
+    request.on('response', (response) => {
+      let data = '';
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
+      response.on('end', () => {
+        resolve(JSON.parse(data));
+      });
+    });
+
+    request.on('error', (error) => {
+      reject(error);
+    });
+
+    request.end();
+  });
 });
 
 ipcMain.handle(
