@@ -3,9 +3,9 @@
     "map": {
       "version": "2.2.1",
       "versionName": "Drehmal: APOTHEOSIS",
-      "compressedSizeInBytes": 4104471269,
-      "uncompressedSizeInBytes": 6304481022,
-      "hash": "2816cf783673c0fd7eb6a9b83945c06b51e577c59c7dd23e7ee94404d17a97d1",
+      "compressedSizeInBytes": 4095226902,
+      "uncompressedSizeInBytes": 6304229492,
+      "hash": "5ef33821742dab6445fe026b90a89d5b38f0f61b97476c5253a40517ea722e2b",
       "shards": [
         "https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_1.zip",
         "https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_2.zip",
