@@ -1,11 +1,6 @@
 name: Build/release
 
 on:
-  workflow_dispatch:
-    inputs:
-      tags:
-        description: 'Tags to build'
-        required: true
   push:
     tags:
       - 'v*.*.*'
@@ -36,7 +31,7 @@ jobs:
       - name: Setup Node Environment
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 18
           cache: yarn
 
       - name: Install dependencies
