@@ -64,7 +64,7 @@ jobs:
         if: matrix.platform == 'osx'
         uses: indygreg/apple-code-sign-action@v1
         with:
-          input_path: dist/electron/Packaged/Drehmal.Installer-${{ env.version }}-arm64.dmg
+          input_path: ./dist/electron/Packaged/Drehmal.Installer-${{ env.version }}-arm64.dmg
 
       - name: Create new release
         uses: softprops/action-gh-release@v1
