@@ -35,95 +35,92 @@ disableNextNav.value = true;
 async function checkDiskSpace() {
   // first, check for installer space. this includes any logfiles, electron files, java runtime etc.
   let enoughInstallerSpace = false;
-  while (!enoughInstallerSpace) {
-    // use main process to check space on the appdata drive
-    const userDiskSpace = (await ipcRenderer.invoke(
-      'checkDiskSpace',
-      await ipcRenderer.invoke('getAppDataPath')
-    )) as DiskSpace;
+  // use main process to check space on the appdata drive
+  const userDiskSpace = (await ipcRenderer.invoke(
+    'checkDiskSpace',
+    await ipcRenderer.invoke('getAppDataPath')
+  )) as DiskSpace;
 
-    const userDiskSpaceFreeGb = +(
-      userDiskSpace.free / Math.pow(1024, 3)
-    ).toFixed(2);
+  const userSpaceFreeGb = +(userDiskSpace.free / Math.pow(1024, 3)).toFixed(2);
 
+  console.log(
+    `Checking space on "${userDiskSpace.diskPath}", ${userSpaceFreeGb}/${installerSpaceNeeded}GB free for installer`
+  );
+
+  if (userSpaceFreeGb > installerSpaceNeeded) {
+    // if there is enough space, log a message and continue
+    console.log(`Enough space on "${userDiskSpace.diskPath}" for installer!`);
+    enoughInstallerSpace = true;
+  } else {
+    // otherwise, log error message and display persistent dialogue. rerun this entire check after the user clicks ok
     console.log(
-      `Checking space on "${userDiskSpace.diskPath}", ${userDiskSpaceFreeGb}/${installerSpaceNeeded}GB free for installer`
+      `Not enough space on "${userDiskSpace.diskPath}" for installer, displaying warning notice...`
     );
-
-    if (userDiskSpaceFreeGb > installerSpaceNeeded) {
-      // if there is enough space, log a message and continue
-      console.log(`Enough space on "${userDiskSpace.diskPath}" for installer!`);
-      enoughInstallerSpace = true;
-    } else {
-      // otherwise, log error message and display persistent dialogue. rerun this entire check after the user clicks ok
-      console.log(
-        `Not enough space on "${userDiskSpace.diskPath}" for installer, displaying error message...`
-      );
-      // await a new promise until user clicks ok, otherwise the dialog is spammed
-      await new Promise<void>((resolve) => {
-        q.dialog({
-          title: 'Not Enough Space',
-          html: true,
-          message:
-            `Not enough space on drive <span style="color: #ffde00">${userDiskSpace.diskPath}</span> for installer functionality. ` +
-            `The installer needs <span style="color: #ffde00">${installerSpaceNeeded}GB</span> of space to function but you only have <span style="color: #ffde00">${userDiskSpaceFreeGb}GB</span> free.` +
-            '<br/><br/>' +
-            'Please free up some space and click the button below. ',
-          ok: 'I have cleared some space', // text for the ok button
-          persistent: true,
-          dark: true,
-        }).onOk(() => resolve()); // resolve promise on ok button click
-      });
-    }
+    // await a new promise until user clicks ok, otherwise the dialog is spammed
+    await new Promise<void>((resolve) => {
+      q.dialog({
+        title: 'Not Enough Space',
+        html: true,
+        message:
+          `Not enough space on drive <span style="color: #ffde00">${userDiskSpace.diskPath}</span> for installer functionality. ` +
+          `The installer needs <span style="color: #ffde00">${installerSpaceNeeded}GB</span> of space to function but you only have <span style="color: #ffde00">${userSpaceFreeGb}GB</span> free.` +
+          '<br/><br/>' +
+          'Please free up some space and click the button below. ',
+        ok: 'I have cleared some space', // text for the ok button
+        persistent: true,
+        dark: true,
+      }).onOk(() => resolve()); // resolve promise on ok button click
+    });
   }
+
   // then, check for the required space for the drehmal files. this changes based on installation type
   // includes, the map, client configuration, client mods etc.
   let enoughDrehmalSpace = false;
-  while (!enoughDrehmalSpace) {
-    // use main process to check space on the drehmal drive
-    const drehmalDiskSpace = (await ipcRenderer.invoke(
-      'checkDiskSpace',
-      drehmalDir.value
-    )) as DiskSpace;
+  // use main process to check space on the drehmal drive
+  const drehmalDiskSpace = (await ipcRenderer.invoke(
+    'checkDiskSpace',
+    drehmalDir.value
+  )) as DiskSpace;
 
-    const drehmalDiskSpaceFreeGb = +(
-      drehmalDiskSpace.free / Math.pow(1024, 3)
-    ).toFixed(2);
+  const drehmalDiskSpaceFreeGb = +(
+    drehmalDiskSpace.free / Math.pow(1024, 3)
+  ).toFixed(2);
 
+  console.log(
+    `Checking space on "${drehmalDiskSpace.diskPath}", ${drehmalDiskSpaceFreeGb}/${drehmalSpaceNeeded}GB for ${installType.value}`
+  );
+
+  if (drehmalDiskSpaceFreeGb > drehmalSpaceNeeded) {
+    // if there is enough space, log a message and continue
     console.log(
-      `Checking space on "${drehmalDiskSpace.diskPath}", ${drehmalDiskSpaceFreeGb}/${drehmalSpaceNeeded}GB for ${installType.value}`
+      `Enough space on "${drehmalDiskSpace.diskPath}" for ${installType.value} game installation!`
     );
-
-    if (drehmalDiskSpaceFreeGb > drehmalSpaceNeeded) {
-      // if there is enough space, log a message and continue
-      console.log(
-        `Enough space on "${drehmalDiskSpace.diskPath}" for ${installType.value} game installation!`
-      );
-      enoughDrehmalSpace = true;
-    } else {
-      // otherwise, log error message and display persistent dialogue. rerun this entire check after the user clicks ok
-      console.log(
-        `Not enough space on "${drehmalDiskSpace.diskPath}" for ${installType.value} game installation, displaying error message...`
-      );
-      // await a new promise until user clicks ok, otherwise the dialog is spammed
-      await new Promise<void>((resolve) => {
-        q.dialog({
-          title: 'Not Enough Space',
-          html: true,
-          message:
-            `Not enough space on drive <span style="color: #ffde00">${drehmalDiskSpace.diskPath}</span> to install Drehmal. ` +
-            `A ${installType.value} installation requires <span style="color: #ffde00">${drehmalSpaceNeeded}GB</span> of space to function but you only have <span style="color: #ffde00">${drehmalDiskSpaceFreeGb}GB</span> free.` +
-            '<br/><br/>' +
-            'Please free up some space and click the button below. ',
-          ok: 'I have cleared some space', // text for the ok button
-          persistent: true,
-          dark: true,
-        }).onOk(() => resolve()); // resolve promise on ok button click
-      });
-    }
+    enoughDrehmalSpace = true;
+  } else {
+    // otherwise, log error message and display persistent dialogue. rerun this entire check after the user clicks ok
+    console.log(
+      `Not enough space on "${drehmalDiskSpace.diskPath}" for ${installType.value} game installation, displaying warning notice...`
+    );
+    // await a new promise until user clicks ok, otherwise the dialog is spammed
+    await new Promise<void>((resolve) => {
+      q.dialog({
+        title: 'Not Enough Space',
+        html: true,
+        message:
+          `Not enough space on drive <span style="color: #ffde00">${drehmalDiskSpace.diskPath}</span> to install Drehmal. ` +
+          `A ${installType.value} installation requires <span style="color: #ffde00">${drehmalSpaceNeeded}GB</span> of space to function but you only have <span style="color: #ffde00">${drehmalDiskSpaceFreeGb}GB</span> free.` +
+          '<br/><br/>' +
+          'Please free up some space and click the button below. ',
+        ok: 'I have cleared some space', // text for the ok button
+        persistent: true,
+        dark: true,
+      }).onOk(() => resolve()); // resolve promise on ok button click
+    });
   }
+
   // if both checks pass, enable the next navigation button. this is only ran once both while loops are satisfied
-  if (enoughInstallerSpace && enoughDrehmalSpace) disableNextNav.value = false;
+  // if (enoughInstallerSpace && enoughDrehmalSpace) disableNextNav.value = false; // NOTE: check disabled due to inconsistency
+  disableNextNav.value = false;
 }
 
 // after component is fully mounted, run the async function to check disk space
