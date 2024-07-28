@@ -3,9 +3,9 @@
     "map": {
       "version": "2.2.1",
       "versionName": "Drehmal: APOTHEOSIS",
-      "compressedSizeInBytes": 4095226902,
-      "uncompressedSizeInBytes": 6304229492,
-      "hash": "5ef33821742dab6445fe026b90a89d5b38f0f61b97476c5253a40517ea722e2b",
+      "compressedSizeInBytes": 4102925284,
+      "uncompressedSizeInBytes": 6341422504,
+      "hash": "b8d5471de2b46895408bea61506d90618ad1f160f1b43872a4cd6dd85f3ce9f0",
       "shards": [
         "https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_1.zip",
         "https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_2.zip",
@@ -44,6 +44,13 @@
           "source": "https://cdn.modrinth.com/data/otVJckYQ/versions/8uQeAHwk/citresewn-1.1.5%2B1.20.1.jar",
           "mc_version": "1.20.1",
           "mod_version": "1.1.5"
+        },
+        {
+          "name": "Continuity",
+          "url": "https://modrinth.com/mod/continuity",
+          "source": "https://cdn.modrinth.com/data/1IjD5062/versions/84Zs6tNo/continuity-3.0.0-beta.5%2B1.20.1.jar",
+          "mc_version": "1.20.1",
+          "mod_version": "3.0.0-beta.5"
         },
         {
           "name": "Cull Leaves",
