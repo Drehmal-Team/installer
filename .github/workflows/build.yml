@@ -34,6 +34,12 @@ jobs:
           node-version: 20
           cache: yarn
 
+      - name: Read version from package.json
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
@@ -57,7 +63,7 @@ jobs:
         if: matrix.platform == 'osx'
         uses: indygreg/apple-code-sign-action@v1
         with:
-          input_path: dist/electron/Packaged/*.dmg
+          input_path: dist/electron/Packaged/Drehmal.Installer-${{ env.version }}-arm64.dmg
 
       - name: Create new release
         uses: softprops/action-gh-release@v1
