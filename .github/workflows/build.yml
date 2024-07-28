@@ -35,6 +35,7 @@ jobs:
           cache: yarn
 
       - name: Read version from package.json
+        if: matrix.platform == 'osx'
         id: get_version
         run: |
           VERSION=$(node -p "require('./package.json').version")
