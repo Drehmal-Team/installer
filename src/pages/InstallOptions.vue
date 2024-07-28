@@ -29,7 +29,8 @@ const installerSpaceNeeded = requiredSpaceInGb.value.installer;
 const drehmalSpaceNeeded = requiredSpaceInGb.value[installType.value];
 
 // disable next navigation button until disk space is checked
-disableNextNav.value = true;
+// disableNextNav.value = true;
+disableNextNav.value = false; // NOTE: check disabled due to inconsistency
 
 // check if user has enough disk space for the installer itself and drehmal
 async function checkDiskSpace() {
