@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia';
 import { useInstallerStore } from 'src/stores/InstallerStore';
 import { downloadFile } from './DownloadFile';
 import { Ref } from 'vue';
+
 const extract = require('extract-zip');
 const { ipcRenderer } = require('electron');
 const os = require('os');
@@ -33,13 +34,25 @@ export async function getJre(ref: Ref): Promise<string> {
   const platform: NodeJS.Platform = await ipcRenderer.invoke('getPlatform');
   // const platform: NodeJS.Platform = 'linux';
 
+  const getMacArch = () => {
+    const arch = os.arch();
+
+    if (arch === 'x64') {
+      return 'x64';
+    } else if (arch === 'arm64') {
+      return 'aarch64';
+    }
+
+    return arch;
+  };
+
   const flags = {
     // https://api.adoptium.net/q/swagger-ui/#/Binary/getBinary
     // /v3/binary/latest/{feature_version}/{release_type}/{os}/{arch}/{image_type}/{jvm_impl}/{heap_size}/{vendor}
     feature_version: '17', // Drehmal is 1.17+, so use JRE 17
     release_type: 'ga',
     os: osMap[platform],
-    arch: os.arch(),
+    arch: platform === 'darwin' ? getMacArch() : os.arch(),
     image_type: 'jre',
     jvm_impl: 'hotspot',
     heap_size: 'normal',
