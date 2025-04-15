@@ -1,20 +1,20 @@
 {
   "latest": {
     "map": {
-      "version": "2.2.1",
+      "version": "2.2.2",
       "versionName": "Drehmal: APOTHEOSIS",
-      "compressedSizeInBytes": 4102925284,
-      "uncompressedSizeInBytes": 6341422504,
-      "hash": "75f2d86f75eac64dfd2fd8471261686c305fffcb37bf32449be4d53236cacda5",
+      "compressedSizeInBytes": 3988217804,
+      "uncompressedSizeInBytes": 5139093165,
+      "hash": "3e3783ce6bbec3add41f2406c1812a32db997f0bd7336979533afde7ca019a6c",
       "shards": [
-        "https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_1.zip",
-        "https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_2.zip",
-        "https://github.com/Drehmal-Team/map/releases/download/v2.2.1/shard_3.zip"
+        "https://github.com/Drehmal-Team/map/releases/download/v2.2.2/shard_1.zip",
+        "https://github.com/Drehmal-Team/map/releases/download/v2.2.2/shard_2.zip",
+        "https://github.com/Drehmal-Team/map/releases/download/v2.2.2/shard_3.zip"
       ]
     },
     "resourcepack": {
-      "version": "2.2.1",
-      "source": "https://github.com/Drehmal-Team/map/releases/download/v2.2.1/resources.zip"
+      "version": "2.2.2",
+      "source": "https://github.com/Drehmal-Team/map/releases/download/v2.2.2/resources.zip"
     },
     "launcher": {
       "fabric": {

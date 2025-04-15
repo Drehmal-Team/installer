@@ -60,4 +60,4 @@ def split_directory(path, max_size, output_path):
         print(f'Removed directory: {current_dir}')
 
 # Usage
-split_directory('./map', 2500*1024*1024, './parts')
+split_directory('./map', 2000*1024*1024, './parts')
